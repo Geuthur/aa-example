@@ -75,14 +75,14 @@ With the Following IDs you can set up the permissions for the Template
 
 The Following Settings can be setting up in the `local.py`
 
-- LEDGER_APP_NAME:          `"YOURNAME"`     - Set the name of the APP
+- TEMPLATE_APP_NAME:          `"YOURNAME"`     - Set the name of the APP
 
-- LEDGER_LOGGER_USE:        `True / False`   - Set to use own Logger File
+- TEMPLATE_LOGGER_USE:        `True / False`   - Set to use own Logger File
 
-If you set up LEDGER_LOGGER_USE to `True` you need to add the following code below:
+If you set up TEMPLATE_LOGGER_USE to `True` you need to add the following code below:
 
 ```python
-LOGGING_LEDGER = {
+LOGGING_TEMPLATE = {
     "handlers": {
         "template_file": {
             "level": "INFO",
@@ -100,8 +100,8 @@ LOGGING_LEDGER = {
         },
     },
 }
-LOGGING["handlers"].update(LOGGING_LEDGER["handlers"])
-LOGGING["loggers"].update(LOGGING_LEDGER["loggers"])
+LOGGING["handlers"].update(LOGGING_TEMPLATE["handlers"])
+LOGGING["loggers"].update(LOGGING_TEMPLATE["loggers"])
 ```
 
 ## Highlights<a name="highlights"></a>

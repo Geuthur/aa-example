@@ -19,7 +19,7 @@ classifiers = [
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.2",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
@@ -42,10 +42,10 @@ optional-dependencies.tests-allianceauth-latest = [
     "coverage",
     "django-webtest",
 ]
-urls.Changelog = "https://github.com/Geuthur/aa-assets/blob/master/CHANGELOG.md"
-urls.Homepage = "https://github.com/Geuthur/aa-assets"
-urls.Source = "https://github.com/Geuthur/aa-assets"
-urls.Tracker = "https://github.com/Geuthur/aa-assets/issues"
+urls.Changelog = "https://github.com/Geuthur/aa-template/blob/master/CHANGELOG.md"
+urls.Homepage = "https://github.com/Geuthur/aa-template"
+urls.Source = "https://github.com/Geuthur/aa-template"
+urls.Tracker = "https://github.com/Geuthur/aa-template/issues"
 
 [tool.hatch.build]
 include = [
