@@ -1,6 +1,6 @@
 # Template module for AllianceAuth.<a name="aa-template"></a>
 
-> [!DANGER]
+> [!WARNING]
 > Before you create Models, etc remove the 0001_initial.py from migrations folder if you dont have created own one.
 
 A Template App that templating template to template
