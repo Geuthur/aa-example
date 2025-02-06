@@ -1,6 +1,6 @@
 # Template module for AllianceAuth.<a name="aa-template"></a>
 
-> \[!DANGER\]
+> [!DANGER]
 > Before you create Models, etc remove the 0001_initial.py from migrations folder if you dont have created own one.
 
 A Template App that templating template to template
@@ -25,7 +25,7 @@ ______________________________________________________________________
 
 ## Installation<a name="installation"></a>
 
-> \[!NOTE\]
+> [!NOTE]
 > AA Template needs at least Alliance Auth v4.0.0
 > Please make sure to update your Alliance Auth before you install this APP
 
@@ -75,9 +75,9 @@ With the Following IDs you can set up the permissions for the Template
 
 The Following Settings can be setting up in the `local.py`
 
-- TEMPLATE_APP_NAME:          `"YOURNAME"`     - Set the name of the APP
+- TEMPLATE_APP_NAME: `"YOURNAME"` - Set the name of the APP
 
-- TEMPLATE_LOGGER_USE:        `True / False`   - Set to use own Logger File
+- TEMPLATE_LOGGER_USE: `True / False` - Set to use own Logger File
 
 If you set up TEMPLATE_LOGGER_USE to `True` you need to add the following code below:
 
@@ -106,7 +106,7 @@ LOGGING["loggers"].update(LOGGING_TEMPLATE["loggers"])
 
 ## Highlights<a name="highlights"></a>
 
-> \[!NOTE\]
+> [!NOTE]
 > Contributing
 > You want to improve the project?
 > Just Make a [Pull Request](https://github.com/Geuthur/aa-template/pulls) with the Guidelines.

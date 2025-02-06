@@ -16,7 +16,7 @@ class General(models.Model):
     class Meta:
         abstract = True  # Please Remove this to activate this model
         managed = False
-        permissions = (("basic_access", "Can access this app"),)
+        permissions = (("basic_access", _("Can access this app")),)
         default_permissions = ()
 
 
