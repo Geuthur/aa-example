@@ -5,7 +5,7 @@ requires = [
 ]
 
 [project]
-name = "aa-template"
+name = "aa-example"
 description = "Here is your description"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -43,18 +43,18 @@ optional-dependencies.tests-allianceauth-latest = [
     "coverage",
     "django-webtest",
 ]
-urls.Changelog = "https://github.com/Geuthur/aa-template/blob/master/CHANGELOG.md"
-urls.Homepage = "https://github.com/Geuthur/aa-template"
-urls.Source = "https://github.com/Geuthur/aa-template"
-urls.Tracker = "https://github.com/Geuthur/aa-template/issues"
+urls.Changelog = "https://github.com/Geuthur/aa-example/blob/master/CHANGELOG.md"
+urls.Homepage = "https://github.com/Geuthur/aa-example"
+urls.Source = "https://github.com/Geuthur/aa-example"
+urls.Tracker = "https://github.com/Geuthur/aa-example/issues"
 
 [tool.hatch.build]
 include = [
-    "/template",
+    "/example",
 ]
 
 [tool.hatch.version]
-path = "template/__init__.py"
+path = "example/__init__.py"
 
 [tool.isort]
 profile = "black"

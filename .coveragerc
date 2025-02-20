@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = template
+source = example
 
 [report]
 exclude_lines =

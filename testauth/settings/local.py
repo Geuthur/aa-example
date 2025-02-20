@@ -8,7 +8,7 @@ Test settings
 
 from .base import *
 
-PACKAGE = "template"
+PACKAGE = "example"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
