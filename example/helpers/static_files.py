@@ -15,6 +15,7 @@ from allianceauth.services.hooks import get_extension_logger
 # Alliance Auth (External Libs)
 from app_utils.logging import LoggerAddTag
 
+# AA Example
 # AA Fleet Pings
 from example import __title__
 from example.constants import AA_EXAMPLE_STATIC_DIR

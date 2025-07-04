@@ -4,9 +4,16 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render
 
-from .hooks import get_extension_logger
+# Alliance Auth
+from allianceauth.services.hooks import get_extension_logger
 
-logger = get_extension_logger(__name__)
+# Alliance Auth (External Libs)
+from app_utils.logging import LoggerAddTag
+
+# AA Example
+from example import __title__
+
+logger = LoggerAddTag(get_extension_logger(__name__), __title__)
 
 
 @login_required

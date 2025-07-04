@@ -1,7 +1,9 @@
 """App URLs"""
 
+# Django
 from django.urls import path
 
+# AA Example
 from example import views
 
 app_name: str = "example"

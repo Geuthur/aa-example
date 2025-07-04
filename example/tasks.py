@@ -1,14 +1,41 @@
 """App Tasks"""
 
+# Third Party
 from celery import shared_task
 
-from example.hooks import get_extension_logger
+# Alliance Auth
+from allianceauth.services.hooks import get_extension_logger
+from allianceauth.services.tasks import QueueOnce
 
-logger = get_extension_logger(__name__)
+# Alliance Auth (External Libs)
+from app_utils.logging import LoggerAddTag
+
+# AA Example
+from example import __title__, app_settings
+from example.decorators import when_esi_is_available
+
+logger = LoggerAddTag(get_extension_logger(__name__), __title__)
+
+MAX_RETRIES_DEFAULT = 3
+
+# Default params for all tasks.
+TASK_DEFAULTS = {
+    "time_limit": app_settings.AA_MADC_TASKS_TIME_LIMIT,
+    "max_retries": MAX_RETRIES_DEFAULT,
+}
+
+# Default params for tasks that need run once only.
+TASK_DEFAULTS_ONCE = {**TASK_DEFAULTS, **{"base": QueueOnce}}
+
+_update_example_params = {
+    **TASK_DEFAULTS_ONCE,
+    **{"once": {"keys": ["corporation_id", "force_refresh"], "graceful": True}},
+}
 
 
-@shared_task
-def update_all_example():
-    """Update all example."""
-    # pylint: disable=unnecessary-pass
+# pylint: disable=unused-argument
+# Template - Tasks
+@shared_task(**TASK_DEFAULTS_ONCE)
+@when_esi_is_available
+def doctrine_template(runs: int = 0, force_refresh: bool = False):
     pass

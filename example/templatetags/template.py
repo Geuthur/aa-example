@@ -1,15 +1,23 @@
+# Standard Library
 import os
 
+# Django
 from django.conf import settings
-from django.example.defaulttags import register
-from django.exampletags.static import static
+from django.template.defaulttags import register
+from django.templatetags.static import static
 from django.utils.safestring import mark_safe
 
+# Alliance Auth
+from allianceauth.services.hooks import get_extension_logger
+
+# Alliance Auth (External Libs)
+from app_utils.logging import LoggerAddTag
+
+# AA Example
 from example import __title__, __version__
 from example.helpers.static_files import calculate_integrity_hash
-from example.hooks import get_extension_logger
 
-logger = get_extension_logger(__name__)
+logger = LoggerAddTag(get_extension_logger(__name__), __title__)
 
 
 @register.simple_tag

@@ -10,18 +10,18 @@
 {% endblock header_nav_brand %}
 
 {% block header_nav_collapse_left %}
-    {% include 'example/partials/navigation.html' %}
+    {% include 'example/partials/menu/navigation.html' %}
 {% endblock header_nav_collapse_left %}
 
 {% block header_nav_collapse_right %}
-    {% include 'example/partials/administration.html' %}
+    {% include 'example/partials/menu/administration.html' %}
 {% endblock header_nav_collapse_right %}
 
 {% block content %}
-    {% include 'bundles/datatables-css-bs5.html' %}
+
     <div class="allianceauth-example-plugin">
-        <div id="example_block">
-            {% block example_block %}
+        <div class="card">
+            {% block view_block %}
                 <!-- Your content goes here -->
             {% endblock %}
         </div>
@@ -29,4 +29,7 @@
 {% endblock %}
 
 {% block extra_javascript %}
+{% endblock %}
+
+{% block extra_script %}
 {% endblock %}

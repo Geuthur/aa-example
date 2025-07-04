@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 # Alliance Auth
 from esi.models import Token
 
+# AA Example
 from example.managers import ExampleManager
 
 
@@ -16,7 +17,11 @@ class General(models.Model):
     class Meta:
         abstract = True  # Please Remove this to activate this model
         managed = False
-        permissions = (("basic_access", _("Can access this app")),)
+        permissions = (
+            ("basic_access", _("Can access this app")),
+            ("manage_access", _("Can manage access to this app")),
+            ("admin_access", _("Gives full access to this app")),
+        )
         default_permissions = ()
 
 
@@ -32,9 +37,7 @@ class Example(models.Model):
 
     class Meta:
         abstract = True  # Please Remove this to activate this model
-        managed = False
-        verbose_name = _("Example")
-        verbose_name_plural = _("Examples")
+        default_permissions = ()  # Remove standard permissions
 
     def __str__(self):
         return f"{self.token.character_name} - {self.token.character_id}"

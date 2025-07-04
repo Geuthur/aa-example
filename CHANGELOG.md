@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.3] - 2025-07-04
+
+### Changed
+
+- Refactor aa-example
+
 ## [0.0.2] - 2025-02-06
 
 ### Change

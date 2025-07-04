@@ -16,7 +16,6 @@ requires-python = ">=3.10"
 classifiers = [
     "Environment :: Web Environment",
     "Framework :: Django",
-    "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.2",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -42,6 +41,7 @@ dependencies = [
 optional-dependencies.tests-allianceauth-latest = [
     "coverage",
     "django-webtest",
+    "factory-boy",
 ]
 urls.Changelog = "https://github.com/Geuthur/aa-example/blob/master/CHANGELOG.md"
 urls.Homepage = "https://github.com/Geuthur/aa-example"
@@ -55,26 +55,3 @@ include = [
 
 [tool.hatch.version]
 path = "example/__init__.py"
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-sections = [
-    "FUTURE",
-    "STDLIB",
-    "THIRDPARTY",
-    "DJANGO",
-    "ALLIANCEAUTH",
-    "FIRSTPARTY",
-    "LOCALFOLDER",
-]
-known_allianceauth = [
-    "allianceauth",
-    "app_utils",
-]
-known_django = [
-    "django",
-    "django_webtest",
-    "esi",
-    "eveuniverse",
-]

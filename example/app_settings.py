@@ -2,9 +2,10 @@
 App Settings
 """
 
+# Standard Library
 import sys
 
-# Django
+# Alliance Auth (External Libs)
 from app_utils.app_settings import clean_setting
 
 IS_TESTING = sys.argv[1:2] == ["test"]
@@ -32,3 +33,7 @@ EXAMPLE_APP_NAME = clean_setting("EXAMPLE_APP_NAME", "Example")
 
 # If True you need to set up the Logger
 EXAMPLE_LOGGER_USE = clean_setting("EXAMPLE_LOGGER_USE", False)
+
+# Task Settings
+# Global timeout for tasks in seconds to reduce task accumulation during outages.
+AA_MADC_TASKS_TIME_LIMIT = clean_setting("TAXSYSTEM_TASKS_TIME_LIMIT", 7200)
