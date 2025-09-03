@@ -20,7 +20,7 @@ MAX_RETRIES_DEFAULT = 3
 
 # Default params for all tasks.
 TASK_DEFAULTS = {
-    "time_limit": app_settings.AA_MADC_TASKS_TIME_LIMIT,
+    "time_limit": app_settings.EXAMPLE_TASKS_TIME_LIMIT,
     "max_retries": MAX_RETRIES_DEFAULT,
 }
 
@@ -29,13 +29,20 @@ TASK_DEFAULTS_ONCE = {**TASK_DEFAULTS, **{"base": QueueOnce}}
 
 _update_example_params = {
     **TASK_DEFAULTS_ONCE,
-    **{"once": {"keys": ["corporation_id", "force_refresh"], "graceful": True}},
+    **{"once": {"keys": ["character_id", "force_refresh"], "graceful": True}},
 }
 
 
-# pylint: disable=unused-argument
-# Template - Tasks
 @shared_task(**TASK_DEFAULTS_ONCE)
+def example_task(runs: int = 0, force_refresh: bool = False):
+    runs += runs + 1
+    if force_refresh is True:
+        logger.info("Force refresh requested.")
+        return
+    logger.info("Regular refresh requested.")
+
+
+@shared_task(**_update_example_params)
 @when_esi_is_available
-def doctrine_template(runs: int = 0, force_refresh: bool = False):
-    pass
+def update_task(character_id: int, force_refresh: bool):
+    logger.info("Updating Task for %s with %s", character_id, force_refresh)

@@ -1,6 +1,6 @@
 ## Description
 
-
+Please include a summary of the changes and the related issue number (if applicable).
 
 ### Type of Changes
 Please select the type of changes made in this pull request:

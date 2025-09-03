@@ -1,0 +1,22 @@
+{% extends 'example/base.html' %}
+{% load i18n %}
+
+{% block view_block %}
+    <div class="card">
+        <div class="card-header bg-primary rounded-top px-2">
+            <h3>{% translate "Example" %}</h3>
+        </div>
+        <div class="card-body">
+            {% translate "Welcome to Example." %}
+        </div>
+    </div>
+{% endblock view_block %}
+
+{% block extra_javascript %}
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}

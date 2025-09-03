@@ -1,9 +1,11 @@
-"""Shared ESI client for Voices of War."""
+"""Shared ESI client."""
 
 # Alliance Auth
 from esi.clients import EsiClientProvider
 
 # AA Example
-from example.constants import USER_AGENT
+from example import __app_name_useragent__, __github_url__, __title__, __version__
 
-esi = EsiClientProvider(app_info_text=USER_AGENT)
+esi = EsiClientProvider(
+    ua_appname=__app_name_useragent__, ua_version=__version__, ua_url=__github_url__
+)

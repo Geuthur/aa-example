@@ -31,9 +31,6 @@ ZKILLBOARD_KILLMAIL_URL_REGEX = r"^http[s]?:\/\/zkillboard\.com\/kill\/\d+\/"
 # Set Naming on Auth Hook
 EXAMPLE_APP_NAME = clean_setting("EXAMPLE_APP_NAME", "Example")
 
-# If True you need to set up the Logger
-EXAMPLE_LOGGER_USE = clean_setting("EXAMPLE_LOGGER_USE", False)
-
 # Task Settings
 # Global timeout for tasks in seconds to reduce task accumulation during outages.
-AA_MADC_TASKS_TIME_LIMIT = clean_setting("TAXSYSTEM_TASKS_TIME_LIMIT", 7200)
+EXAMPLE_TASKS_TIME_LIMIT = clean_setting("EXAMPLE_TASKS_TIME_LIMIT", 1200)  # 20 minutes

@@ -4,7 +4,6 @@
 from django.apps import AppConfig
 
 # AA Example
-# AA Example App
 from example import __version__
 
 
