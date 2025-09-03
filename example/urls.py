@@ -10,4 +10,5 @@ app_name: str = "example"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("admin/", views.admin, name="admin"),
 ]

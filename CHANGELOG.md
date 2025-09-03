@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.0.4] - 2025-09-03
+
+### Added
+
+- Admin Example View
+
+### Changed
+
+- Update Pre-Commit
+- GitHub Workflow
+- Prepared ESI Provider to new Guideline
+- Updated pyproject
+- Updated tox
+- Updated npm
+- Optimized AA Test Enviroment
+
+### Fixed
+
+- Template Path (`template` to `example`)
+
+### Removed
+
+- Cache Buster [Commit](https://github.com/Geuthur/aa-template/blob/4518910bc1a77b5323d5f5c91cad60f60b44b432/template/helpers/static_files.py)
+
 ## [0.0.3] - 2025-07-04
 
 ### Changed

@@ -18,9 +18,8 @@ class General(models.Model):
         abstract = True  # Please Remove this to activate this model
         managed = False
         permissions = (
-            ("basic_access", _("Can access this app")),
-            ("manage_access", _("Can manage access to this app")),
-            ("admin_access", _("Gives full access to this app")),
+            ("basic_access", _("Can access this app, Example")),
+            ("manage_access", _("Can manage Example")),
         )
         default_permissions = ()
 

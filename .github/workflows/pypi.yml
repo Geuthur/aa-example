@@ -2,17 +2,14 @@ name: PyPi Build Test
 
 on:
   push:
-    paths-ignore:
-      - "**.css"
-      - "**.js"
-      - "**.md"
     branches:
-      - master
+      - '**'
+
+    tags-ignore:
+      - '**'
   pull_request:
-    paths-ignore:
-      - "**.css"
-      - "**.js"
-      - "**.md"
+    branches:
+      - '**'
 
 jobs:
   build-test:
@@ -21,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python 3
         uses: actions/setup-python@v5

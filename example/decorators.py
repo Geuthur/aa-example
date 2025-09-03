@@ -45,7 +45,7 @@ def when_esi_is_available(func):
 
 def log_timing(logs):
     """
-    A Decirator to log the time a function takes to run.
+    Ein Dekorator, der die Ausführungszeit einer Funktion misst und in die Logdatei schreibt.
     """
 
     def decorator(func):
