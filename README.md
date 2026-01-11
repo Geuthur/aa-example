@@ -65,16 +65,16 @@ To set up the Logger add following code to your `local.py`
 Ensure that you have writing permission in logs folder.
 
 ```python
-LOGGING["handlers"]["ledger_file"] = {
+LOGGING["handlers"]["example_file"] = {
     "level": "INFO",
     "class": "logging.handlers.RotatingFileHandler",
-    "filename": os.path.join(BASE_DIR, "log/ledger.log"),
+    "filename": os.path.join(BASE_DIR, "log/example.log"),
     "formatter": "verbose",
     "maxBytes": 1024 * 1024 * 5,
     "backupCount": 5,
 }
-LOGGING["loggers"]["extensions.ledger"] = {
-    "handlers": ["ledger_file"],
+LOGGING["loggers"]["extensions.example"] = {
+    "handlers": ["example_file"],
     "level": "DEBUG",
 }
 ```

@@ -2,35 +2,22 @@
 App Settings
 """
 
-# Standard Library
-import sys
-
-# Alliance Auth (External Libs)
-from app_utils.app_settings import clean_setting
-
-IS_TESTING = sys.argv[1:2] == ["test"]
-
-# EVE Online Swagger
-EVE_BASE_URL = "https://esi.evetech.net/"
-EVE_API_URL = "https://esi.evetech.net/latest/"
-EVE_BASE_URL_REGEX = r"^http[s]?:\/\/esi.evetech\.net\/"
-
-# Fuzzwork
-FUZZ_BASE_URL = "https://www.fuzzwork.co.uk/"
-FUZZ_API_URL = "https://www.fuzzwork.co.uk/api/"
-FUZZ_BASE_URL_REGEX = r"^http[s]?:\/\/(www\.)?fuzzwork\.co\.uk\/"
-
-# ZKillboard
-ZKILLBOARD_BASE_URL = "https://zkillboard.com/"
-ZKILLBOARD_API_URL = "https://zkillboard.com/api/"
-ZKILLBOARD_BASE_URL_REGEX = r"^http[s]?:\/\/zkillboard\.com\/"
-ZKILLBOARD_KILLMAIL_URL_REGEX = r"^http[s]?:\/\/zkillboard\.com\/kill\/\d+\/"
-
-# Set Test Mode True or False
+# Django
+from django.conf import settings
 
 # Set Naming on Auth Hook
-EXAMPLE_APP_NAME = clean_setting("EXAMPLE_APP_NAME", "Example")
+EXAMPLE_APP_NAME = getattr(settings, "EXAMPLE_APP_NAME", "Example")
 
 # Task Settings
 # Global timeout for tasks in seconds to reduce task accumulation during outages.
-EXAMPLE_TASKS_TIME_LIMIT = clean_setting("EXAMPLE_TASKS_TIME_LIMIT", 1200)  # 20 minutes
+EXAMPLE_TASKS_TIME_LIMIT = getattr(
+    settings, "EXAMPLE_TASKS_TIME_LIMIT", 1200
+)  # 20 minutes
+
+# Maximum Number of Objects processed per run of DJANGO Batch Method
+# Controls how many database records are inserted in a single batch operation.
+# If you encounter "Got a packet bigger than 'max_allowed_packet' bytes" errors,
+# reduce this value (e.g., to 250 or 100).
+# Can be increased for better performance if your MySQL max_allowed_packet setting
+# is configured higher (default is usually 16-64MB).
+EXAMPLE_BULK_BATCH_SIZE = getattr(settings, "EXAMPLE_BULK_BATCH_SIZE", 500)

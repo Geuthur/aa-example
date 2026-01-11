@@ -1,5 +1,44 @@
 # Changelog
 
+## [In Development] - Unreleased
+
+<!--
+Section Order:
+
+### Added
+### Fixed
+### Changed
+### Removed
+-->
+
+### Added
+
+- Ninja API
+  - API Schema Example
+  - API Example
+- Makefile System
+- Applogger
+- `retry_task_on_esi_error` context manager for Tasks
+- Unified template settings
+- DataTable v2
+  - `columnControl` Extension
+  - `fixedHeader` Extension
+- CSS, JS Bundle Example
+
+### Changed
+
+- Updated pre-commit dependencies
+- Dependency `django-esi` set to `>=8,<9`
+- Dependency `django-ninja` set to `>=1.5,<2`
+
+### Removed
+
+- `django-eveuniverse` dependency
+- `allianceauth-app-utils` dependency
+- `when_esi_is_available` decorator
+- Admin View
+- Unnecessary Stuff in `app_settings`
+
 ## [0.0.4] - 2025-09-03
 
 ### Added

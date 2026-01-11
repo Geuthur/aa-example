@@ -7,10 +7,8 @@ from http import HTTPStatus
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
-# Alliance Auth (External Libs)
-from app_utils.testdata_factories import UserMainFactory
-
 # AA Example
+from example.tests.testdata.utils import create_user_from_evecharacter
 from example.views import index
 
 
@@ -19,7 +17,7 @@ class TestViews(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.factory = RequestFactory()
-        cls.user = UserMainFactory(
+        cls.user = create_user_from_evecharacter(
             permissions=[
                 "example.basic_access",
             ]

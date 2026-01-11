@@ -7,14 +7,11 @@ from celery import shared_task
 from allianceauth.services.hooks import get_extension_logger
 from allianceauth.services.tasks import QueueOnce
 
-# Alliance Auth (External Libs)
-from app_utils.logging import LoggerAddTag
-
 # AA Example
 from example import __title__, app_settings
-from example.decorators import when_esi_is_available
+from example.providers import AppLogger
 
-logger = LoggerAddTag(get_extension_logger(__name__), __title__)
+logger = AppLogger(get_extension_logger(__name__), __title__)
 
 MAX_RETRIES_DEFAULT = 3
 
@@ -43,6 +40,5 @@ def example_task(runs: int = 0, force_refresh: bool = False):
 
 
 @shared_task(**_update_example_params)
-@when_esi_is_available
 def update_task(character_id: int, force_refresh: bool):
     logger.info("Updating Task for %s with %s", character_id, force_refresh)
