@@ -99,7 +99,7 @@ class UpdateStatus(models.Model):
     """A Model to track the status of the last update."""
 
     class Meta:
-        abstract = False  # Please Remove this to activate this model
+        abstract = True  # Please Remove this to activate this model
         default_permissions = ()
 
     owner = models.ForeignKey(
