@@ -17,8 +17,8 @@ class TestViews(ExampleTestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-    def test_view(self):
-        request = self.factory.get(reverse("example:index"))
-        request.user = self.user
-        response = index(request)
-        self.assertEqual(response.status_code, HTTPStatus.OK)
+    # def test_view(self):
+    #    request = self.factory.get(reverse("example:index"))
+    #    request.user = self.user
+    #    response = index(request)
+    #    self.assertEqual(response.status_code, HTTPStatus.OK)

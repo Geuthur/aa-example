@@ -1,10 +1,10 @@
 name: Bug Report
 description: File a bug report.
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["aa-template"]
+title: "[BUG]: "
+labels: ["bug"]
+projects: ["aa-example"]
 assignees:
-  - geuthur
+  - octocat
 body:
   - type: markdown
     attributes:

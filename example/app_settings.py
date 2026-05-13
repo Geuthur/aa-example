@@ -21,3 +21,11 @@ EXAMPLE_TASKS_TIME_LIMIT = getattr(
 # Can be increased for better performance if your MySQL max_allowed_packet setting
 # is configured higher (default is usually 16-64MB).
 EXAMPLE_BULK_BATCH_SIZE = getattr(settings, "EXAMPLE_BULK_BATCH_SIZE", 500)
+
+EXAMPLE_STALE_TYPES = getattr(
+    settings,
+    "EXAMPLE_STALE_TYPES",
+    {
+        "example": 30,
+    },
+)

@@ -6,12 +6,9 @@ Test settings
 # local.py settings
 # Every setting in base.py can be overloaded by redefining it here.
 
-# AA Example
-from example import __app_name__
-
 from .base import *
 
-PACKAGE = __app_name__
+PACKAGE = "example"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -60,6 +57,7 @@ if os.environ.get("USE_MYSQL", True) is True:
 # Add any additional apps to this list.
 INSTALLED_APPS += [
     "allianceauth.services.modules.discord",
+    "eve_sde",
     PACKAGE,
 ]
 # By default, apps are prevented from having public views for security reasons.
