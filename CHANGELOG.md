@@ -20,15 +20,14 @@ Section Order:
 - Applogger
 - `retry_task_on_esi_error` context manager for Tasks
 - Unified template settings
-- DataTable v2
-  - `columnControl` Extension
-  - `fixedHeader` Extension
 - CSS, JS Bundle Example
+- Universal Updater
 
 ### Changed
 
 - Updated pre-commit dependencies
-- Dependency `django-esi` set to `>=8,<9`
+- Dependency `allianceuth` set to `>=5`
+- Dependency `django-esi` set to `>=9`
 - Dependency `django-ninja` set to `>=1.5,<2`
 
 ### Removed

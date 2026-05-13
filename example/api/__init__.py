@@ -5,16 +5,9 @@ from ninja.security import django_auth
 # Django
 from django.conf import settings
 
-# Alliance Auth
-from allianceauth.services.hooks import get_extension_logger
-
 # AA Example
 from example import __title__
 from example.api import character
-from example.providers import AppLogger
-
-logger = AppLogger(get_extension_logger(__name__), __title__)
-
 
 api = NinjaAPI(
     title="Example API",

@@ -29,7 +29,8 @@
 
 
 {% block extra_css %}
-    {% include 'example/bundles/datatables-2-css.html' with extColumnControl=True %}
+    {% include 'bundles/datatables-2-css-bs5.html' %}
+    {% include 'bundles/datatables-2-columncontrol-css-bs5.html' %}
     {% include 'example/bundles/aa-example-css.html' %}
 {% endblock %}
 
@@ -42,5 +43,6 @@
         };
     </script>
     {% include 'example/bundles/aa-example-js.html' %}
-    {% include 'example/bundles/datatables-2-js.html' with extColumnControl=True %}
+    {% include 'bundles/datatables-2-js-bs5.html' %}
+    {% include 'bundles/datatables-2-columncontrol-js-bs5.html' %}
 {% endblock extra_javascript %}
