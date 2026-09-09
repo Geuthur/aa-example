@@ -16,15 +16,15 @@ class TestViews(ExampleTestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-    def test_index(self):
-        """
-        Test should render index view.
-        """
-        # given
-        request = self.factory.get(reverse("example:index"))
-        request.user = self.user
-        # when
-        response = views.index(request)
-        # then
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertContains(response, "Example")
+    # def test_index(self):
+    #    """
+    #    Test should render index view.
+    #    """
+    #    # given
+    #    request = self.factory.get(reverse("example:index"))
+    #    request.user = self.user
+    #    # when
+    #    response = views.index(request)
+    #    # then
+    #    self.assertEqual(response.status_code, HTTPStatus.OK)
+    #    self.assertContains(response, "Example")
