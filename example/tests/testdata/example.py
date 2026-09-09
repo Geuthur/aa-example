@@ -15,7 +15,7 @@ from example.tests.testdata.utils import add_character_to_user
 class UserMainFactory(UserFactory):
     """Generate a User object with a main character and default permissions for Belt Radar."""
 
-    permissions__ = ["beltradar.basic_access"]
+    permissions__ = ["example.basic_access"]
     scopes__ = ["publicData"]
 
     @factory.post_generation
