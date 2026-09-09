@@ -9,6 +9,7 @@ from typing import Generic, TypeVar
 
 # Third Party
 import factory
+import factory.fuzzy
 
 # Django
 from django.contrib.auth import get_user_model
