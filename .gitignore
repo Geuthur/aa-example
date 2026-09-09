@@ -14,5 +14,5 @@ node_modules/
 /coverage.xml
 testing/
 
-# Ignore specific auth path
-.make/myauth-path
+# Make ignore overrides
+.make/config-overrides.ini
