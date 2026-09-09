@@ -1,5 +1,16 @@
+# Standard Library
+from typing import Any
+
 # Third Party
 from ninja import Schema
+
+
+class DataTableSchema(Schema):
+    raw: Any
+    display: str
+    sort: str | None = None
+    translation: str | None = None
+    dropdown_text: str | None = None
 
 
 class ExampleSchema(Schema):

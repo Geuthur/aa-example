@@ -1,2 +1,2 @@
 # flake8: noqa
-from .example import *
+from .general import *

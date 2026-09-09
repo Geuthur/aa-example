@@ -14,10 +14,12 @@ ______________________________________________________________________
     - [Step 1 - Install the Package](#step1)
     - [Step 2 - Configure Alliance Auth](#step2)
     - [Step 3 - Add the Scheduled Tasks and Settings](#step3)
-    - [Step 4 - Migration to AA](#step4)
+    - [Step 4 - Migrate & Preload EVE SDE Data](#step4)
+      - [Step 4.1 - Migrate App and collect static](#step41)
     - [Step 5 - Setting up Permissions](#step5)
     - [Step 6 - (Optional) Setting up Compatibilies](#step6)
-  - [Highlights](#highlights)
+  - [Translations](#translations)
+  - [Contributing](#contributing)
 
 ## Features<a name="features"></a>
 
@@ -31,7 +33,7 @@ ______________________________________________________________________
 ## Installation<a name="installation"></a>
 
 > [!NOTE]
-> AA Example needs at least Alliance Auth v4.6.0
+> AA Example needs at least Alliance Auth v5
 > Please make sure to update your Alliance Auth before you install this APP
 
 ### Step 1 - Install the Package<a name="step1"></a>
@@ -46,17 +48,28 @@ pip install aa-example
 
 Configure your Alliance Auth settings (`local.py`) as follows:
 
-- Add `'example',` to `INSTALLED_APPS`
+```python
+INSTALLED_APPS = [
+    # other apps
+    "eve_sde",  # only if it not already existing
+    "example",
+    # other apps?
+]
+
+# This line is right below the `INSTALLED_APPS` list, if not already exist!
+INSTALLED_APPS = ["modeltranslation"] + INSTALLED_APPS
+```
 
 ### Step 3 - Add the Scheduled Tasks<a name="step3"></a>
 
 To set up the Scheduled Tasks add following code to your `local.py`
 
 ```python
-CELERYBEAT_SCHEDULE["example_example_task"] = {
-    "task": "example.tasks.example_task",
-    "schedule": crontab(minute=0, hour="*/1"),
-}
+if "example" in INSTALLED_APPS:
+    CELERYBEAT_SCHEDULE["AA Example :: Test Task"] = {
+        "task": "example.tasks.example_task",
+        "schedule": crontab(minute=0, hour="*/1"),
+    }
 ```
 
 ### Step 3.1 - (Optional) Add own Logger File
@@ -79,11 +92,22 @@ LOGGING["loggers"]["extensions.example"] = {
 }
 ```
 
-### Step 4 - Migration to AA<a name="step4"></a>
+### Step 4 - Migrate & Preload EVE SDE Data<a name="step4"></a>
+
+AA Skillfarm uses EVE SDE data to map IDs to names for EveTypes. You will need to preload some data from SDE once.
 
 ```shell
-python manage.py collectstatic
-python manage.py migrate
+python manage.py migrate eve_sde
+python manage.py esde_load_sde
+```
+
+### Step 4.1 - Migrate App and collect static<a name="step41">
+
+Migrate the app and collect static.
+
+```shell
+python manage.py migrate example
+python manage.py collectstatic --noinput
 ```
 
 ### Step 5 - Setting up Permissions<a name="step5"></a>
@@ -104,12 +128,17 @@ The Following Settings can be setting up in the `local.py`
 
 If you set up EXAMPLE_LOGGER_USE to `True` you need to add the following code below:
 
-## Highlights<a name="highlights"></a>
+## Translations<a name="translations"></a>
 
-![Example](https://raw.githubusercontent.com/geuthur/aa-example/master/example/docs/images/preview-1.png "Example View")
+[![Translations](https://weblate.geuthur.de/widget/allianceauth/aa-example/multi-auto.svg)](https://weblate.geuthur.de/engage/allianceauth/)
 
-> [!NOTE]
-> Contributing
-> You want to improve the project?
-> Just Make a [Pull Request](https://github.com/Geuthur/aa-example/pulls) with the Guidelines.
-> We Using pre-commit
+Help us translate this app into your language or improve existing translations. Join our team!"
+
+## Contributing <a name="contributing"></a>
+
+You want to improve the project?
+Please ensure you read the [Contribution Guidelines]
+
+<!-- MD Links -->
+
+[contribution guidelines]: https://github.com/Geuthur/aa-example/blob/master/CONTRIBUTING.md "Contribution Guidelines"

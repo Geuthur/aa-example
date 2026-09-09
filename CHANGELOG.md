@@ -11,6 +11,8 @@ Section Order:
 ### Removed
 -->
 
+## [0.0.4] - 2026-09-09
+
 ### Added
 
 - Ninja API
@@ -86,3 +88,5 @@ Section Order:
 ### Added
 
 - Initial public release
+
+[in development]: https://github.com/Geuthur/aa-example/compare/v0.0.4...HEAD "In Development"
