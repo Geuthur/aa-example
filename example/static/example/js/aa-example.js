@@ -11,6 +11,13 @@ const aaExampleSettings = (typeof aaExampleSettingsOverride !== 'undefined')
 /**
 * Local fetch adapter: keeps global fetch helpers untouched while improving error details.
 * Reads JSON error payload (message/error/detail) when statusText is empty.
+* @param {string} url The URL to fetch data from.
+* @param {string} [method=GET] The HTTP method to use for the request.
+* @param {Object|null} [payload=null] The request payload for POST requests.
+* @param {string|null} [csrfToken=null] The CSRF token for POST requests.
+* @param {boolean} [responseIsJson=true] Whether the response is expected to be JSON.
+* @returns {Promise<Object|string>} The response data, either as JSON or text.
+* @throws {Error} If the request fails or the response is not OK.
 */
 const fetchData = async ({
     url,
