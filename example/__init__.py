@@ -1,6 +1,6 @@
 """Initialize the app"""
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __title__ = "Example"
 
 __package_name__ = "aa-Example"

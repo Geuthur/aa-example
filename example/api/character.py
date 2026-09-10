@@ -1,4 +1,9 @@
 # Third Party
+
+# Standard Library
+from http import HTTPStatus
+
+# Third Party
 from ninja import NinjaAPI
 
 # Django
@@ -21,14 +26,25 @@ class CharacterApiEndpoints:
     def __init__(self, api: NinjaAPI):
         @api.get(
             "example/",
-            response={200: list[schema.ExampleSchema], 403: str},
+            response={
+                HTTPStatus.OK: list[schema.ExampleSchema],
+                HTTPStatus.FORBIDDEN: dict,
+            },
             tags=self.tags,
         )
         def get_example(request):
-            """Get Example Data"""
+            """
+            Get Example Data
+
+            This endpoint retrieves example data for the authenticated user.
+
+            Returns:
+                200: Example data retrieved successfully.
+                403: Permission Denied.
+            """
             user = request.user
             if not user.is_superuser:
-                return 403, _("You do not have permission to access this resource.")
+                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             # Example data - replace this with your actual logic
             example_data = [
@@ -44,4 +60,4 @@ class CharacterApiEndpoints:
                 ),
             ]
 
-            return 200, example_data
+            return HTTPStatus.OK, example_data

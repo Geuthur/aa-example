@@ -3,6 +3,21 @@
 ## [In Development] - Unreleased
 
 <!--
+> [!NOTE]
+>
+
+> [!TIP]
+>
+
+> [!IMPORTANT]
+>
+
+> [!WARNING]
+>
+
+> [!CAUTION]
+>
+
 Section Order:
 
 ### Added
@@ -10,6 +25,8 @@ Section Order:
 ### Changed
 ### Removed
 -->
+
+## [0.0.4] - 2026-09-09
 
 ### Added
 
@@ -86,3 +103,5 @@ Section Order:
 ### Added
 
 - Initial public release
+
+[in development]: https://github.com/Geuthur/aa-example/compare/v0.0.4...HEAD "In Development"

@@ -7,9 +7,8 @@ from http import HTTPStatus
 from django.urls import reverse
 
 # AA Example
+from example import views
 from example.tests import ExampleTestCase
-from example.tests.testdata.utils import create_user_from_evecharacter
-from example.views import index
 
 
 class TestViews(ExampleTestCase):
@@ -17,8 +16,15 @@ class TestViews(ExampleTestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-    # def test_view(self):
+    # def test_index(self):
+    #    """
+    #    Test should render index view.
+    #    """
+    #    # given
     #    request = self.factory.get(reverse("example:index"))
     #    request.user = self.user
-    #    response = index(request)
+    #    # when
+    #    response = views.index(request)
+    #    # then
     #    self.assertEqual(response.status_code, HTTPStatus.OK)
+    #    self.assertContains(response, "Example")
