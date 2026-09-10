@@ -3,6 +3,21 @@
 ## [In Development] - Unreleased
 
 <!--
+> [!NOTE]
+>
+
+> [!TIP]
+>
+
+> [!IMPORTANT]
+>
+
+> [!WARNING]
+>
+
+> [!CAUTION]
+>
+
 Section Order:
 
 ### Added
