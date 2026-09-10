@@ -26,25 +26,31 @@ Section Order:
 ### Removed
 -->
 
-## [0.0.4] - 2026-09-09
+<!-- Your changes go here -->
+
+## [1.0.0] - 2026-09-10
 
 ### Added
 
+- `pook` dependency for URL Tests like ESI Calls
+- CODEOWNERS
 - Ninja API
   - API Schema Example
   - API Example
 - Makefile System
 - Applogger
-- `retry_task_on_esi_error` context manager for Tasks
 - Unified template settings
 - CSS, JS Bundle Example
 - Universal Updater
+- JS Helper
 
 ### Changed
 
+- Optimized tests enviroment
+- Updated `pyproject.toml`
+- Optimized `.gitignore`
 - Updated pre-commit dependencies
 - Dependency `allianceuth` set to `>=5`
-- Dependency `django-esi` set to `>=9`
 - Dependency `django-ninja` set to `>=1.5,<2`
 
 ### Removed
@@ -104,4 +110,10 @@ Section Order:
 
 - Initial public release
 
-[in development]: https://github.com/Geuthur/aa-example/compare/v0.0.4...HEAD "In Development"
+<!-- Links -->
+
+[0.0.2]: https://github.com/Geuthur/aa-example/compare/v0.0.1...v0.0.2 "0.0.2"
+[0.0.3]: https://github.com/Geuthur/aa-example/compare/v0.0.2...v0.0.3 "0.0.3"
+[0.0.4]: https://github.com/Geuthur/aa-example/compare/v0.0.3...v0.0.4 "0.0.4"
+[1.0.0]: https://github.com/Geuthur/aa-example/compare/v0.0.4...v1.0.0 "v1.0.0"
+[in development]: https://github.com/Geuthur/aa-example/compare/v1.0.0...HEAD "In Development"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AA Example\n"
 "Report-Msgid-Bugs-To: https://weblate.geuthur.de/projects/alliance-auth/aa-example/\n"
-"POT-Creation-Date: 2026-09-09 20:52+0200\n"
+"POT-Creation-Date: 2026-09-10 03:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,68 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: example/api/character.py:31
-msgid "You do not have permission to access this resource."
+#: example/api/character.py:47
+msgid "Permission Denied."
 msgstr ""
 
-#: example/models/example.py:34
+#: example/models/general.py:13
 msgid "Can access this app, Example"
 msgstr ""
 
-#: example/models/example.py:35
+#: example/models/general.py:14
 msgid "Can manage Example"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:54
-msgid "Disabled"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:55
-msgid "Token Error"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:56
-msgid "Error"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:57
-msgid "OK"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:58
-msgid "Incomplete"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:59
-msgid "In Progress"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:93
-msgid "Update is disabled"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:94
-msgid "One section has a token error during update"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:95
-msgid "One or more sections have not been updated"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:96
-msgid "Update is in progress"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:97
-msgid "An error occurred during update"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:98
-msgid "Updates completed successfully"
-msgstr ""
-
-#: example/models/helpers/update_manager.py:104
-msgid "Example Section"
 msgstr ""
 
 #: example/templates/example/base.html:5 example/templates/example/base.html:9
@@ -91,68 +39,6 @@ msgstr ""
 msgid "Internal Server Error"
 msgstr ""
 
-#: example/templates/example/partials/navigation/administration.html:6
-msgid "Add Example"
-msgstr ""
-
-#: example/templates/example/partials/navigation/administration.html:13
-msgid "Admin"
-msgstr ""
-
-#: example/templates/example/view-administration.html:17
-msgid "Administration"
-msgstr ""
-
-#: example/templates/example/view-administration.html:29
-msgid "Mark all tasks as Force Refresh"
-msgstr ""
-
-#: example/templates/example/view-administration.html:34
-msgid "Run Example Task"
-msgstr ""
-
-#: example/templates/example/view-administration.html:39
-msgid "Update Character Updates"
-msgstr ""
-
-#: example/templates/example/view-administration.html:42
-msgid "Character ID (optional)"
-msgstr ""
-
-#: example/templates/example/view-administration.html:43
-msgid "Enter Character ID"
-msgstr ""
-
-#: example/templates/example/view-administration.html:44
-msgid "Leave empty to update all characters"
-msgstr ""
-
-#: example/templates/example/view-administration.html:47
-msgid "Submit"
-msgstr ""
-
 #: example/templates/example/view-index.html:25
 msgid "Welcome to Example."
-msgstr ""
-
-#: example/views.py:37
-msgid "You do not have permission to access this page."
-msgstr ""
-
-#: example/views.py:49
-#, python-brace-format
-msgid "Queued Update for Character: {character_name}"
-msgstr ""
-
-#: example/views.py:62
-#, python-brace-format
-msgid "Character with ID {character_id} not found"
-msgstr ""
-
-#: example/views.py:67
-msgid "Queued Update All Characters"
-msgstr ""
-
-#: example/views.py:76
-msgid "Queued Example Task"
 msgstr ""
