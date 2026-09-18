@@ -25,12 +25,16 @@ ci:
 # https://pre-commit.com/#pre-commit-configyaml---top-level
 exclude: |
   (?x)(
-    .github/|
-    LICENSE|
-    openapi_.*\.json|
-    .min(.css|.css.map|.js|.js.map)|
-    locale/|
-    static/(.*)/libs/
+    .github/ |
+    frontend/ |
+    LICENSE |
+    openapi_.*\.json |
+    .min(.css|.css.map|.js|.js.map) |
+    .app(.json) |
+    .node(.json) |
+    locale/ |
+    static/(.*)/libs/ |
+    static/(.*)/react/
   )
 
 # pre-commit setup
@@ -121,13 +125,13 @@ repos:
     hooks:
       - id: eslint
         name: ESLint
-        args: [--fix, --color, --max-warnings, "0"]
+        args: [--fix, --color, --max-warnings, "0", --no-warn-ignored]
         description: Check for problems in JavaScript files.
         additional_dependencies:
-          - eslint@10.10.0
+          - eslint@10.9.1
 
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
-    rev: v17.14.1
+    rev: v17.15.0
     hooks:
       - id: stylelint
         name: Stylelint
@@ -136,7 +140,7 @@ repos:
           - --formatter=compact
         additional_dependencies:
           # stylelint itself needs to be here when using additional_dependencies.
-          - stylelint@17.15.0  # https://github.com/stylelint/stylelint/releases/latest
+          - stylelint@17.14.1  # https://github.com/stylelint/stylelint/releases/latest
           - stylelint-config-standard@40.0.0  # https://github.com/stylelint/stylelint-config-standard/releases/latest
 
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -267,10 +271,10 @@ repos:
         args:
           - --indent=4
         additional_dependencies:
-          - tox==4.61.2  # https://github.com/tox-dev/tox/releases/latest
+          - tox==4.61.1  # https://github.com/tox-dev/tox/releases/latest
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
         name: Validate pyproject.toml
