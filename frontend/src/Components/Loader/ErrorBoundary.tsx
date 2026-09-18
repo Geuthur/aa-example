@@ -1,8 +1,12 @@
-import { ErrorLoader } from "@/Components/Loader";
+// React
 import React, { Component } from "react";
 import type { ErrorInfo } from "react";
+
+// Third Party
 import {withTranslation } from "react-i18next";
 import type { WithTranslation } from "react-i18next";
+
+import { ErrorLoader } from "@/Components/Loader";
 
 interface Props extends WithTranslation {
   children: React.ReactNode;

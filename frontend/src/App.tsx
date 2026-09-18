@@ -14,8 +14,8 @@ import "@/App.css"
 
 import ErrorLoader from "@/Components/Loader/ErrorLoader"
 import AuthBase from "@/Pages/Base";
-import Settings from "@/Pages/Settings";
 import MainPage from "@/Pages/MainPage";
+import Settings from "@/Pages/Settings";
 
 const queryClient = new QueryClient();
 export const AppName = "aa-example";

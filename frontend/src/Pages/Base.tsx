@@ -5,8 +5,8 @@ import { Outlet } from "react-router";
 // Third Party
 import { Col } from "react-bootstrap";
 
-import AuthMenuAsync from "@/Menu/AuthMenuAsync";
 import { ErrorBoundary } from "@/Components/Loader";
+import AuthMenuAsync from "@/Menu/AuthMenuAsync";
 
 const AuthBase = () => {
   return (
