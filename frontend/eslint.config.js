@@ -36,7 +36,7 @@ export default defineConfig([
             // 2. Externe Bibliotheken / Third Party
             { heading: '// Third Party', pattern: '^@?\\w' },
 
-            // 3. AA Transport (Eigene Komponenten, Helpers, API)
+            // 3. AA Example (Eigene Komponenten, Helpers, API)
             //{ heading: '// AA Example', pattern: '^@/' },
             //{ heading: '// AA Example', pattern: '^\\.(?!.*\\.s?css$)' },
 
