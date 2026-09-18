@@ -28,6 +28,52 @@ Section Order:
 
 <!-- Your changes go here -->
 
+### Added
+
+- React SPA frontend (`frontend/`):
+  - Vite + React 19 + TypeScript build pipeline with Vitest unit tests
+  - Bundle optimization and vendor chunk splitting (`@vendor`, `@react-libs`, `@bootstrap-libs`, `@lang-libs`)
+  - Internationalization (`i18next`) with scanner configuration and translations for 12 languages
+  - Type-safe OpenAPI client integration (`openapi-fetch`, `openapi-typescript`)
+  - Custom ESLint rule for bootstrap heading imports
+  - Reusable components: `BaseTable` (with filter, pagination, and column configuration), `BaseModal`, `FetchingLoader`, `ErrorLoader`, `ErrorBoundary`, `BaseHeader`, `BaseMenu`, and `AuthMenu`
+  - Forms and pages: `UserSettingsForm`, `Base`, `MainPage`, and `Settings`
+- Ninja API endpoints:
+  - User settings endpoint (`/api/general/user-setting`)
+  - Character list endpoint with filtering (`/api/general/characters`)
+  - Extended API schema definitions
+- Backend:
+  - `GeneralSetting` model for user settings
+  - `GeneralManager` custom manager
+  - EVE Online character helper in `example/helpers/eveonline.py`
+  - `example/forms.py` (`GeneralForm`)
+  - `example/templates/example/react_base.html` template for mounting the React application
+- Makefile automation:
+  - Added React targets in `.make/conf.d/react.mk` (`react-dev`, `react-build`, `react-lint`, `react-test`, `react-i18n-scan`)
+- GitHub Actions:
+  - Added `frontend` job for React linting, unit testing, and build check in `.github/workflows/autotester.yml`
+- Tox environment:
+  - Added `[testenv:react]` to execute frontend unit tests
+- Agent development rules under `.agents/rules/` (API, Git commits & changelog, planning, React, and testing guidelines)
+
+### Fixed
+
+- Weblate URL in `CONTRIBUTING.md`
+
+### Changed
+
+- Updated `tox.ini` to include development environment for `allianceauth` and frontend test runner
+- Updated `.github/workflows/autotester.yml` to require frontend checks before `test-coverage`
+- Updated `.pre-commit-config.yaml` dependencies and added excludes for `frontend/` and React build artifacts
+- Updated root `eslint.config.js` to ignore frontend source and compiled React assets
+- Updated `.stylelintrc.json` to ignore compiled React CSS and allow the `:global` pseudo-class
+- Reorganized navigation templates (moved from `partials/navigation/` to `navigation/`)
+- Updated `example/views.py` and `example/urls.py` to route and serve the React base app and settings view
+
+### Removed
+
+- Deprecated navigation partial template `example/templates/example/partials/navigation/navigation.html`
+
 ## [1.0.0] - 2026-09-10
 
 ### Added

@@ -102,6 +102,13 @@ showmigrations: check-python-venv check-myauth-path
 	@echo "Showing migrations"
 	@$(PYTHON__EXECUTABLE) $(DJANGO__MYAUTH_PATH)/manage.py showmigrations $(GENERAL__PACKAGE)
 
+# Django Collectstatic
+.PHONY: collectstatic
+collectstatic: check-python-venv check-myauth-path
+	@echo "Starting Django collectstatic"
+	@$(PYTHON__EXECUTABLE) $(DJANGO__MYAUTH_PATH)/manage.py collectstatic --noinput
+	@echo "Collectstatic completed"
+
 # Help message
 .PHONY: help
 help::
@@ -116,4 +123,7 @@ help::
 	@echo "      compile-translations      Compile translation files"
 	@echo "      pot                       Create or update translation template (.pot file)"
 	@echo "      translations              Create or update translation files"
+	@echo ""
+	@echo "    Static Files Handling:"
+	@echo "      collectstatic             Collect static files for Django"
 	@echo ""

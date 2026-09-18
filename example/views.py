@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from allianceauth.services.hooks import get_extension_logger
 
 # AA Example
-from example import __title__
+from example import __app_name__, __title__, __version__
 from example.providers import AppLogger
 
 logger = AppLogger(get_extension_logger(__name__), __title__)
@@ -21,6 +21,19 @@ logger = AppLogger(get_extension_logger(__name__), __title__)
 def index(request: WSGIRequest):
     """Index View"""
     context = {
-        "title": "Example",
+        "title": __title__,
     }
     return render(request, "example/view-index.html", context=context)
+
+
+@login_required
+def react_base(request: WSGIRequest, character_id=None):  #
+    if character_id is None:
+        character_id = request.user.profile.main_character.character_id
+
+    context = {
+        "version": __version__,
+        "app_name": __app_name__,
+        "character_id": character_id,
+    }
+    return render(request, "example/react_base.html", context=context)

@@ -7,7 +7,7 @@ from django.conf import settings
 
 # AA Example
 from example import __title__
-from example.api import character
+from example.api import character, general
 
 api = NinjaAPI(
     title="Example API",
@@ -20,6 +20,7 @@ api = NinjaAPI(
 
 def setup(ninja_api):
     character.CharacterApiEndpoints(ninja_api)
+    general.GeneralApiEndpoints(ninja_api)
 
 
 # Initialize API endpoints
