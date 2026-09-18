@@ -56,7 +56,7 @@ Follow the project import order convention:
    import Form from 'react-bootstrap/Form';
    import { useTranslation } from 'react-i18next';
    ```
-1. **AA Belt Radar (`@/`)**:
+1. **AA Example (`@/`)**:
    ```typescript
    import { loadUserData } from '@/Api/ApiCalls';
    import { queryKeys } from '@/Api/query';
