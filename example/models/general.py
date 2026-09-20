@@ -24,6 +24,8 @@ class General(models.Model):
     class Meta:
         abstract = True  # Please Remove this to activate this model
         managed = False
+        verbose_name = "AA-Example"
+        verbose_name_plural = "AA-Example"
         permissions = (
             ("basic_access", _("Can access this app")),
             ("manage_access", _("Can manage")),
