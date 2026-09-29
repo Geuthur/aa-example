@@ -7,7 +7,9 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+// Styles
 import tableStyles from "@/Components/Tables/BaseTable/BaseTable.module.css";
+
 import { BaseTableForm } from "@/Components/Tables/BaseTable/BaseTableForm";
 import { exportToCSV, renderTooltip } from "@/Components/Tables/BaseTable/tableHelper";
 

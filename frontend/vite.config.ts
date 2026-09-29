@@ -1,14 +1,17 @@
 // Third Party
-import react from "@vitejs/plugin-react-swc"
 import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react-swc"
 import path from 'path'
-import { defineConfig } from 'vite'
 import { fileURLToPath } from "url"
+import { defineConfig } from 'vitest/config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    environment: 'jsdom',
+  },
   plugins: [react(), tailwindcss(),],
   server: {
     port: 3002,

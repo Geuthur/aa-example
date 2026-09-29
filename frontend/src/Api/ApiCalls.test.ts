@@ -24,7 +24,7 @@ describe('General API client functions', () => {
 
             const result = await loadUserData();
             expect(result).toEqual({ user: mockUser });
-            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/view/user/');
+            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/user/');
         });
 
         it('throws error when GET fails or returns no data', async () => {
@@ -39,8 +39,8 @@ describe('General API client functions', () => {
     });
 
     describe('loadMenu', () => {
-        it('calls /view/menu/ and returns data', async () => {
-            const mockMenu = { links: [] };
+        it('calls /example/api/menu/ and returns data', async () => {
+            const mockMenu = { left_links: [], right_links: [] };
             vi.spyOn(apiClient, 'GET').mockResolvedValueOnce({
                 data: mockMenu,
                 error: undefined,
@@ -49,7 +49,7 @@ describe('General API client functions', () => {
 
             const result = await loadMenu();
             expect(result).toEqual(mockMenu);
-            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/view/menu/');
+            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/menu/');
         });
     });
 

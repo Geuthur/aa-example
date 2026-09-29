@@ -14,9 +14,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-table": "^8.21.3",
-    "@tailwindcss/vite": "^4.3.3",
     "apexcharts": "^7.1.0",
     "csv-stringify": "^6.8.3",
     "i18next": "^26.4.2",
@@ -50,6 +50,7 @@
     "globals": "^17.12.0",
     "i18next-scanner": "^4.6.0",
     "i18next-scanner-typescript": "^1.2.1",
+    "jsdom": "^29.1.1",
     "openapi-typescript": "^7.13.0",
     "openapi-typescript-helpers": "^0.1.0",
     "typescript": "^5.9.3",

@@ -1,5 +1,5 @@
-// Voices of War
-import styles from "@/Components/Loader/ErrorLoader.module.css"
+// Styles
+import styles from "@/Components/Loader/ErrorLoader.module.css";
 
 interface LoaderProps {
   message?: string;
@@ -13,7 +13,7 @@ export const ErrorLoader = (props: LoaderProps = {}) => {
       {props.title && <h3>{props.title}</h3>}
       {props.message && <p>{props.message}</p>}
     </div>
-  )
-}
+  );
+};
 
-export default ErrorLoader
+export default ErrorLoader;

@@ -2,8 +2,10 @@
 import React from 'react'
 import ReactDOM from "react-dom/client";
 
-import App from '@/App.tsx';
+// Styles
 import '@/index.css';
+
+import App from '@/App.tsx';
 
 const container = document.getElementById('aa-example-root')
 

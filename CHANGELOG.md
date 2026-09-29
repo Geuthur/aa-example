@@ -55,6 +55,25 @@ Section Order:
 - Tox environment:
   - Added `[testenv:react]` to execute frontend unit tests
 - Agent development rules under `.agents/rules/` (API, Git commits & changelog, planning, React, and testing guidelines)
+- Frontend dependencies:
+  - Installed Tailwind CSS (`tailwindcss`, `@tailwindcss/vite`)
+  - Installed `lucide-react` for UI icons
+- Frontend Badges & Indicators (`frontend/src/Components/Badges/`):
+  - `LiveStatusIndicator` component with status dot animation, timestamp tooltips, and unit tests
+  - `SecurityBadge` component for formatting and styling EVE Online system security levels
+- Frontend Utilities (`frontend/src/Utils/`):
+  - `eveOnline.ts`: Helper functions for EVE Online entity image URLs (character portraits, corporation/alliance logos) and security status formatting
+  - `bootsTrap.tsx`: Bootstrap badge and variant helper utilities
+  - `iconHelper.tsx`: Dynamic icon helper with Lucide icons
+- Frontend Navigation:
+  - `AuthLeftMenu` and `AuthRightMenu` (with async variants `AuthLeftMenuAsync` and `AuthRightMenuAsync`) supporting split navigation and external links
+- Frontend Pages:
+  - `404` (NotFound) page component
+- Frontend unit test coverage:
+  - Unit tests for EVE Online utilities, Bootstrap helpers, and icon helper (`src/Utils/`)
+  - Unit tests for badges and indicators (`SecurityBadge`, `LiveStatusIndicator`, `liveStatusHelper`)
+  - Unit tests for `AuthLeftMenu`, `AuthRightMenu`, and `404` ErrorPage
+  - Extended tests for `tableHelper` (CSV export and tooltip rendering)
 
 ### Fixed
 
@@ -62,6 +81,21 @@ Section Order:
 
 ### Changed
 
+- Ninja API:
+  - Menu API (`/example/api/menu/`):
+    - Changed endpoint path from `/example/api/view/menu/` to `/example/api/menu/`
+    - Separated navigation structure into `left_links` and `right_links`
+    - Added `is_external` flag to `MenuLink` schema
+  - User API (`/example/api/user/`):
+    - Changed endpoint path from `/example/api/view/user/` to `/example/api/user/`
+    - Added `is_admin` permission check to `UserData` schema
+    - Added corporation (`corporation_id`, `corporation_name`) and optional alliance (`alliance_id`, `alliance_name`) fields to `UserData`
+- Frontend Components & Styling:
+  - `BaseTable`: Enhanced styling, compact mode, responsive layout, and improved table helper utilities (`tableHelper.tsx`)
+  - `BaseMenu` and `Base.tsx`: Integrated left and right navigation menus, external links, and admin permission handling
+  - Replaced `App.css` with `index.css` incorporating Tailwind CSS styles, sci-fi theme variables, and custom scrollbars
+  - Updated `vite.config.ts` with Tailwind CSS plugin and `@` path alias
+- Standard View is React based
 - Updated `tox.ini` to include development environment for `allianceauth` and frontend test runner
 - Updated `.github/workflows/autotester.yml` to require frontend checks before `test-coverage`
 - Updated `.pre-commit-config.yaml` dependencies and added excludes for `frontend/` and React build artifacts
