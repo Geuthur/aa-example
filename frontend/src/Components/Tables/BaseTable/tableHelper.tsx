@@ -4,7 +4,6 @@ import type {
   HeaderGroup,
   Table as ReactTable,
 } from "@tanstack/react-table";
-import { stringify } from "csv-stringify/browser/esm/sync";
 import i18n from "i18next";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/esm/Tooltip";
@@ -170,7 +169,19 @@ export const exportToCSV = <TData,>(table: ReactTable<TData>, exportFileName?: s
 
   const csvData = rows.map((row) => row.getVisibleCells().map((cell) => cell.getValue()));
 
-  const csv = stringify([...headerRows, ...csvData]);
+  const formatCsvField = (val: unknown): string => {
+    if (val === null || val === undefined) return "";
+    const str = String(val);
+    if (str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r")) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
+  const csv = [...headerRows, ...csvData]
+    .map((row) => row.map(formatCsvField).join(","))
+    .join("\r\n");
+
   const blob = new Blob([csv], { type: "text/csv;charset=utf8;" });
 
   const link = document.createElement("a");

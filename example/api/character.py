@@ -20,7 +20,7 @@ from example.providers import AppLogger
 logger = AppLogger(get_extension_logger(__name__), __title__)
 
 
-class CharacterApiEndpoints:
+class ApiEndpoints:
     tags = ["Example"]
 
     def __init__(self, api: NinjaAPI):

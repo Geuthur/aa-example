@@ -1,4 +1,4 @@
-// Styles
+// Voices of War
 import styles from "@/Components/Loader/FetchingLoader.module.css";
 
 interface LoaderProps {

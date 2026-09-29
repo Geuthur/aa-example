@@ -1,10 +1,15 @@
 // Third Party
 import react from "@vitejs/plugin-react-swc"
+import tailwindcss from "@tailwindcss/vite"
+import path from 'path'
 import { defineConfig } from 'vite'
+import { fileURLToPath } from "url"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss(),],
   server: {
     port: 3002,
     proxy: {
@@ -22,7 +27,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src',
+      '@': path.resolve(__dirname, './src'),
     },
   },
   build: {

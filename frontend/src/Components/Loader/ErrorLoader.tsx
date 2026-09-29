@@ -1,4 +1,4 @@
-// Styles
+// Voices of War
 import styles from "@/Components/Loader/ErrorLoader.module.css"
 
 interface LoaderProps {
@@ -9,7 +9,8 @@ interface LoaderProps {
 export const ErrorLoader = (props: LoaderProps = {}) => {
   return (
     <div className={`${styles["flex-container-error"]}`}>
-      <span className={styles["shake"]}>{props.title && <h1>{props.title}</h1>}</span>
+      <span className={styles["shake"]}><i className={`fas fa-exclamation-triangle ${styles["icon-96"]}`}></i></span>
+      {props.title && <h3>{props.title}</h3>}
       {props.message && <p>{props.message}</p>}
     </div>
   )

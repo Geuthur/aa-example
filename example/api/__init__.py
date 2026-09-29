@@ -19,8 +19,8 @@ api = NinjaAPI(
 
 
 def setup(ninja_api):
-    character.CharacterApiEndpoints(ninja_api)
-    general.GeneralApiEndpoints(ninja_api)
+    character.ApiEndpoints(ninja_api)
+    general.ApiEndpoints(ninja_api)
 
 
 # Initialize API endpoints

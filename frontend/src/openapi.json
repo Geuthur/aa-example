@@ -50,10 +50,10 @@
         ]
       }
     },
-    "/example/api/view/menu/": {
+    "/example/api/menu/": {
       "get": {
         "operationId": "example_api_general_get_menu",
-        "summary": "Get Menu",
+        "summary": "Get Killstats navigation menu",
         "parameters": [],
         "responses": {
           "200": {
@@ -77,7 +77,7 @@
         ]
       }
     },
-    "/example/api/view/user/": {
+    "/example/api/user/": {
       "get": {
         "operationId": "example_api_general_get_user",
         "summary": "Get User",
@@ -223,7 +223,7 @@
         "type": "object"
       },
       "MenuLink": {
-        "description": "Represents a link in the menu.\n\nParameters:\n    name (str): The name of the menu link.\n    link (str | None): The URL or path the menu link points to.",
+        "description": "Represents a link in the menu.\n\nParameters:\n    name (str): The name of the menu link.\n    link (str | None): The URL or path the menu link points to.\n    is_external (bool): Indicates if the link is an external link.",
         "properties": {
           "name": {
             "title": "Name",
@@ -232,6 +232,11 @@
           "link": {
             "title": "Link",
             "type": "string"
+          },
+          "is_external": {
+            "default": false,
+            "title": "Is External",
+            "type": "boolean"
           }
         },
         "required": [
@@ -260,12 +265,20 @@
       "MenuSchema": {
         "description": "Schema for the overall menu, including links and modals.\n\nParameters:\n    links (list[MenuLink]): The list of links in the menu.\n    modals (MenuModalSchema | None): The modals associated with the menu.",
         "properties": {
-          "links": {
+          "left_links": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/MenuLink"
             },
-            "title": "Links",
+            "title": "Left Links",
+            "type": "array"
+          },
+          "right_links": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/MenuLink"
+            },
+            "title": "Right Links",
             "type": "array"
           },
           "modals": {
@@ -339,7 +352,7 @@
         "type": "object"
       },
       "UserData": {
-        "description": "Schema for user data, including character ID and character name.\n\nParameters:\n    user_id (int): The ID of the user.\n    character_id (int): The ID of the character associated with the user.\n    character_name (str): The name of the character.\n    portrait (str | None): The URL or path to the character's portrait image.\n    notification (boolean): The notification status for the user.",
+        "description": "Schema for user data, including character ID and character name.\n\nParameters:\n    user_id (int): The ID of the user.\n    character_id (int): The ID of the character associated with the user.\n    character_name (str): The name of the character.\n    corporation_id (int): The ID of the corporation associated with the user.\n    corporation_name (str): The name of the corporation associated with the user.\n    alliance_id (int | None): The ID of the alliance associated with the user, if any.\n    alliance_name (str | None): The name of the alliance associated with the user, if any.\n    portrait (str | None): The URL or path to the character's portrait image.\n    is_admin (boolean): The admin status for the user.\n    notification (boolean): The notification status for the user.",
         "properties": {
           "user_id": {
             "title": "User Id",
@@ -353,6 +366,36 @@
             "title": "Character Name",
             "type": "string"
           },
+          "corporation_id": {
+            "title": "Corporation Id",
+            "type": "integer"
+          },
+          "corporation_name": {
+            "title": "Corporation Name",
+            "type": "string"
+          },
+          "alliance_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alliance Id"
+          },
+          "alliance_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alliance Name"
+          },
           "portrait": {
             "anyOf": [
               {
@@ -364,6 +407,11 @@
             ],
             "title": "Portrait"
           },
+          "is_admin": {
+            "default": false,
+            "title": "Is Admin",
+            "type": "boolean"
+          },
           "notification": {
             "title": "Notification",
             "type": "boolean"
@@ -373,6 +421,8 @@
           "user_id",
           "character_id",
           "character_name",
+          "corporation_id",
+          "corporation_name",
           "notification"
         ],
         "title": "UserData",

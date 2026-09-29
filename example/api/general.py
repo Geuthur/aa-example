@@ -15,28 +15,31 @@ from example.helpers.eveonline import get_character_portrait_url
 from example.models.general import UserSettings
 
 
-class GeneralApiEndpoints:
+class ApiEndpoints:
     tags = ["General"]
 
     def __init__(self, api: NinjaAPI):
         @api.get(
-            "view/menu/",
+            "menu/",
             response={
                 HTTPStatus.OK: schema.MenuSchema,
             },
             tags=self.tags,
+            summary="Get Killstats navigation menu",
         )
-        # pylint: disable=unused-argument
-        def get_menu(request):
-            menu_list: list[schema.MenuLink] = []
-            menu_list.append(schema.MenuLink(name=__title__, link="/"))
-            menu_list.append(schema.MenuLink(name=_("Settings"), link="/settings/"))
+        def get_menu(request):  # pylint: disable=unused-argument
+            left_menu: list[schema.MenuLink] = []
+            left_menu.append(schema.MenuLink(name=__title__, link="/"))
+            left_menu.append(schema.MenuLink(name=_("Settings"), link="/settings/"))
+
+            right_menu: list[schema.MenuLink] = []
             return schema.MenuSchema(
-                links=menu_list,
+                left_links=left_menu,
+                right_links=right_menu,
             )
 
         @api.get(
-            "view/user/",
+            "user/",
             response={
                 HTTPStatus.OK: schema.UserData,
                 HTTPStatus.FORBIDDEN: dict,
@@ -44,17 +47,23 @@ class GeneralApiEndpoints:
             tags=self.tags,
         )
         def get_user(request):
-            if not request.user.has_perm("example.basic_access"):
+            if not request.user.has_perm("killstats.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             try:
                 character_id = request.user.profile.main_character.character_id
                 character_name = request.user.profile.main_character.character_name
+                corporation_id = request.user.profile.main_character.corporation_id
+                corporation_name = request.user.profile.main_character.corporation_name
+                alliance_id = request.user.profile.main_character.alliance_id
+                alliance_name = request.user.profile.main_character.alliance_name
             except AttributeError:
                 character_id = 0
                 character_name = ""
-
-            settings = UserSettings.objects.get_or_create(user=request.user)[0]
+                corporation_id = 0
+                corporation_name = ""
+                alliance_id = None
+                alliance_name = None
 
             portrait_url = (
                 get_character_portrait_url(
@@ -66,12 +75,20 @@ class GeneralApiEndpoints:
                 else None
             )
 
-            return schema.UserData(
+            settings = UserSettings.objects.get_or_create(user=request.user)[0]
+            is_admin = bool(request.user.has_perm("example.admin_access"))
+
+            return HTTPStatus.OK, schema.UserData(
                 user_id=request.user.id,
                 character_id=character_id,
                 character_name=character_name,
+                corporation_id=corporation_id,
+                corporation_name=corporation_name,
+                alliance_id=alliance_id,
+                alliance_name=alliance_name,
                 portrait=portrait_url,
                 notification=settings.disable_notifications,
+                is_admin=is_admin,
             )
 
         @api.post(

@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-hud: 'Rajdhani', sans-serif;
+    --font-tech: 'Chakra Petch', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+.font-hud {
+  font-family: var(--font-hud);
+  letter-spacing: 0.05em;
+}
+
+.font-tech {
+  font-family: var(--font-tech);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+}
+
+.font-sans-ui {
+  font-family: var(--font-sans);
+}
+
+/* Custom sci-fi scrollbars in matte graphite */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0d11;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+.base-root {
+  background-color: #141620;
+  z-index: -2;
+}
+
+.vignette {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(24, 26, 36, 0.75) 80%
+  );
+
+  z-index: 0;
+}
+
+.sec-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  line-height: 1;
+  padding: 1px 3px;
+  border-radius: 3px;
+  border-width: 1px;
+  font-weight: 700;
+}

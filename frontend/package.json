@@ -16,11 +16,13 @@
   "dependencies": {
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-table": "^8.21.3",
+    "@tailwindcss/vite": "^4.3.3",
     "apexcharts": "^7.1.0",
     "csv-stringify": "^6.8.3",
     "i18next": "^26.4.2",
     "i18next-http-backend": "^4.0.2",
     "js-cookie": "^3.0.8",
+    "lucide-react": "^0.546.0",
     "nuqs": "^2.10.1",
     "openapi-fetch": "^0.17.0",
     "react": "^19.2.8",

@@ -6,14 +6,19 @@ import { Outlet } from "react-router";
 import { Col } from "react-bootstrap";
 
 import { ErrorBoundary } from "@/Components/Loader";
-import AuthMenuAsync from "@/Menu/AuthMenuAsync";
+import AuthLeftMenuAsync from "@/Menu/AuthLeftMenuAsync";
+import AuthRightMenuAsync from "@/Menu/AuthRightMenuAsync";
 
+/**
+ * AuthBase component that provides the layout for AllianceAuth
+ */
 const AuthBase = () => {
   return (
     <>
-      <AuthMenuAsync />
+      <AuthLeftMenuAsync />
+      <AuthRightMenuAsync />
       <Col>
-        <div className="mt-4">
+        <div className="mt-4 tw-priority">
           <ErrorBoundary>
             <Outlet /> {/* Render the Children here */}
           </ErrorBoundary>

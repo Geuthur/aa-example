@@ -7,9 +7,7 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
 import tableStyles from "@/Components/Tables/BaseTable/BaseTable.module.css";
-
 import { BaseTableForm } from "@/Components/Tables/BaseTable/BaseTableForm";
 import { exportToCSV, renderTooltip } from "@/Components/Tables/BaseTable/tableHelper";
 
@@ -31,7 +29,10 @@ const BasePages = <TData,>({
     <div className="d-flex justify-content-between">
       <ButtonGroup style={{ zIndex: 0 }}>
         <Button active variant="info">
-          {table.getState().pagination.pageIndex + 1} of {pageCount}
+          {t("Page {{page}} of {{total}}", {
+            page: table.getState().pagination.pageIndex + 1,
+            total: pageCount,
+          })}
         </Button>
         {isFetching ? (
           renderTooltip(

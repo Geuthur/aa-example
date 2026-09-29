@@ -1,8 +1,9 @@
 import { apiClient } from "@/Api/Api";
 import type { components } from "@/Api/OpenApi";
+import { ProjectName } from '@/App';
 
 export async function loadUserData(): Promise<{ user: components["schemas"]["UserData"] }> {
-  const { data, error } = await apiClient.GET("/example/api/view/user/");
+  const { data, error } = await apiClient.GET(`/${ProjectName}/api/user/`);
   if (error || !data) {
     throw new Error("Failed to load user data");
   }
@@ -10,7 +11,7 @@ export async function loadUserData(): Promise<{ user: components["schemas"]["Use
 }
 
 export async function loadMenu(): Promise<components["schemas"]["MenuSchema"]> {
-  const { data, error } = await apiClient.GET("/example/api/view/menu/");
+  const { data, error } = await apiClient.GET(`/${ProjectName}/api/menu/`);
   if (error || !data) {
     throw new Error("Failed to load menu");
   }
@@ -23,7 +24,7 @@ export async function updateUserSettings(settings: { disable_notifications: bool
     body.append("disable_notifications", "on");
   }
 
-  const { data, error } = await apiClient.POST("/example/api/modify/user/settings/", {
+  const { data, error } = await apiClient.POST(`/${ProjectName}/api/modify/user/settings/`, {
     body: body as never,
   });
 

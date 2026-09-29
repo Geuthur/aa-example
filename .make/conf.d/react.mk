@@ -55,7 +55,7 @@ react-translations:
 
 # React Test Build (build, copy assets & translations, collectstatic, restart supervisor)
 .PHONY: react-test-build
-react-test-build: check-python-venv check-myauth-path react-build react-copy-assets react-copy-translations collectstatic restart-test-server
+react-test-build: check-python-venv check-myauth-path react-build react-copy-assets react-copy-translations collectstatic
 	@echo "React test build completed successfully"
 
 # React Release Build (build, scan translations, copy assets & translations, collectstatic)
