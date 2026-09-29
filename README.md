@@ -11,7 +11,6 @@ ______________________________________________________________________
 
 - [AA Example.](#aa-example)
   - [Features](#features)
-  - [Upcoming](#upcoming)
   - [Installation](#installation)
     - [Step 1 - Install the Package](#step-1---install-the-package)
     - [Step 2 - Configure Alliance Auth](#step-2---configure-alliance-auth)
@@ -21,6 +20,10 @@ ______________________________________________________________________
     - [Step 4.1 - Migrate App and collect static](#step-41---migrate-app-and-collect-static)
     - [Step 5 - Setting up Permissions](#step-5---setting-up-permissions)
     - [Step 6 - (Optional) Setting up Compatibilies](#step-6---optional-setting-up-compatibilies)
+  - [Frontend Development (React SPA)](#frontend-development-react-spa)
+    - [Tech Stack](#tech-stack)
+    - [Frontend Makefile Commands](#frontend-makefile-commands)
+    - [Local Frontend Development](#local-frontend-development)
   - [Translations](#translations)
   - [Contributing](#contributing)
 
@@ -28,12 +31,19 @@ ______________________________________________________________________
 
 ## Features<a name="features"></a>
 
-- Example
-  - Copy & Paste
-
-## Upcoming<a name="upcoming"></a>
-
-- Crazy Shit incoming.
+- **Modern React SPA Frontend**:
+  - React 19, TypeScript, and Vite build pipeline
+  - Tailwind CSS v4 styling, custom sci-fi theme variables, and responsive layouts
+  - Lucide icons (`lucide-react`) and status indicators (`LiveStatusIndicator`, `SecurityBadge`)
+  - TanStack Query (`@tanstack/react-query`) for cached state management & TanStack Table (`@tanstack/react-table`) for sortable, searchable data tables
+  - Full internationalization (`i18next` / `react-i18next`) with translations for 12 languages
+  - Type-safe API communication using `openapi-fetch` and auto-generated TypeScript schemas
+- **Django Ninja REST API**:
+  - Modular API endpoints (`/example/api/`) with interactive OpenAPI documentation
+  - Automated schema and TypeScript type generation via Makefile
+- **Example Boilerplate**:
+  - Clean Alliance Auth app architecture (models, managers, tasks, forms, and views)
+  - Pre-configured unit tests for backend (`AuthTestCase`) and frontend (`Vitest` + Testing Library)
 
 ## Installation<a name="installation"></a>
 
@@ -119,10 +129,11 @@ python manage.py collectstatic --noinput
 
 With the Following IDs you can set up the permissions for the Example
 
-| ID              | Description                   |                                                         |
-| :-------------- | :---------------------------- | :------------------------------------------------------ |
-| `basic_access`  | Can access the Example module | All Members with the Permission can access the Example. |
-| `manage_access` | Can Manage Example module     | Can manage Application                                  |
+| ID              | Description                   | Details                                                         |
+| :-------------- | :---------------------------- | :-------------------------------------------------------------- |
+| `basic_access`  | Can access the Example module | All members with this permission can access the Example module. |
+| `manage_access` | Can Manage Example module     | Can manage application settings and data.                       |
+| `full_access`   | Full access to Example module | Administrative access with full management permissions.         |
 
 ### Step 6 - (Optional) Setting up Compatibilies<a name="step-6---optional-setting-up-compatibilies"></a>
 
@@ -132,6 +143,65 @@ The Following Settings can be setting up in the `local.py`
 - EXAMPLE_TASKS_TIME_LIMIT: `7200` - Defines the time (in seconds) a task will timeout
 
 If you set up EXAMPLE_LOGGER_USE to `True` you need to add the following code below:
+
+## Frontend Development (React SPA)<a name="frontend-development-react-spa"></a>
+
+The user interface of AA Example is built as a modern React Single-Page Application (SPA) located in the `frontend/` directory.
+
+### Tech Stack<a name="tech-stack"></a>
+
+- **Framework**: React 19, TypeScript
+- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), Tailwind CSS v4 (`@tailwindcss/vite`)
+- **UI Components & Icons**: React-Bootstrap, Lucide Icons (`lucide-react`)
+- **Data & Tables**: TanStack React Query (`@tanstack/react-query`), TanStack Table (`@tanstack/react-table`)
+- **API Client**: `openapi-fetch` with types generated via `openapi-typescript`
+- **Testing**: Vitest with `@testing-library/react` and `jsdom`
+- **Localization**: `i18next` & `react-i18next` (12 languages)
+
+### Frontend Makefile Commands<a name="frontend-makefile-commands"></a>
+
+You can control the frontend build, test, and development workflows directly from the repository root:
+
+| Command                        | Description                                                             |
+| :----------------------------- | :---------------------------------------------------------------------- |
+| `make react-dev`               | Starts the Vite development server with proxy to backend                |
+| `make react-build`             | Runs TypeScript compilation (`tsc -b`) and Vite production build        |
+| `make react-test`              | Runs Vitest unit tests                                                  |
+| `make react-lint`              | Runs ESLint verification                                                |
+| `make react-eslint`            | Runs ESLint with automated fixes (`--fix`)                              |
+| `make react-test-build`        | Runs build, asset copy, translation sync, and `collectstatic`           |
+| `make react-release`           | Runs full release build (build, i18n scan, asset copy, `collectstatic`) |
+| `make react-copy-assets`       | Copies Vite production build artifacts to Django's static directory     |
+| `make react-copy-translations` | Copies frontend i18n translations to Django's static directory          |
+| `make react-translations`      | Scans source code and updates i18n translation files                    |
+| `make react-openapi`           | Exports Django Ninja OpenAPI schema and regenerates TypeScript types    |
+| `make react-clean`             | Cleans React build directory                                            |
+
+### Local Frontend Development<a name="local-frontend-development"></a>
+
+1. **Install dependencies**:
+
+   ```shell
+   cd frontend
+   npm install
+   ```
+
+1. **Start Vite development server**:
+
+   ```shell
+   # Inside frontend/
+   npm run dev
+
+   # Or from repository root:
+   make react-dev
+   ```
+
+1. **Run tests and linter**:
+
+   ```shell
+   make react-test
+   make react-lint
+   ```
 
 ## Translations<a name="translations"></a>
 

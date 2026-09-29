@@ -103,6 +103,7 @@ Section Order:
 - Updated `.stylelintrc.json` to ignore compiled React CSS and allow the `:global` pseudo-class
 - Reorganized navigation templates (moved from `partials/navigation/` to `navigation/`)
 - Updated `example/views.py` and `example/urls.py` to route and serve the React base app and settings view
+- Updated `README.md` with React SPA frontend documentation, Makefile targets, and missing `General` model permissions (`full_access`)
 
 ### Removed
 
