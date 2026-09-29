@@ -2,7 +2,8 @@
 import { Link, useLocation } from "react-router";
 
 // Third Party
-import { Nav } from "react-bootstrap"
+import { Nav } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import type { components } from "@/Api/OpenApi";
 
@@ -25,8 +26,29 @@ export interface ToPath {
 }
 
 export const MenuItem = ({ link, toPath }: { link: MenuLinkItem } & ToPath) => {
+    const { t } = useTranslation();
     const path = useLocation();
     const hit = path.pathname.endsWith(link.link ?? "");
+    const isExternal = Boolean(
+        link.is_external ||
+        link.link?.startsWith("http://") ||
+        link.link?.startsWith("https://")
+    );
+
+    if (isExternal) {
+        return (
+            <Nav.Item as="li">
+                <Nav.Link
+                    href={link.link ?? "#"}
+                    id={link.name}
+                    key={link.name}
+                >
+                    {t(link.name)}
+                </Nav.Link>
+            </Nav.Item>
+        );
+    }
+
     return (
         <Nav.Item as="li">
             <Nav.Link
@@ -36,7 +58,7 @@ export const MenuItem = ({ link, toPath }: { link: MenuLinkItem } & ToPath) => {
                 key={link.name}
                 active={hit}
             >
-                {link.name}
+                {t(link.name)}
             </Nav.Link>
         </Nav.Item>
     );

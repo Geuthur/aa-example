@@ -7,12 +7,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import i18n from "i18next";
 import Backend from "i18next-http-backend";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 
-// Styles
-import "@/App.css"
-
-import ErrorLoader from "@/Components/Loader/ErrorLoader"
+import { ErrorPage } from "./Pages/404";
 import AuthBase from "@/Pages/Base";
 import MainPage from "@/Pages/MainPage";
 import Settings from "@/Pages/Settings";
@@ -22,7 +19,7 @@ export const AppName = "aa-example";
 export const ProjectName = "example";
 
 // Read language directly from Django's LANGUAGE_CODE (set as lang="..." on root div)
-const djangoLanguage = document.getElementById(`${AppName}-root`)?.getAttribute("lang") ?? "en";
+const djangoLanguage = typeof document !== "undefined" ? document.getElementById(`${AppName}-root`)?.getAttribute("lang") ?? "en" : "en";
 
 i18n
   .use(Backend)
@@ -44,7 +41,6 @@ i18n
   });
 
 function App() {
-  const { t } = useTranslation();
   return (
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
@@ -54,7 +50,7 @@ function App() {
               <Route path={`/${ProjectName}/`} element={<AuthBase />}>
                 <Route index element={<MainPage />} />
                 <Route path="settings/" element={<Settings />} />
-                <Route path="*" element={<ErrorLoader title={t("Error 404")} message={t("The page you are looking for does not exist.")} />} />
+                <Route path="*" element={<ErrorPage />} />
               </Route>
               <Route path="*" element={<Navigate to={`/${ProjectName}/`} replace />} />
             </Routes>

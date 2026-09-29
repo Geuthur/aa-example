@@ -13,15 +13,26 @@ class UserData(Schema):
         user_id (int): The ID of the user.
         character_id (int): The ID of the character associated with the user.
         character_name (str): The name of the character.
+        corporation_id (int): The ID of the corporation associated with the user.
+        corporation_name (str): The name of the corporation associated with the user.
+        alliance_id (int | None): The ID of the alliance associated with the user, if any.
+        alliance_name (str | None): The name of the alliance associated with the user, if any.
         portrait (str | None): The URL or path to the character's portrait image.
+        is_admin (boolean): The admin status for the user.
         notification (boolean): The notification status for the user.
+
     """
 
     user_id: int
     character_id: int
     character_name: str
+    corporation_id: int
+    corporation_name: str
+    alliance_id: int | None = None
+    alliance_name: str | None = None
     portrait: str | None = None
 
+    is_admin: bool = False
     notification: bool
 
 
@@ -73,10 +84,12 @@ class MenuLink(Schema):
     Parameters:
         name (str): The name of the menu link.
         link (str | None): The URL or path the menu link points to.
+        is_external (bool): Indicates if the link is an external link.
     """
 
     name: str
     link: str = None
+    is_external: bool = False
 
 
 class MenuCategory(MenuLink):
@@ -107,5 +120,6 @@ class MenuSchema(Schema):
         modals (MenuModalSchema | None): The modals associated with the menu.
     """
 
-    links: list[MenuLink] = []
+    left_links: list[MenuLink] = []
+    right_links: list[MenuLink] = []
     modals: MenuModalSchema | None = None

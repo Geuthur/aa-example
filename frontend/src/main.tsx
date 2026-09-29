@@ -3,14 +3,14 @@ import React from 'react'
 import ReactDOM from "react-dom/client";
 
 // Styles
-import '@/App.css';
+import '@/index.css';
 
 import App from '@/App.tsx';
 
 const container = document.getElementById('aa-example-root')
 
 if (!container) {
-  throw new Error('Belt Radar React mount point was not found.')
+  throw new Error('Example React mount point was not found.')
 }
 
 ReactDOM.createRoot(container).render(

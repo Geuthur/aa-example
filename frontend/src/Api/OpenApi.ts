@@ -30,14 +30,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/example/api/view/menu/": {
+    "/example/api/menu/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Menu */
+        /** Get Killstats navigation menu */
         get: operations["example_api_general_get_menu"];
         put?: never;
         post?: never;
@@ -47,7 +47,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/example/api/view/user/": {
+    "/example/api/user/": {
         parameters: {
             query?: never;
             header?: never;
@@ -103,12 +103,18 @@ export interface components {
          *     Parameters:
          *         name (str): The name of the menu link.
          *         link (str | None): The URL or path the menu link points to.
+         *         is_external (bool): Indicates if the link is an external link.
          */
         MenuLink: {
             /** Name */
             name: string;
             /** Link */
             link?: string;
+            /**
+             * Is External
+             * @default false
+             */
+            is_external: boolean;
         };
         /**
          * MenuModalSchema
@@ -127,10 +133,15 @@ export interface components {
          */
         MenuSchema: {
             /**
-             * Links
+             * Left Links
              * @default []
              */
-            links: components["schemas"]["MenuLink"][];
+            left_links: components["schemas"]["MenuLink"][];
+            /**
+             * Right Links
+             * @default []
+             */
+            right_links: components["schemas"]["MenuLink"][];
             modals?: components["schemas"]["MenuModalSchema"] | null;
         };
         /**
@@ -161,7 +172,12 @@ export interface components {
          *         user_id (int): The ID of the user.
          *         character_id (int): The ID of the character associated with the user.
          *         character_name (str): The name of the character.
+         *         corporation_id (int): The ID of the corporation associated with the user.
+         *         corporation_name (str): The name of the corporation associated with the user.
+         *         alliance_id (int | None): The ID of the alliance associated with the user, if any.
+         *         alliance_name (str | None): The name of the alliance associated with the user, if any.
          *         portrait (str | None): The URL or path to the character's portrait image.
+         *         is_admin (boolean): The admin status for the user.
          *         notification (boolean): The notification status for the user.
          */
         UserData: {
@@ -171,8 +187,21 @@ export interface components {
             character_id: number;
             /** Character Name */
             character_name: string;
+            /** Corporation Id */
+            corporation_id: number;
+            /** Corporation Name */
+            corporation_name: string;
+            /** Alliance Id */
+            alliance_id?: number | null;
+            /** Alliance Name */
+            alliance_name?: string | null;
             /** Portrait */
             portrait?: string | null;
+            /**
+             * Is Admin
+             * @default false
+             */
+            is_admin: boolean;
             /** Notification */
             notification: boolean;
         };
