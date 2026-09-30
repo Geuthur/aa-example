@@ -13,7 +13,7 @@ export function ToolTipContainer({ toastNotice }: { toastNotice: string }): JSX.
     return (
         <div className="inline-flex items-center rounded-xl border border-emerald-500/50 bg-[#1e222e]/95 px-3 py-1.5 text-xs font-mono-tech font-semibold text-emerald-300 shadow-[0_0_25px_rgba(0,0,0,0.6)] backdrop-blur-md pointer-events-none">
             <span className="whitespace-nowrap">{toastNotice}</span>
-        </div>  
+        </div>
     );
 }
 
@@ -24,20 +24,20 @@ export function ToolTipContainer({ toastNotice }: { toastNotice: string }): JSX.
  */
 // eslint-disable-next-line react-refresh/only-export-components
 export function renderTooltip(
-  message: string,
-  children: React.ComponentProps<typeof OverlayTrigger>["children"],
+    message: string,
+    children: React.ComponentProps<typeof OverlayTrigger>["children"],
 ) {
-  return (
-    <OverlayTrigger
-      placement="auto"
-      trigger={["hover", "focus"]}
-      overlay={
-        <Tooltip id="vowra" className="!z-[9999]">
-          <ToolTipContainer toastNotice={message} />
-        </Tooltip>
-      }
-    >
-      {children}
-    </OverlayTrigger>
-  );
+    return (
+        <OverlayTrigger
+            placement="auto"
+            trigger={["hover", "focus"]}
+            overlay={
+                <Tooltip id="vowra" className="!z-[9999]">
+                    {message}
+                </Tooltip>
+            }
+        >
+            {children}
+        </OverlayTrigger>
+    );
 }

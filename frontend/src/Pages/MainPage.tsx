@@ -5,8 +5,8 @@ function MainPage() {
 	return (
 		<main>
 			<BaseSectionHeader />
-			<section className="card">
-				<div className="card-body">
+			<section className="mt-3 aa-panel">
+				<div>
 					<span>Example Content</span>
 				</div>
 			</section>

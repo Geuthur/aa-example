@@ -11,6 +11,7 @@ import { queryKeys } from '@/Api/query';
 import UserSettingsForm from '@/Components/Forms/UserSettingsForm';
 import ErrorLoader from '@/Components/Loader/ErrorLoader';
 import FetchingLoader from '@/Components/Loader/FetchingLoader';
+import BaseSectionHeader from '@/Components/Sections/BaseHeader';
 
 function Settings() {
     const { t } = useTranslation();
@@ -44,11 +45,9 @@ function Settings() {
 
     return (
         <main>
-            <section className="card" aria-labelledby="settings-heading">
-                <div className="card-header bg-primary rounded">
-                    <h2 id="settings-heading">{t("User Settings")}</h2>
-                </div>
-                <div className="card-body">
+            <BaseSectionHeader name={t("User Settings")} />
+            <section className="mt-3 aa-panel" aria-labelledby="settings-heading">
+                <div>
                     {successMessage && (
                         <Alert variant="success" onClose={() => setSuccessMessage(null)} dismissible>
                             {successMessage}

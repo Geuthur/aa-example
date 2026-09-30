@@ -9,7 +9,7 @@ import Backend from "i18next-http-backend";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 import { initReactI18next } from "react-i18next";
 
-import { ErrorPage } from "./Pages/404";
+import { ErrorPage } from "@/Pages/404";
 import AuthBase from "@/Pages/Base";
 import MainPage from "@/Pages/MainPage";
 import Settings from "@/Pages/Settings";

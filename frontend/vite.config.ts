@@ -1,5 +1,4 @@
 // Third Party
-import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react-swc"
 import path from 'path'
 import { fileURLToPath } from "url"
@@ -12,7 +11,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
   },
-  plugins: [react(), tailwindcss(),],
+  plugins: [react(),],
   server: {
     port: 3002,
     proxy: {
