@@ -1,18 +1,17 @@
-// React
-import React, { type JSX } from "react";
-
 // Third Party
+import styles from '@Utils/bootsTrap.module.css';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 /**
  * Tooltip notification component
  * @param toastNotice The message to display inside the tooltip
+ * @returns A React element representing the tooltip container
  */
-export function ToolTipContainer({ toastNotice }: { toastNotice: string }): JSX.Element {
+export function toolTipContainer(message: string): React.ReactElement {
     return (
-        <div className="inline-flex items-center rounded-xl border border-emerald-500/50 bg-[#1e222e]/95 px-3 py-1.5 text-xs font-mono-tech font-semibold text-emerald-300 shadow-[0_0_25px_rgba(0,0,0,0.6)] backdrop-blur-md pointer-events-none">
-            <span className="whitespace-nowrap">{toastNotice}</span>
+        <div className={styles.tooltip}>
+            <span>{message}</span>
         </div>
     );
 }
@@ -22,7 +21,6 @@ export function ToolTipContainer({ toastNotice }: { toastNotice: string }): JSX.
  * @param message The message to display inside the tooltip
  * @param children The React element that triggers the tooltip
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function renderTooltip(
     message: string,
     children: React.ComponentProps<typeof OverlayTrigger>["children"],
@@ -32,7 +30,7 @@ export function renderTooltip(
             placement="auto"
             trigger={["hover", "focus"]}
             overlay={
-                <Tooltip id="vowra" className="!z-[9999]">
+                <Tooltip id="vowra" style={{ zIndex: 9999 }}>
                     {message}
                 </Tooltip>
             }
