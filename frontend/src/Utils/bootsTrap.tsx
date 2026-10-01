@@ -1,5 +1,5 @@
 // Third Party
-import styles from '@Utils/bootsTrap.module.css';
+import styles from '@/Utils/bootsTrap.module.css';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
