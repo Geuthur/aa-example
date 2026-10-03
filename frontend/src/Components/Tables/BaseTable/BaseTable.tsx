@@ -31,6 +31,9 @@ import {
 import { Button, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+// Styles
+import styles from "@/Components/Tables/BaseTable/BaseTable.module.css";
+
 import BaseHeader from "@/Components/Tables/BaseTable/BaseTableHeader";
 import BasePages from "@/Components/Tables/BaseTable/BaseTablePages";
 
@@ -185,8 +188,7 @@ const BaseTable = <TData, TValue = unknown>({
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="py-3 px-4 text-zinc-300"
-                        style={{ verticalAlign: "middle" }}
+                        className={`py-3 px-4 text-zinc-300 ${styles["cell-middle"]}`}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
@@ -210,8 +212,7 @@ const BaseTable = <TData, TValue = unknown>({
                 size="sm"
                 value={pageSize}
                 onChange={(e) => table.setPageSize(Number(e.target.value))}
-                className="bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono-tech py-1 px-2 rounded focus:outline-none focus:border-emerald-500 cursor-pointer"
-                style={{ width: "auto" }}
+                className={`bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono-tech py-1 px-2 rounded focus:outline-none focus:border-emerald-500 cursor-pointer ${styles["page-size-select"]}`}
               >
                 {pageSizeOptions.map((size) => (
                   <option key={size} value={size}>
@@ -312,10 +313,7 @@ const BaseTable = <TData, TValue = unknown>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    style={{
-                      verticalAlign: "middle",
-                      textAlign: isNumber(cell) ? "right" : "left",
-                    }}
+                    className={`${styles["cell-middle"]} ${isNumber(cell) ? styles["cell-right"] : styles["cell-left"]}`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

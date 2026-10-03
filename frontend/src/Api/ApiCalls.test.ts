@@ -5,6 +5,7 @@ import { apiClient } from '@/Api/Api';
 import {
     loadMenu,
     loadUserData,
+    loadUserSettings,
     updateUserSettings,
 } from '@/Api/ApiCalls';
 
@@ -53,27 +54,45 @@ describe('General API client functions', () => {
         });
     });
 
-    describe('updateUserSettings', () => {
-        it('submits FormData with disable_notifications and returns success', async () => {
-            vi.spyOn(apiClient, 'POST').mockResolvedValueOnce({
-                data: { success: true },
+    describe('loadUserSettings', () => {
+        it('returns settings from the typed GET endpoint', async () => {
+            const settings = { disable_notifications: true };
+            vi.spyOn(apiClient, 'GET').mockResolvedValueOnce({
+                data: settings,
                 error: undefined,
                 response: new Response(),
             } as never);
 
-            const result = await updateUserSettings({ disable_notifications: true });
-            expect(result).toEqual({ success: true });
-            expect(apiClient.POST).toHaveBeenCalledWith('/example/api/modify/user/settings/', expect.any(Object));
+            const result = await loadUserSettings();
+            expect(result).toEqual(settings);
+            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/settings/');
+        });
+    });
+
+    describe('updateUserSettings', () => {
+        it('submits JSON to the typed PUT endpoint', async () => {
+            const settings = { disable_notifications: true };
+            vi.spyOn(apiClient, 'PUT').mockResolvedValueOnce({
+                data: settings,
+                error: undefined,
+                response: new Response(),
+            } as never);
+
+            const result = await updateUserSettings(settings);
+            expect(result).toEqual(settings);
+            expect(apiClient.PUT).toHaveBeenCalledWith('/example/api/settings/', {
+                body: settings,
+            });
         });
 
         it('throws error when update fails', async () => {
-            vi.spyOn(apiClient, 'POST').mockResolvedValueOnce({
-                data: { success: false, message: 'Permission denied' },
-                error: undefined,
+            vi.spyOn(apiClient, 'PUT').mockResolvedValueOnce({
+                data: undefined,
+                error: { status: 403 },
                 response: new Response(),
             } as never);
 
-            await expect(updateUserSettings({ disable_notifications: false })).rejects.toThrow('Permission denied');
+            await expect(updateUserSettings({ disable_notifications: false })).rejects.toThrow('Failed to update user settings');
         });
     });
 });

@@ -42,6 +42,8 @@ Section Order:
   - User settings endpoint (`/api/general/user-setting`)
   - Character list endpoint with filtering (`/api/general/characters`)
   - Extended API schema definitions
+- Managed per-user settings with typed JSON GET/PUT endpoints.
+- Static React inline styles moved into local CSS Modules.
 - Backend:
   - `GeneralSetting` model for user settings
   - `GeneralManager` custom manager
@@ -107,6 +109,7 @@ Section Order:
 
 ### Removed
 
+- Obsolete Django `UserSettingsForm`; settings are now validated by the typed JSON API.
 - Deprecated navigation partial template `example/templates/example/partials/navigation/navigation.html`
 
 ## [1.0.0] - 2026-09-10

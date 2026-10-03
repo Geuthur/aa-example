@@ -8,6 +8,9 @@ import i18n from "i18next";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/esm/Tooltip";
 
+// Styles
+import styles from "./tableHelper.module.css";
+
 /**
  * Helper functions for formatting dates and rendering HTML safely in React components
  * @param value The date string to format (optional)
@@ -128,7 +131,7 @@ export function renderTooltip(
     <OverlayTrigger
       trigger={["hover", "focus"]}
       overlay={
-        <Tooltip id="aa-example-tooltip" style={{ position: "fixed" }}>
+        <Tooltip id="aa-example-tooltip" className={styles["tooltip-fixed"]}>
           {message}
         </Tooltip>
       }

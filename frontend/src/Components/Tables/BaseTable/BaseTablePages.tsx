@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 
 // Styles
 import tableStyles from "@/Components/Tables/BaseTable/BaseTable.module.css";
+import pageStyles from "@/Components/Tables/BaseTable/BaseTablePages.module.css";
 
 import { BaseTableForm } from "@/Components/Tables/BaseTable/BaseTableForm";
 import { exportToCSV, renderTooltip } from "@/Components/Tables/BaseTable/tableHelper";
@@ -29,7 +30,7 @@ const BasePages = <TData,>({
 
   return (
     <div className="d-flex justify-content-between">
-      <ButtonGroup style={{ zIndex: 0 }}>
+      <ButtonGroup className={pageStyles["button-group"]}>
         <Button active variant="info">
           {t("Page {{page}} of {{total}}", {
             page: table.getState().pagination.pageIndex + 1,
@@ -60,7 +61,7 @@ const BasePages = <TData,>({
       </ButtonGroup>
 
       <ButtonToolbar>
-        <ButtonGroup style={{ zIndex: 0 }}>
+        <ButtonGroup className={pageStyles["button-group"]}>
           <Button
             variant="success"
             onClick={() => table.setPageIndex(0)}

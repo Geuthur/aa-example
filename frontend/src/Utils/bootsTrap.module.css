@@ -15,6 +15,10 @@
     pointer-events: none;
 }
 
+.tooltip-z-index:global(.tooltip) {
+    z-index: 9999 !important;
+}
+
 .tooltip span {
     white-space: nowrap;
 }

@@ -64,17 +64,18 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/example/api/modify/user/settings/": {
+    "/example/api/settings/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /** Modify User Settings */
-        post: operations["example_api_general_modify_user_settings"];
+        /** Get current user's settings */
+        get: operations["example_api_general_get_user_settings"];
+        /** Update current user's settings */
+        put: operations["example_api_general_update_user_settings"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -178,7 +179,6 @@ export interface components {
          *         alliance_name (str | None): The name of the alliance associated with the user, if any.
          *         portrait (str | None): The URL or path to the character's portrait image.
          *         is_admin (boolean): The admin status for the user.
-         *         notification (boolean): The notification status for the user.
          */
         UserData: {
             /** User Id */
@@ -202,8 +202,16 @@ export interface components {
              * @default false
              */
             is_admin: boolean;
-            /** Notification */
-            notification: boolean;
+        };
+        /** UserSettingsSchema */
+        UserSettingsSchema: {
+            /** Disable Notifications */
+            disable_notifications: boolean;
+        };
+        /** UserSettingsUpdateRequest */
+        UserSettingsUpdateRequest: {
+            /** Disable Notifications */
+            disable_notifications: boolean;
         };
     };
     responses: never;
@@ -296,7 +304,7 @@ export interface operations {
             };
         };
     };
-    example_api_general_modify_user_settings: {
+    example_api_general_get_user_settings: {
         parameters: {
             query?: never;
             header?: never;
@@ -311,13 +319,11 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["UserSettingsSchema"];
                 };
             };
-            /** @description Bad Request */
-            400: {
+            /** @description Forbidden */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -325,6 +331,30 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    example_api_general_update_user_settings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserSettingsUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserSettingsSchema"];
                 };
             };
             /** @description Forbidden */

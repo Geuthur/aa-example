@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 
 # AA Example
 # AA Belt Radar
-from example import __title__, forms
+from example import __title__
 from example.api import schema
 from example.helpers.eveonline import get_character_portrait_url
 from example.models.general import UserSettings
@@ -47,7 +47,7 @@ class ApiEndpoints:
             tags=self.tags,
         )
         def get_user(request):
-            if not request.user.has_perm("killstats.basic_access"):
+            if not request.user.has_perm("example.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             try:
@@ -75,8 +75,7 @@ class ApiEndpoints:
                 else None
             )
 
-            settings = UserSettings.objects.get_or_create(user=request.user)[0]
-            is_admin = bool(request.user.has_perm("example.admin_access"))
+            is_admin = bool(request.user.has_perm("example.full_access"))
 
             return HTTPStatus.OK, schema.UserData(
                 user_id=request.user.id,
@@ -87,32 +86,43 @@ class ApiEndpoints:
                 alliance_id=alliance_id,
                 alliance_name=alliance_name,
                 portrait=portrait_url,
-                notification=settings.disable_notifications,
                 is_admin=is_admin,
             )
 
-        @api.post(
-            "modify/user/settings/",
+        @api.get(
+            "settings/",
             response={
-                HTTPStatus.OK: dict,
-                HTTPStatus.BAD_REQUEST: dict,
+                HTTPStatus.OK: schema.UserSettingsSchema,
                 HTTPStatus.FORBIDDEN: dict,
             },
             tags=self.tags,
+            summary="Get current user's settings",
         )
-        def modify_user_settings(request):
+        def get_user_settings(request):
             if not request.user.has_perm("example.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             settings = UserSettings.objects.get_or_create(user=request.user)[0]
+            return schema.UserSettingsSchema(
+                disable_notifications=settings.disable_notifications
+            )
 
-            form = forms.UserSettingsForm(data=request.POST, instance=settings)
-            if form.is_valid():
-                form.save()
-                return HTTPStatus.OK, {
-                    "success": True,
-                    "message": str(_("User settings updated successfully.")),
-                }
+        @api.put(
+            "settings/",
+            response={
+                HTTPStatus.OK: schema.UserSettingsSchema,
+                HTTPStatus.FORBIDDEN: dict,
+            },
+            tags=self.tags,
+            summary="Update current user's settings",
+        )
+        def update_user_settings(request, payload: schema.UserSettingsUpdateRequest):
+            if not request.user.has_perm("example.basic_access"):
+                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
-            msg = _("Invalid input data. Please check the format and try again.")
-            return HTTPStatus.BAD_REQUEST, {"success": False, "message": msg}
+            settings = UserSettings.objects.get_or_create(user=request.user)[0]
+            settings.disable_notifications = payload.disable_notifications
+            settings.save(update_fields=["disable_notifications"])
+            return schema.UserSettingsSchema(
+                disable_notifications=settings.disable_notifications
+            )

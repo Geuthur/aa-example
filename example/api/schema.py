@@ -19,8 +19,6 @@ class UserData(Schema):
         alliance_name (str | None): The name of the alliance associated with the user, if any.
         portrait (str | None): The URL or path to the character's portrait image.
         is_admin (boolean): The admin status for the user.
-        notification (boolean): The notification status for the user.
-
     """
 
     user_id: int
@@ -33,7 +31,14 @@ class UserData(Schema):
     portrait: str | None = None
 
     is_admin: bool = False
-    notification: bool
+
+
+class UserSettingsSchema(Schema):
+    disable_notifications: bool
+
+
+class UserSettingsUpdateRequest(Schema):
+    disable_notifications: bool
 
 
 class DataTableSchema(Schema):

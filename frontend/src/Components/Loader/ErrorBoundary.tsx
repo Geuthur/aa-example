@@ -6,6 +6,9 @@ import type { ErrorInfo } from "react";
 import {withTranslation } from "react-i18next";
 import type { WithTranslation } from "react-i18next";
 
+// Styles
+import styles from "./ErrorBoundary.module.css";
+
 import { ErrorLoader } from "@/Components/Loader/ErrorLoader";
 
 interface Props extends WithTranslation {
@@ -46,8 +49,8 @@ class ErrorBoundary extends Component<Props, State> {
         <>
           <ErrorLoader title={this.state.title} message={this.state.message} />
           <h1>{t("Something went wrong.")}</h1>
-          <div style={{ justifyContent: "center" }} className="d-flex">
-            <pre style={{ maxWidth: "1000px" }} className="border">
+          <div className={`d-flex ${styles["centered"]}`}>
+            <pre className={`border ${styles["trace"]}`}>
               {this.state.trace}
             </pre>
           </div>

@@ -10,9 +10,8 @@ export const FetchingLoader = ({ message, className = '' }: LoaderProps = {}) =>
   return (
     <div className={`${styles['flex-container-loader']} ${className}`}>
       <div
-        className="spinner-border text-info"
+        className={`spinner-border text-info ${styles["spinner"]}`}
         role="status"
-        style={{ width: '2.5rem', height: '2.5rem' }}
       >
         <span className="visually-hidden">Loading...</span>
       </div>

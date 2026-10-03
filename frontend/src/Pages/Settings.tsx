@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Alert from 'react-bootstrap/Alert';
 import { useTranslation } from 'react-i18next';
 
-import { loadUserData, updateUserSettings } from '@/Api/ApiCalls';
+import { loadUserSettings, updateUserSettings } from '@/Api/ApiCalls';
 import { queryKeys } from '@/Api/query';
 import UserSettingsForm from '@/Components/Forms/UserSettingsForm';
 import ErrorLoader from '@/Components/Loader/ErrorLoader';
@@ -20,18 +20,18 @@ function Settings() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: queryKeys.User,
-        queryFn: loadUserData,
+        queryKey: queryKeys.UserSettings,
+        queryFn: loadUserSettings,
         refetchOnWindowFocus: false,
     });
 
     const mutation = useMutation({
         mutationFn: (disableNotifications: boolean) =>
             updateUserSettings({ disable_notifications: disableNotifications }),
-        onSuccess: (result) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.User });
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.UserSettings });
             setErrorMessage(null);
-            setSuccessMessage(result.message ?? t("Settings saved successfully."));
+            setSuccessMessage(t("Settings saved successfully."));
         },
         onError: (err: unknown) => {
             setSuccessMessage(null);
@@ -71,8 +71,8 @@ function Settings() {
 
                     {!isLoading && !isError && data && (
                         <UserSettingsForm
-                            key={String(data.user.notification)}
-                            initialDisableNotifications={data.user.notification}
+                            key={String(data.disable_notifications)}
+                            initialDisableNotifications={data.disable_notifications}
                             onSubmit={handleSave}
                             isPending={mutation.isPending}
                         />
