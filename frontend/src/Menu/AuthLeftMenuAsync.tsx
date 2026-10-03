@@ -10,7 +10,7 @@ import { queryKeys } from "@/Api/query";
 import AuthLeftMenu from "@/Menu/AuthLeftMenu";
 import type { MenuLinkItem } from "@/Menu/BaseMenu";
 
-const AuthLeftMenuAsync = () => {
+export const AuthLeftMenuAsync = () => {
   const { t } = useTranslation();
   const menuRoot =
     typeof document !== "undefined" ? document.getElementById("nav-left") : null;
@@ -25,7 +25,7 @@ const AuthLeftMenuAsync = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const { data: menuData } = useQuery({
+  const { data: menuData, isLoading: isMenuLoading } = useQuery({
     queryKey: queryKeys.Menu,
     queryFn: () => loadMenu(),
     staleTime: 5 * 60 * 1000,
@@ -80,7 +80,7 @@ const AuthLeftMenuAsync = () => {
   return ReactDOM.createPortal(
     <AuthLeftMenu
       error={Boolean(userError)}
-      isLoading={isUserLoading}
+      isLoading={isUserLoading || isMenuLoading}
       data={links}
     />,
     menuRoot,

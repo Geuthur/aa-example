@@ -18,7 +18,7 @@ const AuthBase = () => {
       <AuthLeftMenuAsync />
       <AuthRightMenuAsync />
       <Col>
-        <div className="mt-4 tw-priority">
+        <div className="aa-section mt-4 tw-priority">
           <ErrorBoundary>
             <Outlet /> {/* Render the Children here */}
           </ErrorBoundary>
