@@ -33,7 +33,7 @@ ______________________________________________________________________
 
 - **Modern React SPA Frontend**:
   - React 19, TypeScript, and Vite build pipeline
-  - Tailwind CSS v4 styling, custom sci-fi theme variables, and responsive layouts
+  - AllianceAuth CSS styling, shared design tokens, and responsive layouts
   - Lucide icons (`lucide-react`) and status indicators (`LiveStatusIndicator`, `SecurityBadge`)
   - TanStack Query (`@tanstack/react-query`) for cached state management & TanStack Table (`@tanstack/react-table`) for sortable, searchable data tables
   - Full internationalization (`i18next` / `react-i18next`) with translations for 12 languages
@@ -151,7 +151,7 @@ The user interface of AA Example is built as a modern React Single-Page Applicat
 ### Tech Stack<a name="tech-stack"></a>
 
 - **Framework**: React 19, TypeScript
-- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), Tailwind CSS v4 (`@tailwindcss/vite`)
+- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), AllianceAuth styles from `frontend/src/index.css`
 - **UI Components & Icons**: React-Bootstrap, Lucide Icons (`lucide-react`)
 - **Data & Tables**: TanStack React Query (`@tanstack/react-query`), TanStack Table (`@tanstack/react-table`)
 - **API Client**: `openapi-fetch` with types generated via `openapi-typescript`

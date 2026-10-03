@@ -26,7 +26,7 @@ describe('SecurityBadge', () => {
         const badge = container.querySelector('.sec-badge');
 
         // Expected Result
-        expect(badge?.className).toContain('text-emerald-400');
+        expect(badge?.className).toContain('aa-badge-hisec');
     });
 
     it('should apply lowsec colors for security between 0.1 and 0.4', () => {
@@ -38,7 +38,7 @@ describe('SecurityBadge', () => {
         const badge = container.querySelector('.sec-badge');
 
         // Expected Result
-        expect(badge?.className).toContain('text-amber-400');
+        expect(badge?.className).toContain('aa-badge-lowsec');
     });
 
     it('should apply nullsec colors for security <= 0.0', () => {
@@ -50,7 +50,7 @@ describe('SecurityBadge', () => {
         const badge = container.querySelector('.sec-badge');
 
         // Expected Result
-        expect(badge?.className).toContain('text-rose-400');
+        expect(badge?.className).toContain('aa-badge-nullsec');
     });
 
     it('should include additional custom className when provided', () => {

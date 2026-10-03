@@ -111,15 +111,13 @@ const BaseTable = <TData, TValue = unknown>({
 
     return (
       <div
-        className={`mt-2 rounded-xl shadow-lg overflow-hidden border border-zinc-700/80 bg-zinc-900/60 backdrop-blur-md ${className ?? ""}`}
+        className={`aa-table-shell ${className ?? ""}`}
       >
-        <div className="overflow-x-auto">
+        <div className="aa-table-scroll">
           <table
-            className={`w-full text-left text-xs font-mono-tech ${tableClassName ?? ""}`}
+            className={`aa-table ${tableClassName ?? ""}`}
           >
-            <thead
-              className="bg-[#0b0e14] border-b border-zinc-700/80 text-zinc-400 uppercase text-[11px] font-hud tracking-wider"
-            >
+            <thead className="aa-table-head">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
@@ -130,22 +128,22 @@ const BaseTable = <TData, TValue = unknown>({
                         key={header.id}
                         colSpan={header.colSpan}
                         onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
-                        className={`py-3 px-4 ${
+                        className={`aa-table-heading-cell ${
                           canSort
-                            ? "cursor-pointer select-none group transition-colors hover:text-emerald-400"
+                            ? "aa-table-sortable"
                             : ""
                         }`}
                       >
-                        <div className="flex items-center gap-1.5">
+                        <div className="aa-table-heading">
                           {flexRender(header.column.columnDef.header, header.getContext())}
                           {canSort && (
                             <span>
                               {isSorted === "asc" ? (
-                                <ChevronUp className="w-3.5 h-3.5 text-emerald-400" />
+                                <ChevronUp className="aa-table-sort-icon aa-table-sort-icon-active" />
                               ) : isSorted === "desc" ? (
-                                <ChevronDown className="w-3.5 h-3.5 text-emerald-400" />
+                                <ChevronDown className="aa-table-sort-icon aa-table-sort-icon-active" />
                               ) : (
-                                <ArrowUpDown className="w-3 h-3 transition-colors text-zinc-600 group-hover:text-zinc-400" />
+                                <ArrowUpDown className="aa-table-sort-icon" />
                               )}
                             </span>
                           )}
@@ -156,12 +154,12 @@ const BaseTable = <TData, TValue = unknown>({
                 </tr>
               ))}
             </thead>
-            <tbody className="divide-y divide-zinc-800/80">
+            <tbody className="aa-table-body">
               {isError ? (
                 <tr>
                   <td
                     colSpan={table.getVisibleLeafColumns().length}
-                    className="py-10 text-center text-zinc-400 font-mono-tech"
+                    className="aa-table-message"
                   >
                     {t("Something went wrong.")}
                   </td>
@@ -170,7 +168,7 @@ const BaseTable = <TData, TValue = unknown>({
                 <tr>
                   <td
                     colSpan={table.getVisibleLeafColumns().length}
-                    className="py-10 text-center text-zinc-400 font-mono-tech"
+                    className="aa-table-message"
                   >
                     {emptyText ?? t("No Data Available")}
                   </td>
@@ -179,16 +177,16 @@ const BaseTable = <TData, TValue = unknown>({
                 rows.map((row) => (
                   <tr
                     key={row.id}
-                    className={`transition-colors ${
+                    className={`aa-table-row ${
                       getRowClassName
                         ? getRowClassName(row)
-                        : "hover:bg-zinc-800/50"
+                        : "aa-table-row-hover"
                     }`}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className={`py-3 px-4 text-zinc-300 ${styles["cell-middle"]}`}
+                        className={`aa-table-cell ${styles["cell-middle"]}`}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
@@ -201,18 +199,16 @@ const BaseTable = <TData, TValue = unknown>({
         </div>
 
         {/* DataTable Footer Controls */}
-        <div
-          className="flex flex-col sm:flex-row items-center justify-between p-3.5 border-t border-zinc-700/80 font-mono-tech text-xs text-zinc-400 gap-3 bg-[#0b0e14]/90"
-        >
+        <div className="aa-table-footer">
           {/* Page Size Selector & Count Indicator */}
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-            <div className="flex items-center gap-2">
+          <div className="aa-table-controls">
+            <div className="aa-table-page-size">
               <span>{t("Page Size:")}</span>
               <Form.Select
                 size="sm"
                 value={pageSize}
                 onChange={(e) => table.setPageSize(Number(e.target.value))}
-                className={`bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono-tech py-1 px-2 rounded focus:outline-none focus:border-emerald-500 cursor-pointer ${styles["page-size-select"]}`}
+                className={`aa-table-select ${styles["page-size-select"]}`}
               >
                 {pageSizeOptions.map((size) => (
                   <option key={size} value={size}>
@@ -224,7 +220,7 @@ const BaseTable = <TData, TValue = unknown>({
             </div>
 
             {totalCount > 0 && (
-              <span className="text-[11px] text-zinc-400">
+              <span className="aa-table-count">
                 {pageSize >= 1000000
                   ? t("Showing all {{total}} {{items}}", {
                       total: totalCount,
@@ -242,27 +238,27 @@ const BaseTable = <TData, TValue = unknown>({
 
           {/* Pagination Buttons */}
           {pageCount > 1 && (
-            <div className="flex items-center gap-1.5">
+            <div className="aa-table-pagination">
               <Button
                 size="sm"
                 disabled={!table.getCanPreviousPage()}
                 onClick={() => table.setPageIndex(0)}
-                className="p-1.5 text-xs rounded bg-zinc-900 border border-zinc-700 hover:bg-zinc-800 text-zinc-300 disabled:opacity-40 cursor-pointer transition-colors"
+                className="aa-table-page-button"
                 title={t("First Page")}
               >
-                <ChevronFirst className="w-3.5 h-3.5" />
+                <ChevronFirst className="aa-table-page-icon" />
               </Button>
               <Button
                 size="sm"
                 disabled={!table.getCanPreviousPage()}
                 onClick={() => table.previousPage()}
-                className="p-1.5 text-xs rounded bg-zinc-900 border border-zinc-700 hover:bg-zinc-800 text-zinc-300 disabled:opacity-40 cursor-pointer transition-colors"
+                className="aa-table-page-button"
                 title={t("Previous Page")}
               >
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <ChevronLeft className="aa-table-page-icon" />
               </Button>
 
-              <span className="px-2 font-semibold text-[11px] text-zinc-300">
+              <span className="aa-table-page-number">
                 {t("Page {{page}} of {{total}}", {
                   page: pageIndex + 1,
                   total: pageCount,
@@ -273,19 +269,19 @@ const BaseTable = <TData, TValue = unknown>({
                 size="sm"
                 disabled={!table.getCanNextPage()}
                 onClick={() => table.nextPage()}
-                className="p-1.5 text-xs rounded bg-zinc-900 border border-zinc-700 hover:bg-zinc-800 text-zinc-300 disabled:opacity-40 cursor-pointer transition-colors"
+                className="aa-table-page-button"
                 title={t("Next Page")}
               >
-                <ChevronRight className="w-3.5 h-3.5" />
+                <ChevronRight className="aa-table-page-icon" />
               </Button>
               <Button
                 size="sm"
                 disabled={!table.getCanNextPage()}
                 onClick={() => table.setPageIndex(pageCount - 1)}
-                className="p-1.5 text-xs rounded bg-zinc-900 border border-zinc-700 hover:bg-zinc-800 text-zinc-300 disabled:opacity-40 cursor-pointer transition-colors"
+                className="aa-table-page-button"
                 title={t("Last Page")}
               >
-                <ChevronLast className="w-3.5 h-3.5" />
+                <ChevronLast className="aa-table-page-icon" />
               </Button>
             </div>
           )}

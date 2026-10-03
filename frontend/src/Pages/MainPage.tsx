@@ -1,13 +1,18 @@
+// React
+import { Link } from "react-router-dom"
+
 import BaseSectionHeader from "@/Components/Sections/BaseHeader"
 
-// Third Party
 function MainPage() {
 	return (
 		<main>
 			<BaseSectionHeader />
 			<section className="mt-3 aa-panel">
-				<div>
+				<div className="d-flex align-items-center justify-content-between gap-3">
 					<span>Example Content</span>
+					<Link className="btn btn-sm btn-outline-light" to="styleguide/">
+						Style Guide
+					</Link>
 				</div>
 			</section>
 		</main>

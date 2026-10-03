@@ -51,9 +51,9 @@ export function LiveStatusIndicator({
     showTimestamp = false,
     timestampPrefix = '↻',
     pingDuration = 2000,
-    className = 'inline-flex items-center gap-1.5',
+    className = 'aa-status-indicator',
     dotClassName = '',
-    textClassName = 'font-mono-tech text-xs text-zinc-400',
+    textClassName = 'aa-status-text',
     children,
 }: LiveStatusProps) {
     const { t } = useTranslation();
@@ -80,17 +80,17 @@ export function LiveStatusIndicator({
                 tooltipText,
                 <span className={className}>
                     {/* Status Dot */}
-                    <span className={`relative flex h-2 w-2 shrink-0 ${dotClassName}`}>
+                    <span className={`aa-status-dot ${dotClassName}`}>
                         {isError ? (
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                            <span className="aa-status-dot-fill aa-status-dot-error" />
                         ) : isBusy ? (
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+                            <span className="aa-status-dot-fill aa-status-dot-busy" />
                         ) : (
                             <>
                                 {pinging && (
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                                    <span className="aa-status-ping" />
                                 )}
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                                <span className="aa-status-dot-fill aa-status-dot-ready" />
                             </>
                         )}
                     </span>
@@ -100,7 +100,7 @@ export function LiveStatusIndicator({
 
                     {/* Optional Timestamp */}
                     {showTimestamp && (
-                        <span className={isError ? 'font-mono-tech text-xs text-red-400 font-semibold' : textClassName}>
+                        <span className={isError ? 'aa-status-text aa-status-text-error' : textClassName}>
                             {isError
                                 ? t('Fehler')
                                 : isBusy

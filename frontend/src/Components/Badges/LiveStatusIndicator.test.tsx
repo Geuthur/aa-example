@@ -17,7 +17,7 @@ describe('LiveStatusIndicator', () => {
         const { container } = render(<LiveStatusIndicator dataUpdatedAt={Date.now()} />);
 
         // Test Action
-        const greenDot = container.querySelector('.bg-emerald-500');
+        const greenDot = container.querySelector('.aa-status-dot-ready');
 
         // Expected Result
         expect(greenDot).toBeTruthy();
@@ -28,7 +28,7 @@ describe('LiveStatusIndicator', () => {
         const { container } = render(<LiveStatusIndicator isLoading={true} />);
 
         // Test Action
-        const amberDot = container.querySelector('.bg-amber-500.animate-pulse');
+        const amberDot = container.querySelector('.aa-status-dot-busy');
 
         // Expected Result
         expect(amberDot).toBeTruthy();
@@ -39,7 +39,7 @@ describe('LiveStatusIndicator', () => {
         const { container } = render(<LiveStatusIndicator isError={true} />);
 
         // Test Action
-        const redDot = container.querySelector('.bg-red-500');
+        const redDot = container.querySelector('.aa-status-dot-error');
 
         // Expected Result
         expect(redDot).toBeTruthy();
@@ -54,7 +54,7 @@ describe('LiveStatusIndicator', () => {
 
         // Expected Result
         expect(errorText).toBeTruthy();
-        expect(errorText.className).toContain('text-red-400');
+        expect(errorText.className).toContain('aa-status-text-error');
     });
 
     it('should render children when passed', () => {

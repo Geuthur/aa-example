@@ -30,6 +30,7 @@ Section Order:
 
 ### Added
 
+- Frontend style guide route with AllianceAuth utility previews and both table variants.
 - React SPA frontend (`frontend/`):
   - Vite + React 19 + TypeScript build pipeline with Vitest unit tests
   - Bundle optimization and vendor chunk splitting (`@vendor`, `@react-libs`, `@bootstrap-libs`, `@lang-libs`)
@@ -58,7 +59,6 @@ Section Order:
   - Added `[testenv:react]` to execute frontend unit tests
 - Agent development rules under `.agents/rules/` (API, Git commits & changelog, planning, React, and testing guidelines)
 - Frontend dependencies:
-  - Installed Tailwind CSS (`tailwindcss`, `@tailwindcss/vite`)
   - Installed `lucide-react` for UI icons
 - Frontend Badges & Indicators (`frontend/src/Components/Badges/`):
   - `LiveStatusIndicator` component with status dot animation, timestamp tooltips, and unit tests
@@ -83,6 +83,7 @@ Section Order:
 
 ### Changed
 
+- Removed Tailwind utility classes from the React frontend in favor of AllianceAuth CSS classes and design tokens.
 - Ninja API:
   - Menu API (`/example/api/menu/`):
     - Changed endpoint path from `/example/api/view/menu/` to `/example/api/menu/`
@@ -95,8 +96,8 @@ Section Order:
 - Frontend Components & Styling:
   - `BaseTable`: Enhanced styling, compact mode, responsive layout, and improved table helper utilities (`tableHelper.tsx`)
   - `BaseMenu` and `Base.tsx`: Integrated left and right navigation menus, external links, and admin permission handling
-  - Replaced `App.css` with `index.css` incorporating Tailwind CSS styles, sci-fi theme variables, and custom scrollbars
-  - Updated `vite.config.ts` with Tailwind CSS plugin and `@` path alias
+  - Replaced `App.css` with `index.css` containing AllianceAuth design tokens, sci-fi theme variables, and custom scrollbars
+  - Updated `vite.config.ts` with the `@` path alias
 - Standard View is React based
 - Updated `tox.ini` to include development environment for `allianceauth` and frontend test runner
 - Updated `.github/workflows/autotester.yml` to require frontend checks before `test-coverage`

@@ -25,7 +25,7 @@ class ApiEndpoints:
                 HTTPStatus.OK: schema.MenuSchema,
             },
             tags=self.tags,
-            summary="Get Killstats navigation menu",
+            summary="Get Example navigation menu",
         )
         def get_menu(request):  # pylint: disable=unused-argument
             left_menu: list[schema.MenuLink] = []
