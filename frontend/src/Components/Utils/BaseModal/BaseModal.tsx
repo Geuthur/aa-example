@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { ModalSize } from "@/Components/Modals/BaseModal/BaseModalProps";
-import type { ModalData } from "@/Components/Modals/BaseModal/BaseModalProps";
+import { ModalSize } from "@/Components/Utils/BaseModal/BaseModalProps";
+import type { ModalData } from "@/Components/Utils/BaseModal/BaseModalProps";
 
 type FormData = Record<string, string | boolean>;
 

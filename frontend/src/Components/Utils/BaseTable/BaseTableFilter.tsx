@@ -7,7 +7,7 @@ import { Button, Dropdown, Form, OverlayTrigger, Popover } from "react-bootstrap
 import { useTranslation } from "react-i18next";
 
 // Styles
-import Styles from "@/Components/Tables/BaseTable/BaseTableFilter.module.css";
+import Styles from "@/Components/Utils/BaseTable/BaseTableFilter.module.css";
 
 // Lets a column supply a nicer label for its own SelectFilter options than
 // the raw underlying value (e.g. the wallet table's ref_type column, whose
@@ -73,15 +73,13 @@ export const NumberFilter = <TData,>({ column }: { column: Column<TData, unknown
             placeholder={t("Set Range")}
             value={
               typeof fromToNumber?.[0] != "undefined" || typeof fromToNumber?.[1] != "undefined"
-                ? `${
-                    typeof fromToNumber?.[0] === "undefined" || fromToNumber?.[0] === ""
-                      ? "-∞"
-                      : fromToNumber?.[0].toLocaleString()
-                  }${` ${t("to")} `}${
-                    typeof fromToNumber?.[1] === "undefined" || fromToNumber?.[1] === ""
-                      ? "∞"
-                      : fromToNumber?.[1].toLocaleString()
-                  }`
+                ? `${typeof fromToNumber?.[0] === "undefined" || fromToNumber?.[0] === ""
+                  ? "-∞"
+                  : fromToNumber?.[0].toLocaleString()
+                }${` ${t("to")} `}${typeof fromToNumber?.[1] === "undefined" || fromToNumber?.[1] === ""
+                  ? "∞"
+                  : fromToNumber?.[1].toLocaleString()
+                }`
                 : ""
             }
           />

@@ -6,7 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { LoaderCircle } from "lucide-react";
 
 import { LiveStatusIndicator, SecurityBadge } from "@/Components/Badges";
-import { BaseTable } from "@/Components/Tables/BaseTable";
+import { BaseTable } from "@/Components/Utils/BaseTable";
 import {
   allianceImageUrl,
   characterImageUrl,

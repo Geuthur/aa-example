@@ -1,5 +1,5 @@
 // Styles
-import styles from "@/Components/Loader/FetchingLoader.module.css";
+import styles from "@/Components/Utils/Loader/FetchingLoader.module.css";
 
 interface LoaderProps {
   message?: string;

@@ -32,10 +32,10 @@ import { Button, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 // Styles
-import styles from "@/Components/Tables/BaseTable/BaseTable.module.css";
+import styles from "@/Components/Utils/BaseTable/BaseTable.module.css";
 
-import BaseHeader from "@/Components/Tables/BaseTable/BaseTableHeader";
-import BasePages from "@/Components/Tables/BaseTable/BaseTablePages";
+import BaseHeader from "@/Components/Utils/BaseTable/BaseTableHeader";
+import BasePages from "@/Components/Utils/BaseTable/BaseTablePages";
 
 const isNumber = <TData,>(cell: Cell<TData, unknown>) => typeof cell.getValue() === "number";
 
@@ -128,11 +128,10 @@ const BaseTable = <TData, TValue = unknown>({
                         key={header.id}
                         colSpan={header.colSpan}
                         onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
-                        className={`aa-table-heading-cell ${
-                          canSort
-                            ? "aa-table-sortable"
-                            : ""
-                        }`}
+                        className={`aa-table-heading-cell ${canSort
+                          ? "aa-table-sortable"
+                          : ""
+                          }`}
                       >
                         <div className="aa-table-heading">
                           {flexRender(header.column.columnDef.header, header.getContext())}
@@ -177,11 +176,10 @@ const BaseTable = <TData, TValue = unknown>({
                 rows.map((row) => (
                   <tr
                     key={row.id}
-                    className={`aa-table-row ${
-                      getRowClassName
-                        ? getRowClassName(row)
-                        : "aa-table-row-hover"
-                    }`}
+                    className={`aa-table-row ${getRowClassName
+                      ? getRowClassName(row)
+                      : "aa-table-row-hover"
+                      }`}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
@@ -223,15 +221,15 @@ const BaseTable = <TData, TValue = unknown>({
               <span className="aa-table-count">
                 {pageSize >= 1000000
                   ? t("Showing all {{total}} {{items}}", {
-                      total: totalCount,
-                      items: itemLabel ?? t("entries"),
-                    })
+                    total: totalCount,
+                    items: itemLabel ?? t("entries"),
+                  })
                   : t("Showing {{start}}-{{end}} of {{total}} {{items}}", {
-                      start: pageIndex * pageSize + 1,
-                      end: Math.min((pageIndex + 1) * pageSize, totalCount),
-                      total: totalCount,
-                      items: itemLabel ?? t("entries"),
-                    })}
+                    start: pageIndex * pageSize + 1,
+                    end: Math.min((pageIndex + 1) * pageSize, totalCount),
+                    total: totalCount,
+                    items: itemLabel ?? t("entries"),
+                  })}
               </span>
             )}
           </div>

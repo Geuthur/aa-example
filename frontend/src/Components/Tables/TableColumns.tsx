@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TFunction } from "i18next";
 
-import { formatNumber } from "@/Components/Tables/BaseTable/tableHelper";
+import { formatNumber } from "@/Components/Utils/BaseTable/tableHelper";
 
 type ExampleRow = {
     name: string;
