@@ -37,7 +37,6 @@ class General(models.Model):
 class UserSettings(models.Model):
     class Meta:
         abstract = True  # Please Remove this to activate this model
-        managed = False
         default_permissions = ()  # Remove standard permissions
 
     user = models.OneToOneField(

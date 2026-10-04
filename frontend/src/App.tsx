@@ -12,7 +12,7 @@ import { initReactI18next } from "react-i18next";
 import { ErrorPage } from "@/Pages/404";
 import AuthBase from "@/Pages/Base";
 import MainPage from "@/Pages/MainPage";
-import Settings from "@/Pages/Settings";
+import SettingsPage from "@/Pages/SettingsPage";
 import StyleGuide from "@/Pages/StyleGuide";
 
 const queryClient = new QueryClient();
@@ -51,7 +51,7 @@ function App() {
               <Route path={`/${ProjectName}/`} element={<AuthBase />}>
                 <Route index element={<MainPage />} />
                 <Route path="styleguide/" element={<StyleGuide />} />
-                <Route path="settings/" element={<Settings />} />
+                <Route path="settings/" element={<SettingsPage />} />
                 <Route path="*" element={<ErrorPage />} />
               </Route>
               <Route path="*" element={<Navigate to={`/${ProjectName}/`} replace />} />

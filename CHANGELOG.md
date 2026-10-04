@@ -107,9 +107,12 @@ Section Order:
 - Reorganized navigation templates (moved from `partials/navigation/` to `navigation/`)
 - Updated `example/views.py` and `example/urls.py` to route and serve the React base app and settings view
 - Updated `README.md` with React SPA frontend documentation, Makefile targets, and missing `General` model permissions (`full_access`)
+- Switched settings route in `App.tsx` to use `SettingsPage.tsx` with dedicated CSS Module styling and optimistic TanStack Query mutation
+- Added `setupTests.ts` with Vitest DOM cleanup and jest-dom matchers
 
 ### Removed
 
+- Removed legacy `Settings.tsx` page component in favor of `SettingsPage.tsx`
 - Obsolete Django `UserSettingsForm`; settings are now validated by the typed JSON API.
 - Deprecated navigation partial template `example/templates/example/partials/navigation/navigation.html`
 
