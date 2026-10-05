@@ -30,7 +30,9 @@ Section Order:
 
 ### Added
 
-- Frontend style guide route with AllianceAuth utility previews and both table variants.
+- Alternative table styling `aa-table-light` and `aa-table-shell-light` (`variant="vowra-light"`) optimized for modals and containers with `aa-panel` backgrounds.
+- Showcase section and interactive modal preview for `aa-table-light` in the Style Guide.
+- Frontend style guide route with AllianceAuth utility previews and table variants.
 - React SPA frontend (`frontend/`):
   - Vite + React 19 + TypeScript build pipeline with Vitest unit tests
   - Bundle optimization and vendor chunk splitting (`@vendor`, `@react-libs`, `@bootstrap-libs`, `@lang-libs`)

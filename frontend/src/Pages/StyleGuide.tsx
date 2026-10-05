@@ -4,8 +4,10 @@ import { useState } from "react";
 // Third Party
 import type { ColumnDef } from "@tanstack/react-table";
 import { LoaderCircle } from "lucide-react";
+import { Button } from "react-bootstrap";
 
 import { LiveStatusIndicator, SecurityBadge } from "@/Components/Badges";
+import { BaseModal } from "@/Components/Utils/BaseModal";
 import { BaseTable } from "@/Components/Utils/BaseTable";
 import {
   allianceImageUrl,
@@ -65,6 +67,7 @@ const imageSamples = [
 
 function StyleGuide() {
   const [activeTab, setActiveTab] = useState("Overview");
+  const [showModalTable, setShowModalTable] = useState(false);
 
   return (
     <main className="d-flex flex-column gap-4">
@@ -217,6 +220,33 @@ function StyleGuide() {
             itemLabel="pilots"
           />
         </div>
+        <div className="mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <h3 className="aa-section-subtitle mb-0">AllianceAuth table (Light / Modal Variant)</h3>
+              <p className="text-secondary small mb-0">
+                Optimized for modals and containers with aa-panel background.
+              </p>
+            </div>
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => setShowModalTable(true)}
+            >
+              Preview in Modal
+            </Button>
+          </div>
+          <div className="aa-panel">
+            <BaseTable
+              variant="vowra-light"
+              columns={columns}
+              data={sampleRows}
+              initialState={{ pagination: { pageSize: 3 } }}
+              pageSizeOptions={[3, 6]}
+              itemLabel="pilots"
+            />
+          </div>
+        </div>
         <div>
           <h3 className="aa-section-subtitle">Bootstrap table</h3>
           <BaseTable
@@ -231,6 +261,38 @@ function StyleGuide() {
           />
         </div>
       </section>
+
+      <BaseModal
+        data={{
+          modal_id: "modal-table-showcase",
+          title: "Modal Table Showcase",
+          text: "Preview table inside modal",
+          icon: "fas fa-table",
+          buttonText: "Confirm",
+          url: "#",
+          color: "primary",
+        }}
+        showModal={showModalTable}
+        setShowModal={setShowModalTable}
+        onApprove={async () => {
+          setShowModalTable(false);
+        }}
+      >
+        <div className="aa-panel">
+          <h4 className="aa-section-subtitle mb-2">Roster in Modal (aa-panel + aa-table-light)</h4>
+          <p className="text-secondary small mb-3">
+            Notice how aa-table-light seamlessly contrasts inside the modal panel without visual clutter.
+          </p>
+          <BaseTable
+            variant="vowra-light"
+            columns={columns}
+            data={sampleRows}
+            initialState={{ pagination: { pageSize: 3 } }}
+            pageSizeOptions={[3, 6]}
+            itemLabel="pilots"
+          />
+        </div>
+      </BaseModal>
     </main>
   );
 }
