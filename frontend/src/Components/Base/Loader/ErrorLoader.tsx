@@ -1,5 +1,5 @@
 // Styles
-import styles from "@/Components/Utils/Loader/ErrorLoader.module.css";
+import styles from "@/Styles/modules/ErrorLoader.module.css";
 
 interface LoaderProps {
   message?: string;

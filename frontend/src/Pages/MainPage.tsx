@@ -1,7 +1,7 @@
 // React
 import { Link } from "react-router-dom"
 
-import BaseSectionHeader from "@/Components/Sections/BaseHeader"
+import BaseSectionHeader from "@/Components/Base/BaseHeader"
 
 function MainPage() {
 	return (

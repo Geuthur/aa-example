@@ -7,7 +7,7 @@ import {
     formatNumber,
     formatRelativeTime,
     renderHtml,
-} from '@/Components/Utils/BaseTable/tableHelper';
+} from '@/Components/Base/BaseTable/tableHelper';
 
 describe('tableHelper functions', () => {
     describe('formatDate', () => {

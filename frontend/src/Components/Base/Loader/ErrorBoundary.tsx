@@ -7,9 +7,9 @@ import { withTranslation } from "react-i18next";
 import type { WithTranslation } from "react-i18next";
 
 // Styles
-import styles from "@/Components/Utils/Loader/ErrorBoundary.module.css";
+import styles from "@/Styles/modules/ErrorBoundary.module.css";
 
-import { ErrorLoader } from "@/Components/Utils/Loader/ErrorLoader";
+import { ErrorLoader } from "@/Components/Base/Loader/ErrorLoader";
 
 interface Props extends WithTranslation {
   children: React.ReactNode;

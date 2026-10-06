@@ -7,8 +7,8 @@ import { LoaderCircle } from "lucide-react";
 import { Button } from "react-bootstrap";
 
 import { LiveStatusIndicator, SecurityBadge } from "@/Components/Badges";
-import { BaseModal } from "@/Components/Utils/BaseModal";
-import { BaseTable } from "@/Components/Utils/BaseTable";
+import { BaseModal, ModalSize } from "@/Components/Base/BaseModal";
+import { BaseTable } from "@/Components/Base/BaseTable";
 import {
   allianceImageUrl,
   characterImageUrl,
@@ -68,6 +68,7 @@ const imageSamples = [
 function StyleGuide() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [showModalTable, setShowModalTable] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   return (
     <main className="d-flex flex-column gap-4">
@@ -228,13 +229,22 @@ function StyleGuide() {
                 Optimized for modals and containers with aa-panel background.
               </p>
             </div>
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => setShowModalTable(true)}
-            >
-              Preview in Modal
-            </Button>
+            <div className="d-flex gap-2">
+              <Button
+                variant="outline-info"
+                size="sm"
+                onClick={() => setShowModalTable(true)}
+              >
+                Preview in Modal
+              </Button>
+              <Button
+                variant="outline-warning"
+                size="sm"
+                onClick={() => setShowConfirmModal(true)}
+              >
+                Preview Confirm Modal
+              </Button>
+            </div>
           </div>
           <div className="aa-panel">
             <BaseTable
@@ -263,20 +273,10 @@ function StyleGuide() {
       </section>
 
       <BaseModal
-        data={{
-          modal_id: "modal-table-showcase",
-          title: "Modal Table Showcase",
-          text: "Preview table inside modal",
-          icon: "fas fa-table",
-          buttonText: "Confirm",
-          url: "#",
-          color: "primary",
-        }}
-        showModal={showModalTable}
-        setShowModal={setShowModalTable}
-        onApprove={async () => {
-          setShowModalTable(false);
-        }}
+        title="Modal Table Showcase"
+        size={ModalSize.extraLarge}
+        show={showModalTable}
+        onHide={() => setShowModalTable(false)}
       >
         <div className="aa-panel">
           <h4 className="aa-section-subtitle mb-2">Roster in Modal (aa-panel + aa-table-light)</h4>
@@ -292,6 +292,25 @@ function StyleGuide() {
             itemLabel="pilots"
           />
         </div>
+      </BaseModal>
+
+      <BaseModal
+        variant="confirm"
+        data={{
+          modal_id: "modal-confirm-showcase",
+          title: "Confirm Modal Showcase",
+          text: "Preview confirm modal",
+          icon: "fas fa-check",
+          buttonText: "Confirm",
+          url: "#",
+          color: "danger",
+        }}
+        size={ModalSize.medium}
+        showModal={showConfirmModal}
+        setShowModal={setShowConfirmModal}
+        onApprove={async () => undefined}
+      >
+        <p className="mb-0">Are you sure you want to run this action?</p>
       </BaseModal>
     </main>
   );

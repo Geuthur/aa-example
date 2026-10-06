@@ -32,10 +32,10 @@ import { Button, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 // Styles
-import styles from "@/Components/Utils/BaseTable/BaseTable.module.css";
+import styles from "@/Styles/modules/BaseTable.module.css";
 
-import BaseHeader from "@/Components/Utils/BaseTable/BaseTableHeader";
-import BasePages from "@/Components/Utils/BaseTable/BaseTablePages";
+import BaseHeader from "@/Components/Base/BaseTable/BaseTableHeader";
+import BasePages from "@/Components/Base/BaseTable/BaseTablePages";
 
 const isNumber = <TData,>(cell: Cell<TData, unknown>) => typeof cell.getValue() === "number";
 
