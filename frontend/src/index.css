@@ -37,6 +37,7 @@
     --aa-color-rose-dark: #4d0218;
     --aa-color-green: #0ed14f;
     --aa-color-red: #cc1130;
+    --aa-color-blue-dark: #0d3f78;
     --aa-color-blue: #2563eb;
     --aa-color-blue-light: #3b82f6;
 
@@ -137,6 +138,14 @@
     letter-spacing: .03em;
 }
 
+.aa-badge-lg {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: var(--aa-font-size-md);
+    font-weight: var(--aa-font-weight-bold);
+    letter-spacing: .05em;
+}
+
 .aa-badge-nullsec {
     background-color: var(--aa-bg-rose-dark);
     color: var(--aa-text-rose-light);
@@ -153,6 +162,36 @@
     background-color: var(--aa-bg-emerald-dark);
     color: var(--aa-text-emerald-light);
     border: 2px solid var(--aa-border-green);
+}
+
+.aa-badge-primary {
+    background-color: var(--aa-color-blue-dark);
+    color: var(--aa-color-white-light);
+    border-color: var(--aa-border-blue);
+}
+
+.aa-badge-secondary {
+    background-color: var(--aa-color-grey);
+    color: var(--aa-color-white-light);
+    border-color: var(--aa-border-light);
+}
+
+.aa-badge-warning {
+    background-color: var(--aa-color-amber-dark);
+    color: var(--aa-color-white-light);
+    border-color: var(--aa-border-amber);
+}
+
+.aa-badge-success {
+    background-color: var(--aa-color-emerald-dark);
+    color: var(--aa-color-white-light);
+    border-color: var(--aa-border-emerald);
+}
+
+.aa-badge-danger {
+    background-color: var(--aa-color-rose-dark);
+    color: var(--aa-color-white-light);
+    border-color: var(--aa-border-rose);
 }
 
 .aa-cursor-pointer {
@@ -348,13 +387,14 @@
 }
 
 .aa-btn-primary {
-    background-color: var(--aa-color-blue);
+    background-color: var(--aa-color-blue-dark);
     color: var(--aa-color-white-light);
 }
 
 .aa-btn-primary:hover:not(:disabled) {
-    background-color: var(--aa-color-blue-light);
-    color: var(--aa-color-white);
+    background-color: var(--aa-color-blue);
+    color: var(--aa-color-black);
+    border-color: var(--aa-color-white);
 }
 
 .aa-btn-secondary {
@@ -365,40 +405,44 @@
 
 .aa-btn-secondary:hover:not(:disabled) {
     background-color: var(--aa-color-grey-light);
-    color: var(--aa-color-white);
+    color: var(--aa-color-black);
+    border-color: var(--aa-color-white);
 }
 
 .aa-btn-success {
     background-color: var(--aa-color-emerald-dark);
-    color: var(--aa-color-emerald-light);
+    color: var(--aa-color-white-light);
     border-color: var(--aa-color-emerald);
 }
 
 .aa-btn-success:hover:not(:disabled) {
     background-color: var(--aa-color-emerald);
-    color: var(--aa-color-white);
+    color: var(--aa-color-black);
+    border-color: var(--aa-color-white);
 }
 
 .aa-btn-warning {
     background-color: var(--aa-color-amber-dark);
-    color: var(--aa-color-amber-light);
+    color: var(--aa-color-white-light);
     border-color: var(--aa-border-amber);
 }
 
 .aa-btn-warning:hover:not(:disabled) {
     background-color: var(--aa-color-amber);
-    color: var(--aa-color-black)
+    color: var(--aa-color-black);
+    border-color: var(--aa-color-white);
 }
 
 .aa-btn-danger {
     background-color: var(--aa-color-rose-dark);
-    color: var(--aa-color-rose-light);
+    color: var(--aa-color-white-light);
     border-color: var(--aa-border-rose);
 }
 
 .aa-btn-danger:hover:not(:disabled) {
     background-color: var(--aa-color-red);
-    color: var(--aa-color-white);
+    color: var(--aa-color-black);
+    border-color: var(--aa-color-white);
 }
 
 .aa-btn-sm {
