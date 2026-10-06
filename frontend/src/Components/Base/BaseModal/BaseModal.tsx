@@ -44,6 +44,35 @@ function ModalShell({
   bodyClassName,
   titleClassName,
 }: ModalShellProps) {
+  // Behalte Inhalte während der Schließen-Animation bei, damit das Modal nicht leer aufblitzt
+  const [cachedContent, setCachedContent] = useState<{
+    title: ReactNode;
+    children: ReactNode;
+    footer: ReactNode | null;
+  }>({
+    title,
+    children,
+    footer,
+  });
+
+  if (show) {
+    if (
+      (title !== undefined && title !== null && title !== cachedContent.title) ||
+      (children !== undefined && children !== null && children !== false && children !== cachedContent.children) ||
+      (footer !== undefined && footer !== cachedContent.footer)
+    ) {
+      setCachedContent({
+        title: title ?? cachedContent.title,
+        children: children ?? cachedContent.children,
+        footer: footer !== undefined ? footer : cachedContent.footer,
+      });
+    }
+  }
+
+  const displayedTitle = show ? title : (cachedContent.title ?? title);
+  const displayedChildren = show ? children : (cachedContent.children ?? children);
+  const displayedFooter = show ? footer : (cachedContent.footer ?? footer);
+
   return (
     <Modal
       show={show}
@@ -59,10 +88,10 @@ function ModalShell({
       dialogClassName={className}
     >
       <Modal.Header closeButton={closeButton}>
-        <Modal.Title className={titleClassName}>{title}</Modal.Title>
+        <Modal.Title className={titleClassName}>{displayedTitle}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className={bodyClassName}>{children}</Modal.Body>
-      {footer !== null && <Modal.Footer>{footer}</Modal.Footer>}
+      <Modal.Body className={bodyClassName}>{displayedChildren}</Modal.Body>
+      {displayedFooter !== null && <Modal.Footer>{displayedFooter}</Modal.Footer>}
     </Modal>
   );
 }
@@ -115,6 +144,8 @@ function ConfirmModal({
   closeText,
   closeVariant = MODAL_DEFAULTS.closeVariant,
   children,
+  onEnter,
+  onExited,
   ...shared
 }: ConfirmModalProps) {
   const { t } = useTranslation();
@@ -122,24 +153,43 @@ function ConfirmModal({
   const [formData, setFormData] = useState<ModalFormData>(initialFormData ?? {});
   const [validated, setValidated] = useState(false);
 
+  // Behalte ModalData während der Exit-Animation bei
+  const [cachedData, setCachedData] = useState(ModalData);
+  if (showModal && ModalData && ModalData !== cachedData) {
+    setCachedData(ModalData);
+  }
+  const effectiveData = showModal ? ModalData : (ModalData ?? cachedData);
+
   const resetState = () => {
     setErrorMessage(null);
     setFormData(initialFormData ?? {});
     setValidated(false);
   };
+
   const handleClose = () => {
-    resetState();
+    // Nicht sofort resetten, damit Formular/Fehler während der Animation sichtbar bleiben
     setShowModal(false);
   };
+
+  const handleEnter = () => {
+    resetState();
+    onEnter?.();
+  };
+
+  const handleExited = () => {
+    resetState();
+    onExited?.();
+  };
+
   const handleApprove = async () => {
     if (validate && !validate(formData)) {
       setValidated(true);
       return;
     }
     try {
-      await onApprove({ url: ModalData.url, formData });
-      // Erfolgreich:
-      handleClose();
+      await onApprove({ url: effectiveData.url, formData });
+      // Erfolgreich: Modal schließen, Reset erfolgt in onExited
+      setShowModal(false);
     } catch (error: unknown) {
       setErrorMessage(error instanceof Error ? error.message : 'An unexpected error occurred.');
     }
@@ -153,11 +203,11 @@ function ConfirmModal({
   const footer = (
     <>
       <Button
-        variant={confirmVariant ?? ModalData.color ?? MODAL_DEFAULTS.confirmVariant}
+        variant={confirmVariant ?? effectiveData.color ?? MODAL_DEFAULTS.confirmVariant}
         disabled={isPending}
         onClick={handleApprove}
       >
-        {isPending ? t("Loading...") : confirmText || ModalData.buttonText || t("Confirm")}
+        {isPending ? t("Loading...") : confirmText || effectiveData.buttonText || t("Confirm")}
       </Button>
       <Button variant={closeVariant} onClick={handleClose}>
         {closeText ?? t("Close")}
@@ -170,8 +220,9 @@ function ConfirmModal({
       {...shared}
       show={showModal}
       onHide={handleClose}
-      onEnter={resetState}
-      title={title ?? ModalData.title}
+      onEnter={handleEnter}
+      onExited={handleExited}
+      title={title ?? effectiveData.title}
       footer={footer}
     >
       {errorMessage && (
@@ -195,10 +246,10 @@ function ConfirmModal({
  * fallen auf `MODAL_DEFAULTS` zurück.
  */
 function BaseModal(props: BaseModalProps) {
-  if (props.variant === "confirm") {
-    return <ConfirmModal {...props} />;
+  if (props.variant === "confirm" || "showModal" in props || "data" in props) {
+    return <ConfirmModal {...(props as ConfirmModalProps)} />;
   }
-  return <DefaultModal {...props} />;
+  return <DefaultModal {...(props as DefaultModalProps)} />;
 }
 
 export default BaseModal;

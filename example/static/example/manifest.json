@@ -1,54 +1,54 @@
 {
-  "_@bootstrap-libs-DUVBvNVX.js": {
-    "file": "react/js/@bootstrap-libs-DUVBvNVX.js",
-    "name": "@bootstrap-libs",
+  "_bootstrap-libs-DUVBvNVX.js": {
+    "file": "react/js/bootstrap-libs-DUVBvNVX.js",
+    "name": "bootstrap-libs",
     "imports": [
       "_rolldown-runtime-CbXtAM7H.js"
     ]
   },
-  "_@lang-libs-BdqZ5c9S.js": {
-    "file": "react/js/@lang-libs-BdqZ5c9S.js",
-    "name": "@lang-libs",
+  "_lang-libs-85iSvJrX.js": {
+    "file": "react/js/lang-libs-85iSvJrX.js",
+    "name": "lang-libs",
     "imports": [
       "_rolldown-runtime-CbXtAM7H.js",
-      "_@bootstrap-libs-DUVBvNVX.js"
+      "_bootstrap-libs-DUVBvNVX.js"
     ]
   },
-  "_@react-libs-BnBqk0vE.js": {
-    "file": "react/js/@react-libs-BnBqk0vE.js",
-    "name": "@react-libs",
+  "_react-libs-Dqz1-Sqi.js": {
+    "file": "react/js/react-libs-Dqz1-Sqi.js",
+    "name": "react-libs",
     "imports": [
       "_rolldown-runtime-CbXtAM7H.js",
-      "_@bootstrap-libs-DUVBvNVX.js"
-    ]
-  },
-  "_@vendor-BpxeAsUs.js": {
-    "file": "react/js/@vendor-BpxeAsUs.js",
-    "name": "@vendor",
-    "imports": [
-      "_rolldown-runtime-CbXtAM7H.js",
-      "_@bootstrap-libs-DUVBvNVX.js",
-      "_@react-libs-BnBqk0vE.js"
+      "_bootstrap-libs-DUVBvNVX.js"
     ]
   },
   "_rolldown-runtime-CbXtAM7H.js": {
     "file": "react/js/rolldown-runtime-CbXtAM7H.js",
     "name": "rolldown-runtime"
   },
+  "_vendor-BPr2LVxk.js": {
+    "file": "react/js/vendor-BPr2LVxk.js",
+    "name": "vendor",
+    "imports": [
+      "_rolldown-runtime-CbXtAM7H.js",
+      "_bootstrap-libs-DUVBvNVX.js",
+      "_react-libs-Dqz1-Sqi.js"
+    ]
+  },
   "index.html": {
-    "file": "react/js/index-6Z6hQeCv.js",
+    "file": "react/js/index-BZsGU7HX.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
       "_rolldown-runtime-CbXtAM7H.js",
-      "_@bootstrap-libs-DUVBvNVX.js",
-      "_@vendor-BpxeAsUs.js",
-      "_@react-libs-BnBqk0vE.js",
-      "_@lang-libs-BdqZ5c9S.js"
+      "_bootstrap-libs-DUVBvNVX.js",
+      "_vendor-BPr2LVxk.js",
+      "_react-libs-Dqz1-Sqi.js",
+      "_lang-libs-85iSvJrX.js"
     ],
     "css": [
-      "react/css/index-iPqi0q9S.css"
+      "react/css/index-DGH4bVen.css"
     ]
   }
 }

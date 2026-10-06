@@ -47,6 +47,8 @@ export interface BaseModalSharedProps {
   titleClassName?: string;
   /** Wird aufgerufen, sobald das Modal angezeigt wird */
   onShow?: () => void;
+  /** Wird aufgerufen, kurz bevor das Modal eingeblendet wird */
+  onEnter?: () => void;
   /** Wird aufgerufen, nachdem das Modal komplett ausgeblendet wurde */
   onExited?: () => void;
 }
