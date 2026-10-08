@@ -1,6 +1,6 @@
 // React
 import React from "react"
-import {  BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 
 // Third Party
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -14,10 +14,9 @@ import AuthBase from "@/Pages/Base";
 import MainPage from "@/Pages/MainPage";
 import SettingsPage from "@/Pages/SettingsPage";
 import StyleGuide from "@/Pages/StyleGuide";
+import { AppName, ProjectName } from "@/configuration";
 
 const queryClient = new QueryClient();
-export const AppName = "aa-example";
-export const ProjectName = "example";
 
 // Read language directly from Django's LANGUAGE_CODE (set as lang="..." on root div)
 const djangoLanguage = typeof document !== "undefined" ? document.getElementById(`${AppName}-root`)?.getAttribute("lang") ?? "en" : "en";
