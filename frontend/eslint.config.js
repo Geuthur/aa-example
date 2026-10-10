@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import importHeadingsRule from '@/eslint-rules/import-headings.js'
-import { ProjectName } from '@/configuration.js'
+import { ProjectName } from '@/configuration'
 
 const importHeadingsPlugin = {
   rules: {
