@@ -142,6 +142,7 @@ class EveCharacterFactory(
         corporation_name (str): The name of the corporation associated with the character.
         corporation_ticker (str): The ticker of the corporation associated with the character.
         character_id (int): The unique ID for the character. If not provided, it will be generated.
+        alliance (EveAllianceInfo, optional): The EveAllianceInfo object associated with the character's corporation. If not provided, it will be derived from the corporation.
         alliance_id (int): The ID of the alliance associated with the character's corporation. If not provided, it will be derived from the corporation.
         alliance_name (str): The name of the alliance associated with the character's corporation. If not provided, it will be derived from the corporation.
         alliance_ticker (str): The ticker of the alliance associated with the character's corporation. If not provided, it will be derived from the corporation.
@@ -150,7 +151,7 @@ class EveCharacterFactory(
     class Meta:
         model = EveCharacter
         django_get_or_create = ("character_id", "character_name")
-        exclude = ("corporation",)
+        exclude = ("corporation", "alliance")
 
     character_name = factory.Faker("name")
     corporation = factory.SubFactory(EveCorporationInfoFactory)
@@ -162,6 +163,8 @@ class EveCharacterFactory(
         lambda obj: obj.corporation.corporation_ticker
     )
 
+    alliance = factory.LazyAttribute(lambda obj: obj.corporation.alliance)
+
     @factory.lazy_attribute
     def character_id(self):
         last_id = (
@@ -172,20 +175,12 @@ class EveCharacterFactory(
 
     @factory.lazy_attribute
     def alliance_id(self):
-        return (
-            self.corporation.alliance.alliance_id if self.corporation.alliance else None
-        )
+        return self.alliance.alliance_id if self.alliance else None
 
     @factory.lazy_attribute
     def alliance_name(self):
-        return (
-            self.corporation.alliance.alliance_name if self.corporation.alliance else ""
-        )
+        return self.alliance.alliance_name if self.alliance else ""
 
     @factory.lazy_attribute
     def alliance_ticker(self):
-        return (
-            self.corporation.alliance.alliance_ticker
-            if self.corporation.alliance
-            else ""
-        )
+        return self.alliance.alliance_ticker if self.alliance else ""
