@@ -28,6 +28,8 @@ Section Order:
 
 <!-- Your changes go here -->
 
+## [1.0.1] - 2026-10-18
+
 ### Added
 
 - Dynamic frontend configuration via `configuration.ts` (`AppName`, `ProjectName`) driving root container mounting, Vite dev proxy, API routes, and table tooltips.
@@ -215,4 +217,5 @@ Section Order:
 [0.0.3]: https://github.com/Geuthur/aa-example/compare/v0.0.2...v0.0.3 "0.0.3"
 [0.0.4]: https://github.com/Geuthur/aa-example/compare/v0.0.3...v0.0.4 "0.0.4"
 [1.0.0]: https://github.com/Geuthur/aa-example/compare/v0.0.4...v1.0.0 "v1.0.0"
-[in development]: https://github.com/Geuthur/aa-example/compare/v1.0.0...HEAD "In Development"
+[1.0.1]: https://github.com/Geuthur/aa-example/compare/v1.0.0...v1.0.1 "v1.0.1"
+[in development]: https://github.com/Geuthur/aa-example/compare/v1.0.1...HEAD "In Development"
