@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AA Example\n"
 "Report-Msgid-Bugs-To: https://weblate.geuthur.de/projects/alliance-auth/aa-example/\n"
-"POT-Creation-Date: 2026-09-10 03:09+0200\n"
+"POT-Creation-Date: 2026-10-18 21:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: example/api/character.py:47
+#: example/api/character.py:47 example/api/general.py:51
+#: example/api/general.py:103 example/api/general.py:121
 msgid "Permission Denied."
 msgstr ""
 
-#: example/models/general.py:13
-msgid "Can access this app, Example"
+#: example/api/general.py:33
+msgid "Settings"
 msgstr ""
 
-#: example/models/general.py:14
-msgid "Can manage Example"
+#: example/models/general.py:30
+msgid "Can access this app"
+msgstr ""
+
+#: example/models/general.py:31
+msgid "Can manage"
+msgstr ""
+
+#: example/models/general.py:32
+msgid "Full access"
 msgstr ""
 
 #: example/templates/example/base.html:5 example/templates/example/base.html:9
-#: example/templates/example/partials/navigation/navigation.html:5
 #: example/templates/example/view-index.html:17
 msgid "Example"
 msgstr ""
