@@ -9,12 +9,13 @@ import Backend from "i18next-http-backend";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 import { initReactI18next } from "react-i18next";
 
+// AA Example
+import { AppName, ProjectName } from "@/configuration";
 import { ErrorPage } from "@/Pages/404";
 import AuthBase from "@/Pages/Base";
 import MainPage from "@/Pages/MainPage";
 import SettingsPage from "@/Pages/SettingsPage";
 import StyleGuide from "@/Pages/StyleGuide";
-import { AppName, ProjectName } from "@/configuration";
 
 const queryClient = new QueryClient();
 

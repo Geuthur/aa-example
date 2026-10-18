@@ -9,7 +9,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.test import RequestFactory, TestCase
 
 # AA Example
-from example.tests.testdata.example import UserMainFactory
+from example.tests.testdata.app import UserMainFactory
 
 
 class SocketAccessError(Exception):
@@ -69,3 +69,6 @@ class AuthTestCase(NoSocketsTestCase):
         session_middleware.process_request(request)
         message_middleware = MessageMiddleware(Mock())
         message_middleware.process_request(request)
+
+
+ExampleTestCase = AuthTestCase

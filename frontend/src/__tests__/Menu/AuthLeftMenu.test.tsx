@@ -6,6 +6,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 // AA Example
+import { ProjectName } from '@/configuration';
 import AuthLeftMenu from '@/Menu/AuthLeftMenu';
 
 vi.mock('react-i18next', async (importOriginal) => {
@@ -28,7 +29,7 @@ describe('AuthLeftMenu', () => {
 
         // Test Action
         render(
-            <MemoryRouter initialEntries={['/example/']}>
+            <MemoryRouter initialEntries={[`/${ProjectName}/`]}>
                 <AuthLeftMenu data={testData} isLoading={false} error={false} />
             </MemoryRouter>
         );
@@ -36,11 +37,11 @@ describe('AuthLeftMenu', () => {
         // Expected Result
         const dashboardLink = screen.getByText('Dashboard');
         expect(dashboardLink).toBeDefined();
-        expect(dashboardLink.getAttribute('href')).toBe('/example/dashboard/');
+        expect(dashboardLink.getAttribute('href')).toBe(`/${ProjectName}/dashboard/`);
 
         const settingsLink = screen.getByText('Settings');
         expect(settingsLink).toBeDefined();
-        expect(settingsLink.getAttribute('href')).toBe('/example/settings/');
+        expect(settingsLink.getAttribute('href')).toBe(`/${ProjectName}/settings/`);
     });
 
     it('should render external links with standard href', () => {

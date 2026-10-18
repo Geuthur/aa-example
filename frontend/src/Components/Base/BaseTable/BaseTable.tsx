@@ -31,11 +31,10 @@ import {
 import { Button, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import styles from "@/Styles/modules/BaseTable.module.css";
-
+// AA Example
 import BaseHeader from "@/Components/Base/BaseTable/BaseTableHeader";
 import BasePages from "@/Components/Base/BaseTable/BaseTablePages";
+import styles from "@/Styles/modules/BaseTable.module.css";
 
 const isNumber = <TData,>(cell: Cell<TData, unknown>) => typeof cell.getValue() === "number";
 

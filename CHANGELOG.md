@@ -30,6 +30,8 @@ Section Order:
 
 ### Added
 
+- Dynamic frontend configuration via `configuration.ts` (`AppName`, `ProjectName`) driving root container mounting, Vite dev proxy, API routes, and table tooltips.
+- Alliance Auth Flatly and Darkly theme compatibility with semantic CSS tokens and theme overrides (`html[data-theme="flatly"]`, `html[data-theme="darkly"]`).
 - Alternative table styling `aa-table-light` and `aa-table-shell-light` (`variant="vowra-light"`) optimized for modals and containers with `aa-panel` backgrounds.
 - Showcase section and interactive modal preview for `aa-table-light` in the Style Guide.
 - Frontend style guide route with AllianceAuth utility previews and table variants.
@@ -81,10 +83,17 @@ Section Order:
 
 ### Fixed
 
+- Circular import between `ApiCalls.ts` and `Api.ts` by importing `ProjectName` directly from `@/configuration`.
+- `UserMainFactory` import path in `example/tests/__init__.py`.
+- Missing permission handling during test data generation in `example/tests/testdata/factory.py`.
 - Weblate URL in `CONTRIBUTING.md`
 
 ### Changed
 
+- Replaced all `<main>` and `<section>` container tags across `aa-example` components and pages (`BaseHeader.tsx`, `MainPage.tsx`, `SettingsPage.tsx`, `StyleGuide.tsx`, `404.tsx`) with `react-bootstrap` `Card` (`Card.Body`, `Card.Header`).
+- Dynamic React root container ID in `react_base.html` (`aa-{{ app_name }}-root`).
+- Updated `SettingsPage.module.css` with semantic color tokens (`var(--aa-text-title)`).
+- Updated backend view tests in `test_access.py` to inherit from `AuthTestCase` with tripartite test structure.
 - Removed Tailwind utility classes from the React frontend in favor of AllianceAuth CSS classes and design tokens.
 - Ninja API:
   - Menu API (`/example/api/menu/`):

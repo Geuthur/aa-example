@@ -8,7 +8,8 @@ import i18n from "i18next";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/esm/Tooltip";
 
-// Styles
+// AA Example
+import { AppName } from "@/configuration";
 import styles from "@/Styles/modules/tableHelper.module.css";
 
 /**
@@ -131,7 +132,7 @@ export function renderTooltip(
     <OverlayTrigger
       trigger={["hover", "focus"]}
       overlay={
-        <Tooltip id="aa-example-tooltip" className={styles["tooltip-fixed"]}>
+        <Tooltip id={`${AppName}-tooltip`} className={styles["tooltip-fixed"]}>
           {message}
         </Tooltip>
       }

@@ -4,7 +4,18 @@ import path from 'path'
 import { fileURLToPath } from "url"
 import { defineConfig } from 'vitest/config'
 
+// AA Example
+// Configuration
+import { AppName, ProjectName } from './configuration.js'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const htmlPlugin = () => ({
+    name: 'html-transform',
+    transformIndexHtml(html: string) {
+        return html.replace(/id="[^"]*-root"/, `id="${AppName}-root"`);
+    },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,10 +23,15 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: ['./src/setupTests.ts'],
     },
-    plugins: [react(),],
+    plugins: [react(), htmlPlugin()],
     server: {
         port: 3002,
         proxy: {
+            [`/${ProjectName}/api/`]: {
+                target: "http://localhost:8002",
+                changeOrigin: true,
+                secure: false,
+            },
             "/api/": {
                 target: "http://localhost:8002",
                 changeOrigin: true,

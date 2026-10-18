@@ -2,6 +2,7 @@
 import i18n from 'i18next';
 import { ExternalLink } from 'lucide-react';
 
+// AA Example
 import { renderTooltip } from '@/Utils/bootsTrap';
 
 /**

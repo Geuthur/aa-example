@@ -6,6 +6,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 // AA Example
+import { ProjectName } from '@/configuration';
 import AuthRightMenu from '@/Menu/AuthRightMenu';
 
 vi.mock('react-i18next', async (importOriginal) => {
@@ -27,7 +28,7 @@ describe('AuthRightMenu', () => {
 
         // Test Action
         render(
-            <MemoryRouter initialEntries={['/example/']}>
+            <MemoryRouter initialEntries={[`/${ProjectName}/`]}>
                 <AuthRightMenu data={testData} isLoading={false} error={false} />
             </MemoryRouter>
         );
@@ -35,7 +36,7 @@ describe('AuthRightMenu', () => {
         // Expected Result
         const adminLink = screen.getByText('Admin');
         expect(adminLink).toBeDefined();
-        expect(adminLink.getAttribute('href')).toBe('/example/admin/');
+        expect(adminLink.getAttribute('href')).toBe(`/${ProjectName}/admin/`);
     });
 
     it('should render external links in right menu', () => {

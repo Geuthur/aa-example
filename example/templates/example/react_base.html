@@ -11,7 +11,7 @@
             {% block aaexample_block %}
             {% endblock aaexample_block %}
                 {% get_momentjs_language_code LANGUAGE_CODE as MOMENTJS_LANG_CODE %}
-                <div id="aa-example-root" lang="{{ MOMENTJS_LANG_CODE }}">
+                <div id="aa-{{ app_name }}-root" lang="{{ MOMENTJS_LANG_CODE }}">
                     <!-- React Data -->
                     <div
                         id="error-spinner"
