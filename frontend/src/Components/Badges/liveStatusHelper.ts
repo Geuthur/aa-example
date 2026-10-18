@@ -1,6 +1,7 @@
 // React
 import { useEffect, useRef, useState } from 'react';
 
+// AA Example
 // Voices of War
 import { formatEveTime } from '@/Utils/eveOnline';
 

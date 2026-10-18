@@ -2,14 +2,12 @@
 import React from 'react'
 import ReactDOM from "react-dom/client";
 
-// Configuration
-import { AppName } from "@/configuration.js"
-
-// Styles
-import '@/index.css';
-
+// AA Example
 // App
 import App from '@/App.tsx';
+// Configuration
+import { AppName } from "@/configuration.js"
+import '@/index.css';
 
 const container = document.getElementById(`${AppName}-root`)
 

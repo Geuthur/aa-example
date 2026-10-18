@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 // Third Party
 import type { ModalProps } from "react-bootstrap";
 
+// AA Example
 import type { components } from "@/Api/OpenApi";
 
 export const ModalSize = {

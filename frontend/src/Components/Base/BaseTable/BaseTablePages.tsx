@@ -7,12 +7,11 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import tableStyles from "@/Styles/modules/BaseTable.module.css";
-import pageStyles from "@/Styles/modules/BaseTablePages.module.css";
-
+// AA Example
 import { BaseTableForm } from "@/Components/Base/BaseTable/BaseTableForm";
 import { exportToCSV, renderTooltip } from "@/Components/Base/BaseTable/tableHelper";
+import tableStyles from "@/Styles/modules/BaseTable.module.css";
+import pageStyles from "@/Styles/modules/BaseTablePages.module.css";
 
 export interface TablePagesProps<TData> {
   table: TanStackTable<TData>;

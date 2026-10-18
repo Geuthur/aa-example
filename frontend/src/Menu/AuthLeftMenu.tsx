@@ -1,3 +1,4 @@
+// AA Example
 import { ProjectName } from "@/configuration";
 import { MenuItem } from "@/Menu/BaseMenu";
 import type { MenuLinkItem, MenuProps } from "@/Menu/BaseMenu";

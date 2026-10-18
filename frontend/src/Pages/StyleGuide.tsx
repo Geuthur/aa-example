@@ -4,8 +4,9 @@ import { useState } from "react";
 // Third Party
 import type { ColumnDef } from "@tanstack/react-table";
 import { LoaderCircle } from "lucide-react";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
+// AA Example
 import { LiveStatusIndicator, SecurityBadge } from "@/Components/Badges";
 import { BaseModal, ModalSize } from "@/Components/Base/BaseModal";
 import { BaseTable } from "@/Components/Base/BaseTable";
@@ -71,7 +72,7 @@ function StyleGuide() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   return (
-    <main className="d-flex flex-column gap-4">
+    <Card className="d-flex flex-column gap-4 border-0 bg-transparent">
       <header>
         <h1 className="aa-section-title mb-1">AllianceAuth Style Test</h1>
         <p className="aa-section-subtitle mb-0">
@@ -79,7 +80,7 @@ function StyleGuide() {
         </p>
       </header>
 
-      <section aria-labelledby="showcase-badges-heading">
+      <Card aria-labelledby="showcase-badges-heading" className="border-0 bg-transparent">
         <h2 id="showcase-badges-heading" className="aa-section-title mb-3">
           Badges and status
         </h2>
@@ -107,9 +108,9 @@ function StyleGuide() {
             </article>
           </div>
         </div>
-      </section>
+      </Card>
 
-      <section aria-labelledby="showcase-panels-heading">
+      <Card aria-labelledby="showcase-panels-heading" className="border-0 bg-transparent">
         <h2 id="showcase-panels-heading" className="aa-section-title mb-3">
           Panels and interaction utilities
         </h2>
@@ -181,9 +182,9 @@ function StyleGuide() {
             </div>
           </div>
         </div>
-      </section>
+      </Card>
 
-      <section aria-labelledby="showcase-helpers-heading">
+      <Card aria-labelledby="showcase-helpers-heading" className="border-0 bg-transparent">
         <h2 id="showcase-helpers-heading" className="aa-section-title mb-3">
           EVE helper previews
         </h2>
@@ -202,9 +203,9 @@ function StyleGuide() {
             <span>{formatRelativeTime(new Date("2026-10-03T11:34:56Z"))}</span>
           </div>
         </div>
-      </section>
+      </Card>
 
-      <section aria-labelledby="showcase-tables-heading">
+      <Card aria-labelledby="showcase-tables-heading" className="border-0 bg-transparent">
         <h2 id="showcase-tables-heading" className="aa-section-title mb-1">
           Tables
         </h2>
@@ -270,7 +271,7 @@ function StyleGuide() {
             itemLabel="pilots"
           />
         </div>
-      </section>
+      </Card>
 
       <BaseModal
         title="Modal Table Showcase"
@@ -312,7 +313,7 @@ function StyleGuide() {
       >
         <p className="mb-0">Are you sure you want to run this action?</p>
       </BaseModal>
-    </main>
+    </Card>
   );
 }
 

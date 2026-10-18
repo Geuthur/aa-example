@@ -1,10 +1,8 @@
-# Standard Library
-import secrets
-
 # Third Party
 import factory
 
 # AA Example
+from example import __app_name__
 from example.tests.testdata.factory import (
     EveCharacterFactory,
     UserFactory,
@@ -13,9 +11,9 @@ from example.tests.testdata.utils import add_character_to_user
 
 
 class UserMainFactory(UserFactory):
-    """Generate a User object with a main character and default permissions for Belt Radar."""
+    """Generate a User object with a main character and default permissions for Alliance Auth."""
 
-    permissions__ = ["example.basic_access"]
+    permissions__ = [f"{__app_name__}.basic_access"]
     scopes__ = ["publicData"]
 
     @factory.post_generation

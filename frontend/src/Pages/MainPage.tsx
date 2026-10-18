@@ -1,22 +1,28 @@
 // React
 import { Link } from "react-router-dom"
 
-import BaseSectionHeader from "@/Components/Base/BaseHeader"
+// Third Party
+import { Card } from "react-bootstrap";
+
+// AA Example
+import BaseSectionHeader from "@/Components/Base/BaseHeader";
 
 function MainPage() {
 	return (
-		<main>
+		<Card className="border-0 bg-transparent">
 			<BaseSectionHeader />
-			<section className="mt-3 aa-panel">
-				<div className="d-flex align-items-center justify-content-between gap-3">
-					<span>Example Content</span>
-					<Link className="btn btn-sm btn-outline-light" to="styleguide/">
-						Style Guide
-					</Link>
-				</div>
-			</section>
-		</main>
-	)
+			<Card className="mt-3 aa-panel">
+				<Card.Body className="p-0">
+					<div className="d-flex align-items-center justify-content-between gap-3">
+						<span>Example Content</span>
+						<Link className="btn btn-sm btn-outline-light" to="styleguide/">
+							Style Guide
+						</Link>
+					</div>
+				</Card.Body>
+			</Card>
+		</Card>
+	);
 }
 
 export default MainPage

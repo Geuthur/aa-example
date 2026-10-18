@@ -1,6 +1,7 @@
 // Third Party
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+// AA Example
 import { apiClient } from '@/Api/Api';
 import {
     loadMenu,
@@ -8,6 +9,7 @@ import {
     loadUserSettings,
     updateUserSettings,
 } from '@/Api/ApiCalls';
+import { ProjectName } from '@/configuration';
 
 describe('General API client functions', () => {
     beforeEach(() => {
@@ -25,7 +27,7 @@ describe('General API client functions', () => {
 
             const result = await loadUserData();
             expect(result).toEqual({ user: mockUser });
-            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/user/');
+            expect(apiClient.GET).toHaveBeenCalledWith(`/${ProjectName}/api/user/`);
         });
 
         it('throws error when GET fails or returns no data', async () => {
@@ -40,7 +42,7 @@ describe('General API client functions', () => {
     });
 
     describe('loadMenu', () => {
-        it('calls /example/api/menu/ and returns data', async () => {
+        it('calls loadMenu and returns data', async () => {
             const mockMenu = { left_links: [], right_links: [] };
             vi.spyOn(apiClient, 'GET').mockResolvedValueOnce({
                 data: mockMenu,
@@ -50,7 +52,7 @@ describe('General API client functions', () => {
 
             const result = await loadMenu();
             expect(result).toEqual(mockMenu);
-            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/menu/');
+            expect(apiClient.GET).toHaveBeenCalledWith(`/${ProjectName}/api/menu/`);
         });
     });
 
@@ -65,7 +67,7 @@ describe('General API client functions', () => {
 
             const result = await loadUserSettings();
             expect(result).toEqual(settings);
-            expect(apiClient.GET).toHaveBeenCalledWith('/example/api/settings/');
+            expect(apiClient.GET).toHaveBeenCalledWith(`/${ProjectName}/api/settings/`);
         });
     });
 
@@ -80,7 +82,7 @@ describe('General API client functions', () => {
 
             const result = await updateUserSettings(settings);
             expect(result).toEqual(settings);
-            expect(apiClient.PUT).toHaveBeenCalledWith('/example/api/settings/', {
+            expect(apiClient.PUT).toHaveBeenCalledWith(`/${ProjectName}/api/settings/`, {
                 body: settings,
             });
         });

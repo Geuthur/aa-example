@@ -9,6 +9,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // AA Example
 import * as ApiCalls from "@/Api/ApiCalls";
+import { ProjectName } from "@/configuration";
 import { SettingsPage } from "@/Pages/SettingsPage";
 
 vi.mock("@/Api/ApiCalls", () => ({
@@ -22,7 +23,7 @@ const renderPage = () => {
   });
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/example/settings/"]}>
+      <MemoryRouter initialEntries={[`/${ProjectName}/settings/`]}>
         <SettingsPage />
       </MemoryRouter>
     </QueryClientProvider>,

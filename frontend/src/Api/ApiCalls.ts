@@ -1,6 +1,7 @@
+// AA Example
 import { apiClient } from "@/Api/Api";
 import type { components } from "@/Api/OpenApi";
-import { ProjectName } from '@/App';
+import { ProjectName } from "@/configuration";
 
 export async function loadUserData(): Promise<{ user: components["schemas"]["UserData"] }> {
   const { data, error } = await apiClient.GET(`/${ProjectName}/api/user/`);

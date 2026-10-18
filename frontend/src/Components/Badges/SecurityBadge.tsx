@@ -1,3 +1,4 @@
+// AA Example
 import { getSecColor } from '@/Utils/eveOnline';
 
 interface SecurityBadgeProps {

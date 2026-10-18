@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router";
 import { Nav } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+// AA Example
 import type { components } from "@/Api/OpenApi";
 
 export type MenuLinkItem = components["schemas"]["MenuLink"];

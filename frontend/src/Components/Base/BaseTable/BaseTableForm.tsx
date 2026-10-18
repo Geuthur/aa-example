@@ -3,7 +3,7 @@ import type { Table as TanStackTable } from "@tanstack/react-table";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
+// AA Example
 import styles from "@/Styles/modules/BaseTableForm.module.css";
 
 export function BaseTableForm<TData>({ table }: { table: TanStackTable<TData> }) {
