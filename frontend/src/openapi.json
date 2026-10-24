@@ -53,7 +53,7 @@
     "/example/api/menu/": {
       "get": {
         "operationId": "example_api_general_get_menu",
-        "summary": "Get Killstats navigation menu",
+        "summary": "Get Example navigation menu",
         "parameters": [],
         "responses": {
           "200": {
@@ -256,7 +256,7 @@
         "type": "object"
       },
       "MenuLink": {
-        "description": "Represents a link in the menu.\n\nParameters:\n    name (str): The name of the menu link.\n    link (str | None): The URL or path the menu link points to.\n    is_external (bool): Indicates if the link is an external link.",
+        "description": "Represents a link in the menu.\n\nParameters:\n    name (str): The name of the menu link.\n    link (str | None): The URL or path the menu link points to.\n    is_external (bool): Indicates if the link is an external link.\n    badge (int | None): Number of issues shown as badge next to the link.\n    has_errors (bool): Whether the badge pulses because of active errors.",
         "properties": {
           "name": {
             "title": "Name",
@@ -269,6 +269,22 @@
           "is_external": {
             "default": false,
             "title": "Is External",
+            "type": "boolean"
+          },
+          "badge": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Badge"
+          },
+          "has_errors": {
+            "default": false,
+            "title": "Has Errors",
             "type": "boolean"
           }
         },

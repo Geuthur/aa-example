@@ -5,7 +5,6 @@ import { Outlet } from "react-router";
 // Third Party
 import { Col } from "react-bootstrap";
 
-// AA Example
 import ErrorBoundary from "@/Components/Base/Loader";
 import AuthLeftMenuAsync from "@/Menu/AuthLeftMenuAsync";
 import AuthRightMenuAsync from "@/Menu/AuthRightMenuAsync";
@@ -19,7 +18,7 @@ const AuthBase = () => {
       <AuthLeftMenuAsync />
       <AuthRightMenuAsync />
       <Col>
-        <div className="aa-section mt-4">
+        <div className="aa-react container mt-4">
           <ErrorBoundary>
             <Outlet /> {/* Render the Children here */}
           </ErrorBoundary>

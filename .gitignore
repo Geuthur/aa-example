@@ -2,6 +2,7 @@
 .env
 .tox/
 .venv/
+.esi-compatibility-date
 node_modules/
 __pycache__
 
@@ -16,8 +17,8 @@ __pycache__
 # GitHub Stuff
 .coverage
 .pypirc
-*/build/
-*/dist/
+/build/
+/dist/
 /coverage.xml
 
 # Alliance Auth

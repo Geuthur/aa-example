@@ -1,4 +1,4 @@
-// AA Example
+// Styles
 import styles from "@/Styles/modules/ErrorLoader.module.css";
 
 interface LoaderProps {

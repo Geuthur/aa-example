@@ -37,7 +37,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Killstats navigation menu */
+        /** Get Example navigation menu */
         get: operations["example_api_general_get_menu"];
         put?: never;
         post?: never;
@@ -105,6 +105,8 @@ export interface components {
          *         name (str): The name of the menu link.
          *         link (str | None): The URL or path the menu link points to.
          *         is_external (bool): Indicates if the link is an external link.
+         *         badge (int | None): Number of issues shown as badge next to the link.
+         *         has_errors (bool): Whether the badge pulses because of active errors.
          */
         MenuLink: {
             /** Name */
@@ -116,6 +118,13 @@ export interface components {
              * @default false
              */
             is_external: boolean;
+            /** Badge */
+            badge?: number | null;
+            /**
+             * Has Errors
+             * @default false
+             */
+            has_errors: boolean;
         };
         /**
          * MenuModalSchema

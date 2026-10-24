@@ -3,7 +3,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-// AA Example
 import BaseModal from "@/Components/Base/BaseModal";
 import type { ModalData } from "@/Components/Base/BaseModal";
 

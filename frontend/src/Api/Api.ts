@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import createClient from "openapi-fetch";
 import type { PathsWithMethod } from "openapi-typescript-helpers";
 
-// AA Example
 import type { paths } from "@/Api/OpenApi";
 
 export type GetEndpoint = PathsWithMethod<paths, "get">;

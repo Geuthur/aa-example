@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 // AA Example
 import { renderTooltip, toolTipContainer } from '@/Utils/bootsTrap';
 
-    
+
 
 describe('bootsTrap utils', () => {
     describe('toolTipContainer', () => {

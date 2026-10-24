@@ -1,7 +1,6 @@
 // Third Party
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-// AA Example
 import { apiClient } from '@/Api/Api';
 import {
     loadMenu,
@@ -9,7 +8,7 @@ import {
     loadUserSettings,
     updateUserSettings,
 } from '@/Api/ApiCalls';
-import { ProjectName } from '@/configuration';
+import { ProjectName } from '@/constants';
 
 describe('General API client functions', () => {
     beforeEach(() => {

@@ -1,4 +1,4 @@
-// AA Example
+// Styles
 import styles from "@/Styles/modules/FetchingLoader.module.css";
 
 interface LoaderProps {

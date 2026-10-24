@@ -5,8 +5,7 @@ import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-// AA Example
-import { ProjectName } from '@/configuration';
+import { ProjectName } from '@/constants';
 import AuthRightMenu from '@/Menu/AuthRightMenu';
 
 vi.mock('react-i18next', async (importOriginal) => {

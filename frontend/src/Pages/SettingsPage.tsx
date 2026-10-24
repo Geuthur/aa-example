@@ -7,11 +7,13 @@ import { BellOff, Settings2 } from "lucide-react";
 import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// AA Example
+// Styles
+import styles from "@/Styles/modules/SettingsPage.module.css";
+
 import { loadUserSettings, updateUserSettings } from "@/Api/ApiCalls";
 import { queryKeys } from "@/Api/query";
 import type { UserSettingsSchema } from "@/Api/schema";
-import styles from "@/Styles/modules/SettingsPage.module.css";
+import { FetchingLoader } from "@/Components/Base/Loader";
 
 export const SettingsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -42,16 +44,13 @@ export const SettingsPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="aa-loader-container">
-        <span className="spinner-border" />
-        <span>{t("Loading settings...")}</span>
-      </div>
+      <FetchingLoader message={t("Loading settings...")} />
     );
   }
 
   if (isError || !data) {
     return (
-      <Card className={`aa-panel ${styles["error"]}`} role="alert">
+      <Card className={`bg-dark border-secondary ${styles["error"]}`} role="alert">
         <Card.Body className="p-0">
           {t("Failed to load settings. Please try refreshing the page.")}
         </Card.Body>
@@ -60,7 +59,7 @@ export const SettingsPage: React.FC = () => {
   }
 
   return (
-    <Card className={`aa-panel-light ${styles["page"]}`}>
+    <Card className={`bg-dark border-secondary ${styles["page"]}`}>
       <Card.Body>
         <Card.Header className={`border-0 bg-transparent p-0 ${styles["header"]}`}>
           <Settings2 size={24} aria-hidden="true" />
@@ -70,7 +69,7 @@ export const SettingsPage: React.FC = () => {
           </div>
         </Card.Header>
 
-        <Card className={`aa-panel border-0 shadow-sm mt-3`}>
+        <Card className="bg-body-tertiary border-0 shadow-sm mt-3">
           <Card.Body className={styles["setting-row"]}>
             <div className={styles["setting-copy"]}>
               <div className={styles["setting-title"]}>

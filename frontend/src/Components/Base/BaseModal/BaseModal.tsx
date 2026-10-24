@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// AA Example
 import { MODAL_DEFAULTS } from "@/Components/Base/BaseModal/BaseModalProps";
 import type {
   BaseModalProps,
@@ -87,6 +86,7 @@ function ModalShell({
       backdrop={backdrop}
       restoreFocus={restoreFocus}
       dialogClassName={className}
+      contentClassName="aa-react"
     >
       <Modal.Header closeButton={closeButton}>
         <Modal.Title className={titleClassName}>{displayedTitle}</Modal.Title>
@@ -208,7 +208,7 @@ function ConfirmModal({
         disabled={isPending}
         onClick={handleApprove}
       >
-        {isPending ? t("Loading...") : confirmText || effectiveData.buttonText || t("Confirm")}
+        {isPending ? t("Loading…") : confirmText || effectiveData.buttonText || t("Confirm")}
       </Button>
       <Button variant={closeVariant} onClick={handleClose}>
         {closeText ?? t("Close")}
