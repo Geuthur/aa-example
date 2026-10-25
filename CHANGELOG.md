@@ -36,7 +36,7 @@ Section Order:
 
 ### Changed
 
-- Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`, and the frontend imports `react-router` instead of `react-router-dom`.
+- Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`.
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
 - Formatting helpers are consolidated in `Utils/format.ts` (`formatNumber`, `formatCompactNumber`, `formatIsk`, `formatDate`, `formatRelativeTime`, `formatEta`) with an `en` locale fallback; `renderTooltip` lives in `Utils/bootsTrap.tsx`.
 - The Style Guide, settings and main page use Bootstrap components instead of the custom `aa-panel`, `aa-btn`, `aa-badge` and `aa-section` classes.
