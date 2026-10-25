@@ -1,8 +1,8 @@
 // React
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 // Third Party
-import { Card } from 'react-bootstrap';
+import { Card } from "react-bootstrap";
 
 export interface BaseSectionHeaderProps {
     name?: string;
@@ -11,13 +11,13 @@ export interface BaseSectionHeaderProps {
 
 function BaseSectionHeader({ name = "Header", children }: BaseSectionHeaderProps) {
     return (
-        <Card className="border-0 shadow-sm mb-3" aria-labelledby="session-heading">
-            <Card.Header className="bg-primary text-light rounded d-flex justify-content-between align-items-center">
-                <h3 id="session-heading" className="mb-0">{name}</h3>
-                {children && <div className="text-end d-flex align-items-center gap-2">{children}</div>}
-            </Card.Header>
+        <Card className="bg-dark border-secondary mb-3 shadow-sm">
+            <Card.Body className="d-flex flex-wrap align-items-center justify-content-between p-3">
+                <h3 id="section-heading" className="h4 mb-0 fw-bold">{name}</h3>
+                {children && <div className="d-flex flex-wrap align-items-center gap-2">{children}</div>}
+            </Card.Body>
         </Card>
     );
-};
+}
 
 export default BaseSectionHeader;

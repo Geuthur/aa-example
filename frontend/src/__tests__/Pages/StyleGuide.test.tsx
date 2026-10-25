@@ -1,12 +1,11 @@
 // React
-import { MemoryRouter } from "react-router";
+import { MemoryRouter } from "react-router-dom";
 
 // Third Party
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-// AA Example
 import StyleGuide from "@/Pages/StyleGuide";
 
 vi.mock("react-i18next", () => ({
@@ -14,7 +13,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 describe("StyleGuide", () => {
-  it("renders utility previews and all table variants including light modal variant", () => {
+  it("renders utility previews and both table variants", () => {
     // Test Data
     render(
       <MemoryRouter>
@@ -28,8 +27,8 @@ describe("StyleGuide", () => {
     // Expected Result
     expect(screen.getByRole("heading", { name: "AllianceAuth Style Test" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "EVE helper previews" })).toBeTruthy();
-    expect(tables).toHaveLength(3);
-    expect(screen.getAllByText("Aster Voss")).toHaveLength(3);
+    expect(tables).toHaveLength(2);
+    expect(screen.getAllByText("Aster Voss")).toHaveLength(2);
   });
 
   it("opens modal with light table preview when modal button is clicked", async () => {
@@ -47,6 +46,6 @@ describe("StyleGuide", () => {
 
     // Expected Result
     expect(screen.getByText("Modal Table Showcase")).toBeTruthy();
-    expect(screen.getByText("Roster in Modal (aa-panel + aa-table-light)")).toBeTruthy();
+    expect(screen.getByText("Roster in modal (light variant)")).toBeTruthy();
   });
 });

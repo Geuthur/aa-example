@@ -2,7 +2,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-// AA Example
 import { ErrorPage } from '@/Pages/404';
 
 vi.mock('react-i18next', () => ({

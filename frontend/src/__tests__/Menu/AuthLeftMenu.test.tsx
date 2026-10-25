@@ -1,12 +1,11 @@
 // React
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 // Third Party
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-// AA Example
-import { ProjectName } from '@/configuration';
+import { ProjectName } from '@/constants';
 import AuthLeftMenu from '@/Menu/AuthLeftMenu';
 
 vi.mock('react-i18next', async (importOriginal) => {
@@ -78,5 +77,42 @@ describe('AuthLeftMenu', () => {
 
         // Expected Result
         expect(container.querySelectorAll('li')).toHaveLength(0);
+    });
+
+    it('should render pulsating danger badge when has_errors is true', () => {
+        // Test Data
+        const testData = [
+            { name: 'Settings', link: '/settings/', badge: 2, has_errors: true },
+        ];
+
+        // Test Action
+        render(
+            <MemoryRouter initialEntries={[`/${ProjectName}/`]}>
+                <AuthLeftMenu data={testData} isLoading={false} error={false} />
+            </MemoryRouter>
+        );
+
+        // Expected Result
+        const badge = screen.getByText('2');
+        expect(badge).toHaveClass('badge', 'bg-danger', 'aa-menu-badge-pulse');
+    });
+
+    it('should render static danger badge when has_errors is false', () => {
+        // Test Data
+        const testData = [
+            { name: 'Settings', link: '/settings/', badge: 3, has_errors: false },
+        ];
+
+        // Test Action
+        render(
+            <MemoryRouter initialEntries={[`/${ProjectName}/`]}>
+                <AuthLeftMenu data={testData} isLoading={false} error={false} />
+            </MemoryRouter>
+        );
+
+        // Expected Result
+        const badge = screen.getByText('3');
+        expect(badge).toHaveClass('badge', 'bg-danger');
+        expect(badge).not.toHaveClass('aa-menu-badge-pulse');
     });
 });

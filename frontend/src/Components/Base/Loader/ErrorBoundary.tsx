@@ -3,12 +3,13 @@ import React, { Component } from "react";
 import type { ErrorInfo } from "react";
 
 // Third Party
-import { withTranslation } from "react-i18next";
+import {withTranslation } from "react-i18next";
 import type { WithTranslation } from "react-i18next";
 
-// AA Example
-import { ErrorLoader } from "@/Components/Base/Loader/ErrorLoader";
+// Styles
 import styles from "@/Styles/modules/ErrorBoundary.module.css";
+
+import { ErrorLoader } from "@/Components/Base/Loader/ErrorLoader";
 
 interface Props extends WithTranslation {
   children: React.ReactNode;

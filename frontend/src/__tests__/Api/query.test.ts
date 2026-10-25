@@ -1,7 +1,6 @@
 // Third Party
 import { describe, expect, it } from 'vitest';
 
-// AA Example
 import { queryKeys } from '@/Api/query';
 
 describe('queryKeys', () => {

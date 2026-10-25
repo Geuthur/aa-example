@@ -1,11 +1,10 @@
 // React
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 
 // Third Party
 import { Nav } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// AA Example
 import type { components } from "@/Api/OpenApi";
 
 export type MenuLinkItem = components["schemas"]["MenuLink"];
@@ -60,6 +59,11 @@ export const MenuItem = ({ link, toPath }: { link: MenuLinkItem } & ToPath) => {
                 active={hit}
             >
                 {t(link.name)}
+                {link.badge ? (
+                    <span className={`badge bg-danger ms-1 ${link.has_errors ? "aa-menu-badge-pulse" : ""}`}>
+                        {link.badge}
+                    </span>
+                ) : null}
             </Nav.Link>
         </Nav.Item>
     );

@@ -4,9 +4,6 @@ import type { ReactNode } from "react";
 // Third Party
 import type { ModalProps } from "react-bootstrap";
 
-// AA Example
-import type { components } from "@/Api/OpenApi";
-
 export const ModalSize = {
   small: "sm",
   medium: undefined, // Bootstrap Standardgröße
@@ -15,7 +12,15 @@ export const ModalSize = {
 } as const;
 
 export type ModalSize = (typeof ModalSize)[keyof typeof ModalSize];
-export type ModalData = components['schemas']['ModalSchema']
+export type ModalData = {
+  title: string;
+  text: string;
+  icon: string;
+  modal_id: string;
+  url: string;
+  color?: string | null;
+  buttonText?: string | null;
+};
 
 export type ModalFormData = Record<string, string | boolean>;
 

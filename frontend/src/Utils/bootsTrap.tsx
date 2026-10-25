@@ -2,8 +2,8 @@
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-// AA Example
-import styles from '@/Styles/modules/bootsTrap.module.css';
+// Styles
+import styles from "@/Styles/modules/bootsTrap.module.css";
 
 /**
  * Tooltip notification component
@@ -32,7 +32,7 @@ export function renderTooltip(
             placement="auto"
             trigger={["hover", "focus"]}
             overlay={
-                <Tooltip id="vowra" className={styles["tooltip-z-index"]}>
+                <Tooltip id="vowra" className={`${styles["tooltip-z-index"]} ${styles["tooltip-fixed"]}`}>
                     {message}
                 </Tooltip>
             }
