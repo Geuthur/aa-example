@@ -13,6 +13,8 @@ import factory.fuzzy
 
 # Django
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max
 
 # Alliance Auth
@@ -55,6 +57,17 @@ class UserFactory(factory.django.DjangoModelFactory, metaclass=BaseMetaFactory[U
             return
         permissions = extracted or []
         for permission_name in permissions:
+            # The template models are abstract, so their permissions are never
+            # created by migrations. Create them on demand for the tests only.
+            app_label, codename = permission_name.split(".")
+            content_type, _ = ContentType.objects.get_or_create(
+                app_label=app_label, model="general"
+            )
+            Permission.objects.get_or_create(
+                content_type=content_type,
+                codename=codename,
+                defaults={"name": codename},
+            )
             AuthUtils.add_permission_to_user_by_name(permission_name, obj)
 
     @factory.post_generation
