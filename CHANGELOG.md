@@ -42,6 +42,7 @@ Section Order:
 - The Style Guide, settings and main page use Bootstrap components instead of the custom `aa-panel`, `aa-btn`, `aa-badge` and `aa-section` classes.
 - `General` defines a `Permission` enum with `get_perm`, `has_perm`, `has_any_perm` and `has_management_access`; views, menu hook and API use it instead of hard-coded permission strings.
 - Aligned `.pre-commit-config.yaml`, `.gitignore`, `tox.ini`, `CONTRIBUTING.md` and the issue template configuration with `aa-ledger`.
+- Replaced `pook` with `pookx` in the test dependencies.
 
 ### Removed
 

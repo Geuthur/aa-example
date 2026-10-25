@@ -40,7 +40,7 @@ dependencies = [
 optional-dependencies.tests-allianceauth-latest = [
     "coverage",
     "factory-boy",
-    "pook",
+    "pookx",
 ]
 urls.Changelog = "https://github.com/Geuthur/aa-example/blob/master/CHANGELOG.md"
 urls.Discord = "https://discord.gg/WrHzA4rnxA"
