@@ -2,11 +2,11 @@
 import { useState } from "react";
 
 // Third Party
-import type { ColumnDef } from "@tanstack/react-table";
 import { Badge, Button, Card } from "react-bootstrap";
 
 import { BaseModal, ModalSize } from "@/Components/Base/BaseModal";
 import { BaseTable } from "@/Components/Base/BaseTable";
+import type { BaseColumnDef } from "@/Components/Base/BaseTable/tableFeatures";
 import {
   allianceImageUrl,
   characterImageUrl,
@@ -40,7 +40,7 @@ const sampleRows: ShowcaseRow[] = [
 
 const securityVariant = (sec: number) => (sec >= 0.5 ? "success" : sec > 0 ? "warning" : "danger");
 
-const columns: ColumnDef<ShowcaseRow>[] = [
+const columns: BaseColumnDef<ShowcaseRow>[] = [
   { accessorKey: "pilot", header: "Pilot" },
   { accessorKey: "hull", header: "Ship" },
   { accessorKey: "system", header: "System" },
