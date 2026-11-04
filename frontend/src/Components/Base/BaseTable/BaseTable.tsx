@@ -2,13 +2,15 @@
 import { useLocation } from "react-router-dom";
 
 // Third Party
-import { flexRender, useTable } from "@tanstack/react-table";
+import { flexRender, functionalUpdate, useTable } from "@tanstack/react-table";
 import type {
   OnChangeFn,
+  PaginationState,
   Row,
   RowData,
   RowSelectionState,
   TableState,
+  Updater,
 } from "@tanstack/react-table";
 import {
   ChevronFirst,
@@ -26,14 +28,29 @@ import BaseHeader from "@/Components/Base/BaseTable/BaseTableHeader";
 import BasePages from "@/Components/Base/BaseTable/BaseTablePages";
 import { baseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 import type { BaseColumnDef, BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
+import { FetchingLoader } from "@/Components/Base/Loader/FetchingLoader";
 
 // Like v8's InitialTableState: each slice may be given partially (e.g. only pageSize).
 export type BaseTableInitialState = {
   [K in keyof TableState<BaseTableFeatures>]?: Partial<TableState<BaseTableFeatures>[K]>;
 };
 
+// The server pages the rows: `data` is the current page only and `page` is 1-based.
+// A new page size only calls onPageSizeChange, the caller decides which page to show next.
+export interface BaseTableServerPagination {
+  page: number;
+  pageSize: number;
+  total: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
+  totalText?: string;
+}
+
 export interface BaseTableProps<TData extends RowData, TValue = unknown> {
   isFetching?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
+  serverPagination?: BaseTableServerPagination;
   isError?: boolean;
   debugTable?: boolean;
   striped?: boolean;
@@ -59,6 +76,9 @@ export interface BaseTableProps<TData extends RowData, TValue = unknown> {
 
 const BaseTable = <TData extends RowData, TValue = unknown>({
   isFetching = false,
+  isLoading = false,
+  loadingText,
+  serverPagination,
   isError = false,
   debugTable = false,
   data = [],
@@ -81,6 +101,11 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
   const location = useLocation();
   const { t } = useTranslation();
 
+  const serverState = serverPagination && {
+    pageIndex: serverPagination.page - 1,
+    pageSize: serverPagination.pageSize,
+  };
+
   const table = useTable({
     features: baseTableFeatures,
     data,
@@ -88,7 +113,25 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
     getRowId,
     state: {
       ...(rowSelection !== undefined ? { rowSelection } : {}),
+      ...(serverState ? { pagination: serverState } : {}),
     },
+    // Sorting, filtering and CSV export would only see the current page.
+    ...(serverPagination && serverState
+      ? {
+        manualPagination: true,
+        pageCount: Math.max(1, Math.ceil(serverPagination.total / serverPagination.pageSize)),
+        enableSorting: false,
+        enableColumnFilters: false,
+        onPaginationChange: (updater: Updater<PaginationState>) => {
+          const next = functionalUpdate(updater, serverState);
+          if (next.pageSize !== serverState.pageSize) {
+            serverPagination.onPageSizeChange(next.pageSize);
+          } else if (next.pageIndex !== serverState.pageIndex) {
+            serverPagination.onPageChange(next.pageIndex + 1);
+          }
+        },
+      }
+      : {}),
     onRowSelectionChange,
     enableRowSelection,
     debugTable,
@@ -110,7 +153,10 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
     <div
       className={`aa-table-shell ${isLight ? "aa-table-shell-light aa-table-light" : ""} ${className ?? ""}`}
     >
-      <div className="aa-table-scroll">
+      <div
+        className={`aa-table-scroll ${isLoading && rows.length > 0 ? "aa-table-loading" : ""}`}
+        aria-busy={isLoading}
+      >
         <table
           className={`aa-table ${isLight ? "aa-table-light" : ""} ${tableClassName ?? ""}`}
         >
@@ -125,6 +171,15 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
                   className="aa-table-message"
                 >
                   {t("Something went wrong.")}
+                </td>
+              </tr>
+            ) : isLoading && rows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={table.getVisibleLeafColumns().length}
+                  className="aa-table-message"
+                >
+                  <FetchingLoader message={loadingText} />
                 </td>
               </tr>
             ) : rows.length === 0 ? (
@@ -176,6 +231,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
               <Form.Select
                 size="sm"
                 value={pageSize}
+                disabled={isLoading}
                 onChange={(e) => table.setPageSize(Number(e.target.value))}
                 className={`aa-table-select ${styles["page-size-select"]}`}
               >
@@ -184,19 +240,31 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
                     {size}
                   </option>
                 ))}
-                <option value={1000000}>{t("Show All")}</option>
+                {!serverPagination && <option value={1000000}>{t("Show All")}</option>}
               </Form.Select>
             </div>
+            {serverPagination && (
+              <span className="aa-table-total">
+                {serverPagination.totalText ??
+                  t("Total: {{total}}", { total: serverPagination.total.toLocaleString() })}
+              </span>
+            )}
           </div>
 
-          <BasePages table={table} isFetching={isFetching} fileName={fileName} showPageNumber={true} />
+          <BasePages
+            table={table}
+            isFetching={isFetching}
+            fileName={fileName}
+            showPageNumber={true}
+            showExport={!serverPagination}
+          />
         </div>
         {/* Pagination Buttons */}
         {pageCount > 1 && (
           <div className="aa-table-pagination">
             <Button
               size="sm"
-              disabled={!table.getCanPreviousPage()}
+              disabled={isLoading || !table.getCanPreviousPage()}
               onClick={() => table.setPageIndex(0)}
               className="aa-table-page-button"
               title={t("First Page")}
@@ -205,7 +273,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
             </Button>
             <Button
               size="sm"
-              disabled={!table.getCanPreviousPage()}
+              disabled={isLoading || !table.getCanPreviousPage()}
               onClick={() => table.previousPage()}
               className="aa-table-page-button"
               title={t("Previous Page")}
@@ -222,7 +290,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
 
             <Button
               size="sm"
-              disabled={!table.getCanNextPage()}
+              disabled={isLoading || !table.getCanNextPage()}
               onClick={() => table.nextPage()}
               className="aa-table-page-button"
               title={t("Next Page")}
@@ -231,7 +299,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
             </Button>
             <Button
               size="sm"
-              disabled={!table.getCanNextPage()}
+              disabled={isLoading || !table.getCanNextPage()}
               onClick={() => table.setPageIndex(pageCount - 1)}
               className="aa-table-page-button"
               title={t("Last Page")}

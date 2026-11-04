@@ -13,6 +13,12 @@
 
 .aa-table-scroll {
     overflow-x: auto;
+    transition: opacity 200ms;
+}
+
+.aa-table-loading {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 .aa-table-shell:has(.dropdown-menu.show),

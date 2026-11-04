@@ -201,4 +201,155 @@ describe("BaseTable", () => {
     const updater = onRowSelectionChange.mock.calls[0][0];
     expect(typeof updater === "function" ? updater({}) : updater).toEqual({ "2": true });
   });
+
+  describe("serverPagination", () => {
+    const renderServerTable = (
+      serverPagination?: Partial<NonNullable<React.ComponentProps<typeof BaseTable<TestRow>>["serverPagination"]>>,
+      props?: Partial<React.ComponentProps<typeof BaseTable<TestRow>>>,
+    ) => {
+      const pagination = {
+        page: 2,
+        pageSize: 2,
+        total: 10,
+        onPageChange: vi.fn(),
+        onPageSizeChange: vi.fn(),
+        ...serverPagination,
+      };
+      return { pagination, ...renderTable({ serverPagination: pagination, ...props }) };
+    };
+
+    it("test_server_pagination_should_show_all_given_rows_and_the_server_page_count", () => {
+      // Test Data & Test Action: three rows on a page of two must not be sliced again
+      renderServerTable();
+
+      // Expected Result
+      expect(screen.getByText("Alice")).toBeInTheDocument();
+      expect(screen.getByText("Charlie")).toBeInTheDocument();
+      expect(screen.getAllByText("Page 2 of 5").length).toBeGreaterThan(0);
+    });
+
+    it("test_server_pagination_should_report_one_based_pages_from_the_buttons", async () => {
+      // Test Data
+      const user = userEvent.setup();
+      const { pagination } = renderServerTable();
+
+      // Test Action & Expected Result
+      await user.click(screen.getByTitle("Next Page"));
+      expect(pagination.onPageChange).toHaveBeenLastCalledWith(3);
+      await user.click(screen.getByTitle("Previous Page"));
+      expect(pagination.onPageChange).toHaveBeenLastCalledWith(1);
+      await user.click(screen.getByTitle("First Page"));
+      expect(pagination.onPageChange).toHaveBeenLastCalledWith(1);
+      await user.click(screen.getByTitle("Last Page"));
+      expect(pagination.onPageChange).toHaveBeenLastCalledWith(5);
+    });
+
+    it("test_server_pagination_should_report_only_the_page_size_when_it_changes", async () => {
+      // Test Data
+      const user = userEvent.setup();
+      const { pagination } = renderServerTable(undefined, { pageSizeOptions: [2, 25] });
+
+      // Test Action
+      await user.selectOptions(screen.getByRole("combobox"), "25");
+
+      // Expected Result
+      expect(pagination.onPageSizeChange).toHaveBeenCalledWith(25);
+      expect(pagination.onPageChange).not.toHaveBeenCalled();
+    });
+
+    it("test_server_pagination_should_disable_buttons_at_the_boundaries", () => {
+      // Test Data & Test Action
+      renderServerTable({ page: 1 });
+
+      // Expected Result
+      expect(screen.getByTitle("First Page")).toBeDisabled();
+      expect(screen.getByTitle("Previous Page")).toBeDisabled();
+      expect(screen.getByTitle("Next Page")).toBeEnabled();
+      expect(screen.getByTitle("Last Page")).toBeEnabled();
+    });
+
+    it("test_server_pagination_should_show_the_total", () => {
+      // Test Data & Test Action
+      renderServerTable({ total: 1234 });
+
+      // Expected Result
+      expect(screen.getByText(/Total: 1,?234/)).toBeInTheDocument();
+    });
+
+    it("test_server_pagination_should_prefer_the_given_total_text", () => {
+      // Test Data & Test Action
+      renderServerTable({ totalText: "10 killmails" });
+
+      // Expected Result
+      expect(screen.getByText("10 killmails")).toBeInTheDocument();
+      expect(screen.queryByText(/Total:/)).not.toBeInTheDocument();
+    });
+
+    it("test_server_pagination_should_hide_tools_that_only_see_the_current_page", async () => {
+      // Test Data
+      const user = userEvent.setup();
+
+      // Test Action
+      const { container } = renderServerTable();
+      await user.click(screen.getByText("Name"));
+
+      // Expected Result: no show all, CSV export, filters or sorting; row order is the server's
+      expect(screen.queryByRole("option", { name: "Show All" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Export Table to CSV" })).not.toBeInTheDocument();
+      expect(container.querySelector(".aa-table-filter-row")).not.toBeInTheDocument();
+      expect(container.querySelector(".aa-table-sortable")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("isLoading", () => {
+    it("test_loading_should_show_the_loader_instead_of_the_empty_text_without_rows", () => {
+      // Test Data & Test Action
+      const { container } = renderTable({ data: [], isLoading: true, emptyText: "Nothing here" });
+
+      // Expected Result
+      expect(screen.queryByText("Nothing here")).not.toBeInTheDocument();
+      expect(container.querySelector(".aa-table-message [role='status']")).toBeInTheDocument();
+      expect(container.querySelector(".aa-table-loading")).not.toBeInTheDocument();
+    });
+
+    it("test_loading_should_show_the_given_loading_text", () => {
+      // Test Data & Test Action
+      renderTable({ data: [], isLoading: true, loadingText: "Loading pilots..." });
+
+      // Expected Result
+      expect(screen.getByText("Loading pilots...")).toBeInTheDocument();
+    });
+
+    it("test_loading_should_dim_the_visible_rows_and_lock_the_controls", () => {
+      // Test Data & Test Action
+      const lotsOfData: TestRow[] = Array.from({ length: 25 }, (_, i) => ({
+        id: i + 1,
+        name: `Pilot ${i + 1}`,
+        role: "Member",
+      }));
+      const { container } = renderTable({
+        data: lotsOfData,
+        isLoading: true,
+        initialState: { pagination: { pageSize: 10 } },
+      });
+
+      // Expected Result
+      expect(screen.getByText("Pilot 1")).toBeInTheDocument();
+      expect(container.querySelector(".aa-table-loading")).toBeInTheDocument();
+      expect(screen.getByRole("combobox")).toBeDisabled();
+      expect(screen.getByTitle("Next Page")).toBeDisabled();
+      expect(screen.getByTitle("Last Page")).toBeDisabled();
+    });
+
+    it("test_loading_should_not_change_the_table_by_default", () => {
+      // Test Data & Test Action
+      const { container } = renderTable();
+
+      // Expected Result
+      expect(container.querySelector(".aa-table-loading")).not.toBeInTheDocument();
+      expect(screen.getByRole("combobox")).toBeEnabled();
+      expect(screen.getByRole("option", { name: "Show All" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Export Table to CSV" })).toBeInTheDocument();
+    });
+  });
 });
