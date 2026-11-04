@@ -58,5 +58,6 @@
   "Manage your Example preferences.": "Manage your Example preferences.",
   "Disable all notifications": "Disable all notifications",
   "When enabled, Example will not send notifications to your Alliance Auth or Discord account.": "When enabled, Example will not send notifications to your Alliance Auth or Discord account.",
-  "Could not save this setting. Your previous preference was restored.": "Could not save this setting. Your previous preference was restored."
+  "Could not save this setting. Your previous preference was restored.": "Could not save this setting. Your previous preference was restored.",
+  "Total: {{total}}": "Total: {{total}}"
 }
