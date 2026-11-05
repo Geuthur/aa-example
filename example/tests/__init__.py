@@ -69,6 +69,3 @@ class AuthTestCase(NoSocketsTestCase):
         session_middleware.process_request(request)
         message_middleware = MessageMiddleware(Mock())
         message_middleware.process_request(request)
-
-
-ExampleTestCase = AuthTestCase
