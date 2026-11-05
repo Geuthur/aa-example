@@ -40,7 +40,7 @@ Section Order:
 
 ### Changed
 
-- [CHANGE] Tests use `UserFactory` from `aa-evesde-factory` (new test dependency) instead of an own copy; its usernames are unique, so a random name can no longer match an existing user such as the superuser of a test class.
+- [CHANGE] Tests use the Alliance Auth factories (`UserFactory`, `EveAllianceInfoFactory`, `EveCorporationInfoFactory`, `EveCharacterFactory`) and test helpers (`add_character_to_user` etc.) from `aa-evesde-factory` (new test dependency) instead of own copies; `testdata/factory.py` and `testdata/utils.py` are removed. Its usernames are unique, so a random name can no longer match an existing user such as the superuser of a test class. `UserMainFactory` stays as the app's own subclass.
 - Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`.
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
 - Formatting helpers are consolidated in `Utils/format.ts` (`formatNumber`, `formatCompactNumber`, `formatIsk`, `formatDate`, `formatRelativeTime`, `formatEta`) with an `en` locale fallback; `renderTooltip` lives in `Utils/bootsTrap.tsx`.
