@@ -12,9 +12,6 @@ import factory
 import factory.fuzzy
 
 # Django
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max
 
 # Alliance Auth
@@ -23,69 +20,13 @@ from allianceauth.eveonline.models import (
     EveCharacter,
     EveCorporationInfo,
 )
-from allianceauth.tests.auth_utils import AuthUtils
 
 T = TypeVar("T")
-User = get_user_model()
 
 
 class BaseMetaFactory(Generic[T], factory.base.FactoryMetaClass):
     def __call__(cls, *args, **kwargs) -> T:
         return super().__call__(*args, **kwargs)
-
-
-class UserFactory(factory.django.DjangoModelFactory, metaclass=BaseMetaFactory[User]):
-    """Generate a User object."""
-
-    class Meta:
-        model = User
-        django_get_or_create = ("username",)
-        exclude = ("_generated_name",)
-
-    _generated_name = factory.Faker("name")
-    username = factory.LazyAttribute(lambda obj: obj._generated_name.replace(" ", "_"))
-    first_name = factory.LazyAttribute(lambda obj: obj._generated_name.split(" ")[0])
-    last_name = factory.LazyAttribute(lambda obj: obj._generated_name.split(" ")[1])
-    email = factory.LazyAttribute(
-        lambda obj: f"{obj.first_name.lower()}.{obj.last_name.lower()}@example.com"
-    )
-
-    @factory.post_generation
-    def permissions(obj, create, extracted, **kwargs):
-        """Set default permissions. Overwrite with `permissions=["app.perm1"]`."""
-        if not create:
-            return
-        permissions = extracted or []
-        for permission_name in permissions:
-            # The template models are abstract, so their permissions are never
-            # created by migrations. Create them on demand for the tests only.
-            app_label, codename = permission_name.split(".")
-            content_type, _ = ContentType.objects.get_or_create(
-                app_label=app_label, model="general"
-            )
-            Permission.objects.get_or_create(
-                content_type=content_type,
-                codename=codename,
-                defaults={"name": codename},
-            )
-            AuthUtils.add_permission_to_user_by_name(permission_name, obj)
-
-    @factory.post_generation
-    def scopes(obj, create, extracted, **kwargs):
-        """Set default scopes. Overwrite with `scopes=["scope1"]`."""
-        if not create:
-            return
-        scopes = extracted or []
-        obj._main_character_scopes = scopes
-
-    @classmethod
-    def _after_postgeneration(cls, obj, create, results=None):
-        """Reset permission cache to force an update."""
-        super()._after_postgeneration(obj, create, results)
-        if hasattr(obj, "_perm_cache"):
-            del obj._perm_cache
-        if hasattr(obj, "_user_perm_cache"):
-            del obj._user_perm_cache
 
 
 class EveAllianceInfoFactory(
