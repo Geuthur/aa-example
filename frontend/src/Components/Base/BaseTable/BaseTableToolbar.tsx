@@ -2,9 +2,7 @@
 import type { RowData, Table as TanStackTable } from "@tanstack/react-table";
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 
-// Styles
-import pageStyles from "@/Styles/modules/BaseTablePages.module.css";
-
+// AA Example
 import { BaseTableForm } from "@/Components/Base/BaseTable/BaseTableForm";
 import type { BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 
@@ -15,7 +13,7 @@ export interface TableToolbarProps<TData extends RowData> {
 export const BaseToolbar = <TData extends RowData,>({ table }: TableToolbarProps<TData>) => {
   return (
     <ButtonToolbar>
-      <ButtonGroup className={pageStyles["button-group"]}>
+      <ButtonGroup className="z-0">
         <Button
           variant="success"
           onClick={() => table.setPageIndex(0)}

@@ -1,4 +1,5 @@
 // React
+import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
 // Third Party
@@ -21,9 +22,7 @@ import {
 import { Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import styles from "@/Styles/modules/BaseTable.module.css";
-
+// AA Example
 import BaseHeader from "@/Components/Base/BaseTable/BaseTableHeader";
 import BasePages from "@/Components/Base/BaseTable/BaseTablePages";
 import { baseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
@@ -61,8 +60,28 @@ export interface BaseTableProps<TData extends RowData, TValue = unknown> {
   exportFileName?: string;
   variant?: "default" | "light";
   emptyText?: string;
+  /** Replaces `emptyText` with custom content when there are no rows. */
+  emptyState?: ReactNode;
+  /** Rendered above the table inside the shell, e.g. buttons or extra filters. */
+  toolbar?: ReactNode;
+  /** Rendered below the page controls inside the table footer. */
+  footer?: ReactNode;
+  /** Renders the `footer` of the column definitions as a summary row. */
+  showFooter?: boolean;
+  /** Extra classes for the shell around table and footer. */
   className?: string;
+  /** Extra classes for the `<table>`. */
   tableClassName?: string;
+  /** Extra classes for the `<thead>`. */
+  headerClassName?: string;
+  /** Extra classes for the `<tbody>`. */
+  bodyClassName?: string;
+  /** Extra classes for every data row; `getRowClassName` adds per-row classes. */
+  rowClassName?: string;
+  /** Extra classes for the `<tfoot>` summary row (`showFooter`). */
+  footClassName?: string;
+  /** Extra classes for the footer with page size, status and pagination. */
+  footerClassName?: string;
   pageSizeOptions?: number[];
   itemLabel?: string;
   getRowClassName?: (row: Row<BaseTableFeatures, TData>) => string;
@@ -73,6 +92,8 @@ export interface BaseTableProps<TData extends RowData, TValue = unknown> {
   getRowId?: (originalRow: TData, index: number, parent?: Row<BaseTableFeatures, TData>) => string;
   onRowClick?: (row: Row<BaseTableFeatures, TData>) => void;
 }
+
+const messageCellClass = "aa-table-message text-center py-5 px-3";
 
 const BaseTable = <TData extends RowData, TValue = unknown>({
   isFetching = false,
@@ -87,8 +108,17 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
   exportFileName = undefined,
   variant = "default",
   emptyText,
+  emptyState,
+  toolbar,
+  footer,
+  showFooter = false,
   className,
   tableClassName,
+  headerClassName,
+  bodyClassName,
+  rowClassName,
+  footClassName,
+  footerClassName,
   pageSizeOptions = [10, 25, 50, 100],
   getRowClassName,
   enableFilters = true,
@@ -148,47 +178,40 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
   const isLight = variant === "light";
   const { pageIndex, pageSize } = table.state.pagination;
   const pageCount = table.getPageCount();
+  const columnCount = table.getVisibleLeafColumns().length;
 
   return (
     <div
-      className={`aa-table-shell ${isLight ? "aa-table-shell-light aa-table-light" : ""} ${className ?? ""}`}
+      className={`aa-table-shell mt-2 ${isLight ? "aa-table-shell-light aa-table-light" : ""} ${className ?? ""}`}
     >
+      {toolbar}
       <div
-        className={`aa-table-scroll ${isLoading && rows.length > 0 ? "aa-table-loading" : ""}`}
+        className={`aa-table-scroll ${isLoading && rows.length > 0 ? "opacity-50 pe-none" : ""}`}
         aria-busy={isLoading}
       >
         <table
-          className={`aa-table ${isLight ? "aa-table-light" : ""} ${tableClassName ?? ""}`}
+          className={`aa-table w-100 text-start ${isLight ? "aa-table-light" : ""} ${tableClassName ?? ""}`}
         >
-          <thead className="aa-table-head">
+          <thead className={`aa-table-head ${headerClassName ?? ""}`}>
             <BaseHeader table={table} enableFilters={enableFilters} />
           </thead>
-          <tbody className="aa-table-body">
+          <tbody className={`aa-table-body ${bodyClassName ?? ""}`}>
             {isError ? (
               <tr>
-                <td
-                  colSpan={table.getVisibleLeafColumns().length}
-                  className="aa-table-message"
-                >
+                <td colSpan={columnCount} className={messageCellClass}>
                   {t("Something went wrong.")}
                 </td>
               </tr>
             ) : isLoading && rows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={table.getVisibleLeafColumns().length}
-                  className="aa-table-message"
-                >
+                <td colSpan={columnCount} className={messageCellClass}>
                   <FetchingLoader message={loadingText} />
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={table.getVisibleLeafColumns().length}
-                  className="aa-table-message"
-                >
-                  {emptyText ?? t("No Data Available")}
+                <td colSpan={columnCount} className={messageCellClass}>
+                  {emptyState ?? emptyText ?? t("No Data Available")}
                 </td>
               </tr>
             ) : (
@@ -199,7 +222,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
                   className={`aa-table-row ${getRowClassName
                     ? getRowClassName(row)
                     : "aa-table-row-hover"
-                    }`}
+                    } ${rowClassName ?? ""}`}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const meta = cell.column.columnDef.meta as { align?: string } | undefined;
@@ -207,8 +230,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
                     return (
                       <td
                         key={cell.id}
-                        className={`aa-table-cell ${styles["cell-middle"]} ${isRight ? styles["cell-right"] : ""
-                          }`}
+                        className={`aa-table-cell align-middle ${isRight ? "text-end" : ""}`}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
@@ -218,22 +240,47 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
               ))
             )}
           </tbody>
+          {showFooter && !isError && rows.length > 0 && (
+            <tfoot className={`aa-table-foot ${footClassName ?? ""}`}>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => {
+                    const meta = header.column.columnDef.meta as { align?: string } | undefined;
+                    const isRight = meta?.align === "right";
+                    return (
+                      <td
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className={`aa-table-cell align-middle ${isRight ? "text-end" : ""}`}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.footer, header.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tfoot>
+          )}
         </table>
       </div>
 
       {/* DataTable Footer Controls */}
-      <div className="aa-table-footer">
+      <div
+        className={`aa-table-footer d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 p-3 ${footerClassName ?? ""}`}
+      >
         {/* Page Size Selector, Count Indicator & Export / Status */}
-        <div className="aa-table-controls">
+        <div className="d-flex align-items-center justify-content-between gap-3 align-self-stretch align-self-md-auto">
           <div className="d-flex align-items-center gap-3">
-            <div className="aa-table-page-size">
+            <div className="d-flex align-items-center gap-2">
               <span>{t("Page Size:")}</span>
               <Form.Select
                 size="sm"
                 value={pageSize}
                 disabled={isLoading}
                 onChange={(e) => table.setPageSize(Number(e.target.value))}
-                className={`aa-table-select ${styles["page-size-select"]}`}
+                className="aa-table-select w-auto"
               >
                 {pageSizeOptions.map((size) => (
                   <option key={size} value={size}>
@@ -261,7 +308,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
         </div>
         {/* Pagination Buttons */}
         {pageCount > 1 && (
-          <div className="aa-table-pagination">
+          <div className="d-flex align-items-center gap-2">
             <Button
               size="sm"
               disabled={isLoading || !table.getCanPreviousPage()}
@@ -281,7 +328,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
               <ChevronLeft className="aa-table-page-icon" />
             </Button>
 
-            <span className="aa-table-page-number">
+            <span className="aa-table-page-number px-2 fw-bold">
               {t("Page {{page}} of {{total}}", {
                 page: pageIndex + 1,
                 total: pageCount,
@@ -308,6 +355,7 @@ const BaseTable = <TData extends RowData, TValue = unknown>({
             </Button>
           </div>
         )}
+        {footer && <div className="w-100">{footer}</div>}
       </div>
 
       {debugTable && (

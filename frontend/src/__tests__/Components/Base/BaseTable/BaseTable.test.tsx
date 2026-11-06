@@ -202,6 +202,115 @@ describe("BaseTable", () => {
     expect(typeof updater === "function" ? updater({}) : updater).toEqual({ "2": true });
   });
 
+  it("test_render_should_show_column_footers_only_when_enabled", () => {
+    // Test Data
+    const footerColumns = [
+      columnHelper.accessor("name", { header: "Name", footer: () => "Sum" }),
+      columnHelper.accessor("role", { header: "Role" }),
+    ];
+
+    // Test Action
+    const { container, rerender } = renderTable({ columns: footerColumns as typeof testColumns });
+
+    // Expected Result
+    expect(container.querySelector("tfoot")).not.toBeInTheDocument();
+
+    // Test Action
+    rerender(
+      <MemoryRouter>
+        <BaseTable columns={footerColumns as typeof testColumns} data={testData} showFooter />
+      </MemoryRouter>,
+    );
+
+    // Expected Result
+    expect(container.querySelector("tfoot")).toHaveTextContent("Sum");
+    expect(container.querySelector("tfoot")).toHaveClass("aa-table-foot");
+  });
+
+  it("test_render_should_hide_footer_without_rows", () => {
+    // Test Data
+    const footerColumns = [columnHelper.accessor("name", { header: "Name", footer: () => "Sum" })];
+
+    // Test Action
+    const { container } = renderTable({
+      columns: footerColumns as typeof testColumns,
+      data: [],
+      showFooter: true,
+    });
+
+    // Expected Result
+    expect(container.querySelector("tfoot")).not.toBeInTheDocument();
+  });
+
+  describe("overrides", () => {
+    it("test_class_names_should_be_added_to_each_area", () => {
+      // Test Data
+      const footerColumns = [columnHelper.accessor("name", { header: "Name", footer: () => "Sum" })];
+
+      // Test Action
+      const { container } = renderTable({
+        columns: footerColumns as typeof testColumns,
+        showFooter: true,
+        className: "shell-x",
+        tableClassName: "table-x",
+        headerClassName: "head-x",
+        bodyClassName: "body-x",
+        rowClassName: "row-x",
+        footClassName: "foot-x",
+        footerClassName: "footer-x",
+      });
+
+      // Expected Result
+      expect(container.querySelector(".aa-table-shell")).toHaveClass("shell-x");
+      expect(container.querySelector("table")).toHaveClass("aa-table", "table-x");
+      expect(container.querySelector("thead")).toHaveClass("aa-table-head", "head-x");
+      expect(container.querySelector("tbody")).toHaveClass("aa-table-body", "body-x");
+      expect(container.querySelectorAll("tbody tr.row-x")).toHaveLength(testData.length);
+      expect(container.querySelector("tfoot")).toHaveClass("aa-table-foot", "foot-x");
+      expect(container.querySelector(".aa-table-footer")).toHaveClass("footer-x");
+    });
+
+    it("test_row_class_name_should_keep_the_per_row_classes", () => {
+      // Test Data & Test Action
+      const { container } = renderTable({
+        rowClassName: "row-x",
+        getRowClassName: (row) => (row.original.id === 2 ? "is-bob" : ""),
+      });
+
+      // Expected Result
+      expect(container.querySelectorAll("tbody tr.row-x")).toHaveLength(3);
+      expect(container.querySelectorAll("tbody tr.is-bob")).toHaveLength(1);
+      expect(container.querySelector("tbody tr.aa-table-row-hover")).not.toBeInTheDocument();
+    });
+
+    it("test_slots_should_render_toolbar_and_footer", () => {
+      // Test Data & Test Action
+      const { container } = renderTable({
+        toolbar: <button type="button">Add pilot</button>,
+        footer: <span>Custom footer</span>,
+      });
+
+      // Expected Result: the toolbar sits above the table, the footer inside the controls
+      const shell = container.querySelector(".aa-table-shell") as HTMLElement;
+      const toolbar = screen.getByRole("button", { name: "Add pilot" });
+      expect(shell.firstElementChild).toContainElement(toolbar);
+      expect(container.querySelector(".aa-table-footer")).toContainElement(screen.getByText("Custom footer"));
+    });
+
+    it("test_empty_state_should_replace_the_empty_text", () => {
+      // Test Data & Test Action
+      renderTable({
+        data: [],
+        emptyText: "Nothing here",
+        emptyState: <a href="/add/">Add the first pilot</a>,
+      });
+
+      // Expected Result
+      expect(screen.getByRole("link", { name: "Add the first pilot" })).toBeInTheDocument();
+      expect(screen.queryByText("Nothing here")).not.toBeInTheDocument();
+    });
+  });
+
   describe("serverPagination", () => {
     const renderServerTable = (
       serverPagination?: Partial<NonNullable<React.ComponentProps<typeof BaseTable<TestRow>>["serverPagination"]>>,
@@ -309,7 +418,7 @@ describe("BaseTable", () => {
       // Expected Result
       expect(screen.queryByText("Nothing here")).not.toBeInTheDocument();
       expect(container.querySelector(".aa-table-message [role='status']")).toBeInTheDocument();
-      expect(container.querySelector(".aa-table-loading")).not.toBeInTheDocument();
+      expect(container.querySelector(".aa-table-scroll")).not.toHaveClass("opacity-50");
     });
 
     it("test_loading_should_show_the_given_loading_text", () => {
@@ -335,7 +444,8 @@ describe("BaseTable", () => {
 
       // Expected Result
       expect(screen.getByText("Pilot 1")).toBeInTheDocument();
-      expect(container.querySelector(".aa-table-loading")).toBeInTheDocument();
+      expect(container.querySelector(".aa-table-scroll")).toHaveClass("opacity-50", "pe-none");
+      expect(container.querySelector(".aa-table-scroll")).toHaveAttribute("aria-busy", "true");
       expect(screen.getByRole("combobox")).toBeDisabled();
       expect(screen.getByTitle("Next Page")).toBeDisabled();
       expect(screen.getByTitle("Last Page")).toBeDisabled();
@@ -346,7 +456,7 @@ describe("BaseTable", () => {
       const { container } = renderTable();
 
       // Expected Result
-      expect(container.querySelector(".aa-table-loading")).not.toBeInTheDocument();
+      expect(container.querySelector(".aa-table-scroll")).not.toHaveClass("opacity-50");
       expect(screen.getByRole("combobox")).toBeEnabled();
       expect(screen.getByRole("option", { name: "Show All" })).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Export Table to CSV" })).toBeInTheDocument();
