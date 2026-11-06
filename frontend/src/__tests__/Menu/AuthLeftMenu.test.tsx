@@ -79,6 +79,25 @@ describe('AuthLeftMenu', () => {
         expect(container.querySelectorAll('li')).toHaveLength(0);
     });
 
+    it('should render the administration link as administration menu item', () => {
+        // Test Data
+        const testData = [
+            { name: 'Administration', link: '/administration/' },
+        ];
+
+        // Test Action
+        render(
+            <MemoryRouter initialEntries={[`/${ProjectName}/administration/`]}>
+                <AuthLeftMenu data={testData} isLoading={false} error={false} />
+            </MemoryRouter>
+        );
+
+        // Expected Result
+        const link = screen.getByTestId('administration-nav-link');
+        expect(link.getAttribute('href')).toBe(`/${ProjectName}/administration/`);
+        expect(link).toHaveClass('aa-nav-danger', 'active');
+    });
+
     it('should render pulsating danger badge when has_errors is true', () => {
         // Test Data
         const testData = [

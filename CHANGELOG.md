@@ -21,6 +21,10 @@
 Section Order:
 
 ### Added
+
+- `useCooldown`, `useOwnerCooldowns`, `useFeedback` and `useUserData` hooks in `frontend/src/Hooks/` (shared with the other apps)
+- `useMenu` hook in `frontend/src/Menu/Hooks/`, `AuthLeftMenuAsync` and `AuthRightMenuAsync` load the menu through it
+- `AdministrationMenuItem` in `frontend/src/Menu/BaseMenu.tsx`: an `administration` link is shown in red with a shield icon
 ### Fixed
 ### Changed
 ### Removed
