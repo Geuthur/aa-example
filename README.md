@@ -109,7 +109,7 @@ LOGGING["loggers"]["extensions.example"] = {
 
 ### Step 4 - Migrate & Preload EVE SDE Data<a name="step-4---migrate--preload-eve-sde-data"></a>
 
-AA Skillfarm uses EVE SDE data to map IDs to names for EveTypes. You will need to preload some data from SDE once.
+AA Example uses EVE SDE data to map IDs to names for EveTypes. You will need to preload some data from SDE once.
 
 ```shell
 python manage.py migrate eve_sde
