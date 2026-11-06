@@ -24,6 +24,10 @@ ______________________________________________________________________
     - [Tech Stack](#tech-stack)
     - [Frontend Makefile Commands](#frontend-makefile-commands)
     - [Local Frontend Development](#local-frontend-development)
+  - [Create a New Module](#create-a-new-module)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Checklist](#checklist)
   - [Translations](#translations)
   - [Contributing](#contributing)
 
@@ -81,9 +85,9 @@ To set up the Scheduled Tasks add following code to your `local.py`
 
 ```python
 if "example" in INSTALLED_APPS:
-    CELERYBEAT_SCHEDULE["AA Example :: Test Task"] = {
-        "task": "example.tasks.example_task",
-        "schedule": crontab(minute=0, hour="*/1"),
+    CELERYBEAT_SCHEDULE["AA Example :: Update Characters"] = {
+        "task": "example.tasks.update_all_characters",
+        "schedule": crontab(minute="*/30"),
     }
 ```
 
@@ -140,7 +144,8 @@ With the Following IDs you can set up the permissions for the Example
 The Following Settings can be setting up in the `local.py`
 
 - EXAMPLE_APP_NAME: `"YOURNAME"` - Set the name of the APP
-- EXAMPLE_TASKS_TIME_LIMIT: `7200` - Defines the time (in seconds) a task will timeout
+- EXAMPLE_TASKS_TIME_LIMIT: `1200` - Defines the time (in seconds) a task will timeout
+- EXAMPLE_STALE_TYPES: `{"wallet": 60}` - Minutes after which a section is fetched from ESI again
 
 If you set up EXAMPLE_LOGGER_USE to `True` you need to add the following code below:
 
@@ -202,6 +207,45 @@ You can control the frontend build, test, and development workflows directly fro
    make react-test
    make react-lint
    ```
+
+## Create a New Module<a name="create-a-new-module"></a>
+
+The `character` module is the pattern for every new module: an owner model with ESI
+sections, its update status, a task, an API and a page. Copy its files, rename
+`character` to the name of the module and adapt the fields, sections and columns.
+
+### Backend<a name="backend"></a>
+
+| File                                                                         | Purpose                                                                                                                                                                         |
+| :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `example/models/<module>.py`                                                 | The owner model with `UpdateManagerMixin`, `get_esi_scopes()`, `get_token()` and one `update_<section>()` method per section; its `<Module>UpdateStatus(UpdateStatusBaseModel)` |
+| `example/models/helpers/update_manager.py`                                   | Shared: add the `<Module>UpdateSection` choices (one value per ESI section) and the stale minutes in `app_settings.EXAMPLE_STALE_TYPES`                                         |
+| `example/managers/<module>.py`                                               | `AccessQuerySet`/`AccessManager` subclasses (`visible_to`, `manage_to`), the ESI fetch (`update_<section>_esi` → `update_section_if_changed`) and the update status manager     |
+| `example/api/schema.py`                                                      | The Ninja schemas of the module (response and request separately)                                                                                                               |
+| `example/api/helpers/<module>.py`                                            | `get_<entity>(request, id, manage=False)` on top of `api/helpers/core.get_object_with_access`                                                                                   |
+| `example/api/<module>.py`                                                    | `ApiEndpoints` with `tags`, `summary` and every status code in `response`; register it in `example/api/__init__.py`                                                             |
+| `example/tasks.py`                                                           | `update_all_<module>s` (periodic) and `update_<module>` (per owner, inside `retry_task_on_esi_error`)                                                                           |
+| `example/__init__.py`                                                        | Add the ESI operation ids to `__operations__`                                                                                                                                   |
+| `example/tests/testdata/<module>.py`                                         | Factories of the module (`aa-evesde-factory` for Alliance Auth objects)                                                                                                         |
+| `example/tests/test_models/`, `test_managers/`, `test_api/`, `test_tasks.py` | Tests; ESI calls with `pook` under the real ESI URL                                                                                                                             |
+
+### Frontend<a name="frontend"></a>
+
+| File                                  | Purpose                                                                                    |
+| :------------------------------------ | :----------------------------------------------------------------------------------------- |
+| `frontend/src/Api/calls/<module>.ts`  | The API calls of the module over `apiClient` and its query keys (`<module>QueryKeys`)      |
+| `frontend/src/Api/schema.ts`          | Type aliases of the module schemas from the generated `OpenApi.ts`                         |
+| `frontend/src/Components/<Module>/`   | The components of the module, e.g. a table on `BaseTable`                                  |
+| `frontend/src/Pages/<Module>Page.tsx` | The page: `useQuery` for loading, `useMutation` for actions                                |
+| `frontend/src/Routing.tsx`            | The route of the page; the menu link comes from `api/general.py`                           |
+| `frontend/src/__tests__/...`          | Tests next to the source: calls with `vi.spyOn(apiClient, ...)`, pages with `vi.mock(...)` |
+
+### Checklist<a name="checklist"></a>
+
+1. Backend: models, managers, schema, helpers, endpoints, task and tests; `make migrations`, `make tox-tests`.
+1. `make react-openapi` regenerates `openapi.json` and `OpenApi.ts`; commit both.
+1. Frontend: calls, components, page, route and tests; `make react-translations`, `make react-test`, `make react-lint`, `make react-build`.
+1. `make pre-commit-checks` and an entry in `CHANGELOG.md`.
 
 ## Translations<a name="translations"></a>
 

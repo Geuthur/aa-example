@@ -9,4 +9,4 @@ __esi_compatibility_date__ = "2026-08-18"
 __app_name_useragent__ = "AA-Example"
 __github_url__ = f"https://github.com/Geuthur/{__package_name__}"
 
-__operations__ = ["GetStatus"]
+__operations__ = ["GetStatus", "GetCharactersCharacterIdWallet"]

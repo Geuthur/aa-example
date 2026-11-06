@@ -4,26 +4,51 @@
  */
 
 export interface paths {
-    "/example/api/example/": {
+    "/example/api/characters/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get Example
-         * @description Get Example Data
-         *
-         *     This endpoint retrieves example data for the authenticated user.
-         *
-         *     Returns:
-         *         200: Example data retrieved successfully.
-         *         403: Permission Denied.
-         */
-        get: operations["example_api_character_get_example"];
+        /** List the characters visible to the user */
+        get: operations["example_api_character_list_characters"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/example/api/characters/{character_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a character with the status of its sections */
+        get: operations["example_api_character_get_character"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/example/api/characters/{character_id}/update/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Queue an update of a character */
+        post: operations["example_api_character_update_character"];
         delete?: never;
         options?: never;
         head?: never;
@@ -86,16 +111,121 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** ExampleSchema */
-        ExampleSchema: {
+        /**
+         * CharacterSchema
+         * @description A character owner as shown in the character list.
+         */
+        CharacterSchema: {
+            /** Id */
+            id: number;
             /** Character Id */
-            character_id?: number | null;
+            character_id: number;
             /** Character Name */
-            character_name?: string | null;
+            character_name: string;
             /** Corporation Id */
-            corporation_id?: number | null;
+            corporation_id: number;
             /** Corporation Name */
-            corporation_name?: string | null;
+            corporation_name: string;
+            /** Portrait Url */
+            portrait_url: string;
+            /** Active */
+            active: boolean;
+            /** Wallet Balance */
+            wallet_balance?: number | null;
+            /** Update Status */
+            update_status: string;
+            /** Update Status Label */
+            update_status_label: string;
+            /** Last Update */
+            last_update?: string | null;
+        };
+        /**
+         * ErrorSchema
+         * @description Error response of an endpoint, e.g. for 403 and 404.
+         */
+        ErrorSchema: {
+            /** Error */
+            error: string;
+        };
+        /**
+         * CharacterDetailSchema
+         * @description A character owner with the status of every section.
+         */
+        CharacterDetailSchema: {
+            /** Id */
+            id: number;
+            /** Character Id */
+            character_id: number;
+            /** Character Name */
+            character_name: string;
+            /** Corporation Id */
+            corporation_id: number;
+            /** Corporation Name */
+            corporation_name: string;
+            /** Portrait Url */
+            portrait_url: string;
+            /** Active */
+            active: boolean;
+            /** Wallet Balance */
+            wallet_balance?: number | null;
+            /** Update Status */
+            update_status: string;
+            /** Update Status Label */
+            update_status_label: string;
+            /** Last Update */
+            last_update?: string | null;
+            /**
+             * Sections
+             * @default []
+             */
+            sections: components["schemas"]["CharacterUpdateStatusSchema"][];
+        };
+        /**
+         * CharacterUpdateStatusSchema
+         * @description Update status of one section of a character.
+         */
+        CharacterUpdateStatusSchema: {
+            /** Section */
+            section: string;
+            /** Section Label */
+            section_label: string;
+            /** Is Success */
+            is_success?: boolean | null;
+            /**
+             * Has Token Error
+             * @default false
+             */
+            has_token_error: boolean;
+            /**
+             * Error Message
+             * @default
+             */
+            error_message: string;
+            /** Last Run Finished At */
+            last_run_finished_at?: string | null;
+            /** Last Update Finished At */
+            last_update_finished_at?: string | null;
+        };
+        /**
+         * ActionResponse
+         * @description Response of an action endpoint, e.g. after queueing a task.
+         */
+        ActionResponse: {
+            /** Success */
+            success: boolean;
+            /** Message */
+            message: string;
+        };
+        /**
+         * ForceRefreshRequest
+         * @description Request body of update endpoints.
+         */
+        ForceRefreshRequest: {
+            /**
+             * Force Refresh
+             * @default false
+             */
+            force_refresh: boolean;
         };
         /**
          * MenuLink
@@ -231,7 +361,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    example_api_character_get_example: {
+    example_api_character_list_characters: {
         parameters: {
             query?: never;
             header?: never;
@@ -246,7 +376,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ExampleSchema"][];
+                    "application/json": components["schemas"]["CharacterSchema"][];
                 };
             };
             /** @description Forbidden */
@@ -255,9 +385,91 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
+        };
+    };
+    example_api_character_get_character: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                character_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CharacterDetailSchema"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
+        };
+    };
+    example_api_character_update_character: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                character_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ForceRefreshRequest"] | null;
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };
@@ -306,9 +518,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };
@@ -337,9 +547,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };
@@ -372,9 +580,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };

@@ -14,13 +14,14 @@ from allianceauth.tests.auth_utils import AuthUtils
 
 # AA Example
 from example import __app_name__
+from example.models.character import CharacterOwner
 
 
 class UserMainFactory(UserFactory):
     """Generate a User object with a main character and default permissions for Alliance Auth."""
 
     permissions__ = [f"{__app_name__}.basic_access"]
-    scopes__ = ["publicData"]
+    scopes__ = CharacterOwner.get_esi_scopes()
 
     # TEMPLATE ONLY: Do not copy this override into a real app.
     # The template models are abstract, so their permissions are never created

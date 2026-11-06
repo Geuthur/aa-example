@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 // Third Party
 import { useQuery } from "@tanstack/react-query";
 
-import { loadMenu } from "@/Api/ApiCalls";
+import { loadMenu } from "@/Api/calls/general";
 import { queryKeys } from "@/Api/query";
 import AuthLeftMenu from "@/Menu/AuthLeftMenu";
 

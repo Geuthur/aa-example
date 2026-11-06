@@ -59,5 +59,17 @@
   "Disable all notifications": "Disable all notifications",
   "When enabled, Example will not send notifications to your Alliance Auth or Discord account.": "When enabled, Example will not send notifications to your Alliance Auth or Discord account.",
   "Could not save this setting. Your previous preference was restored.": "Could not save this setting. Your previous preference was restored.",
-  "Total: {{total}}": "Total: {{total}}"
+  "Total: {{total}}": "Total: {{total}}",
+  "Character": "Character",
+  "Corporation": "Corporation",
+  "Wallet": "Wallet",
+  "Status": "Status",
+  "Last Update": "Last Update",
+  "Actions": "Actions",
+  "Update": "Update",
+  "Update {{name}}": "Update {{name}}",
+  "Loading characters...": "Loading characters...",
+  "No characters registered yet.": "No characters registered yet.",
+  "Characters": "Characters",
+  "The update could not be queued. Please try again.": "The update could not be queued. Please try again."
 }

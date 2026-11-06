@@ -28,6 +28,11 @@ Section Order:
 
 ### Added
 
+- Python scaffold from the apps: `retry_task_on_esi_error`, `DOWNTIME_TIMER` and `DownTimeError` (`providers.py`, `errors.py`), `models/helpers/update_manager.py` with `UpdateSectionResult`, `_NeedsUpdate`, `UpdateStatus`, `UpdateSection`, `UpdateStatusBaseModel`, `UpdateManager` and `UpdateManagerMixin` (aa-ledger as base, `UpdateSection` base class and `get_status` as opt-ins), `api/helpers/core.py` with `get_object_with_access` and `can_view_overview`
+- Character module as pattern for new modules: `CharacterOwner` with the ESI section `wallet` and `CharacterUpdateStatus` (`models/character.py`, migration `0001_initial`), `managers/character.py`, `api/character.py` (`GET characters/`, `GET characters/{character_id}/`, `POST characters/{character_id}/update/`), `api/helpers/character.py`, tasks `update_all_characters` and `update_character`, setting `EXAMPLE_STALE_TYPES`
+- Frontend of the character module: `Api/calls/character.ts` with `characterQueryKeys`, `Pages/CharacterPage.tsx`, `Components/Character/` (`CharacterTable`, `CharacterStatusBadge`), route `characters/` and menu link
+- README section "Create a New Module" with the file list of both sides
+- Tests for all of the above, the ESI fetch with `pook` under the real ESI URL
 - [ADD] `badge` and `has_errors` on the `MenuLink` schema and an issue count badge in `BaseMenu` (`bg-danger`, pulsing via `aa-menu-badge-pulse` while `has_errors` is set), as template for the `Settings` navigation item of all plugins.
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
 
@@ -40,6 +45,10 @@ Section Order:
 
 ### Changed
 
+- `managers.py` moved to `managers/general.py`; `AccessQuerySet` resolves ownership through `character__character_ownership__user` and exposes `visible_q`/`manage_q` for subclasses
+- `Api/ApiCalls.ts` moved to `Api/calls/general.ts`; API calls and query keys of a module live in `Api/calls/<module>.ts`
+- The API error responses use `ErrorSchema` instead of `dict`; the menu links to the character page
+- `__operations__` contains `GetCharactersCharacterIdWallet`; `UserMainFactory` uses the ESI scopes of `CharacterOwner`
 - [CHANGE] Tests use the Alliance Auth factories (`UserFactory`, `EveAllianceInfoFactory`, `EveCorporationInfoFactory`, `EveCharacterFactory`) and test helpers (`add_character_to_user` etc.) from `aa-evesde-factory` (new test dependency) instead of own copies; `testdata/factory.py` and `testdata/utils.py` are removed. Its usernames are unique, so a random name can no longer match an existing user such as the superuser of a test class. `UserMainFactory` stays as the app's own subclass.
 - Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`.
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
@@ -51,6 +60,7 @@ Section Order:
 
 ### Removed
 
+- `api/character.py` stub with dummy data and `ExampleSchema`; `example_task` (replaced by `update_all_characters`)
 - Removed the legacy server-rendered templates (`base.html`, `bundles/`, `navigation/`, `view-index.html`) and the unused `character_id` route of the React view.
 - Removed the unused `Badges`, `Forms` and `Tables` frontend components, the `tableHelper.module.css` style, the Bootstrap table variant and the `react` tox environment.
 - Removed the custom CSS panel, button, badge, section, and tab utility classes in favor of Bootstrap 5.3.

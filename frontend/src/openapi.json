@@ -6,10 +6,10 @@
     "description": ""
   },
   "paths": {
-    "/example/api/example/": {
+    "/example/api/characters/": {
       "get": {
-        "operationId": "example_api_character_get_example",
-        "summary": "Get Example",
+        "operationId": "example_api_character_list_characters",
+        "summary": "List the characters visible to the user",
         "parameters": [],
         "responses": {
           "200": {
@@ -18,7 +18,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/ExampleSchema"
+                    "$ref": "#/components/schemas/CharacterSchema"
                   },
                   "title": "Response",
                   "type": "array"
@@ -31,18 +31,146 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/ErrorSchema"
                 }
               }
             }
           }
         },
-        "description": "Get Example Data\n\nThis endpoint retrieves example data for the authenticated user.\n\nReturns:\n    200: Example data retrieved successfully.\n    403: Permission Denied.",
         "tags": [
-          "Example"
+          "Characters"
         ],
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/example/api/characters/{character_id}/": {
+      "get": {
+        "operationId": "example_api_character_get_character",
+        "summary": "Get a character with the status of its sections",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "character_id",
+            "schema": {
+              "title": "Character Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterDetailSchema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Characters"
+        ],
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/example/api/characters/{character_id}/update/": {
+      "post": {
+        "operationId": "example_api_character_update_character",
+        "summary": "Queue an update of a character",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "character_id",
+            "schema": {
+              "title": "Character Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Characters"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ForceRefreshRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "required": false
+        },
         "security": [
           {
             "SessionAuth": []
@@ -98,9 +226,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/ErrorSchema"
                 }
               }
             }
@@ -137,9 +263,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/ErrorSchema"
                 }
               }
             }
@@ -174,9 +298,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/ErrorSchema"
                 }
               }
             }
@@ -205,54 +327,275 @@
   },
   "components": {
     "schemas": {
-      "ExampleSchema": {
+      "CharacterSchema": {
+        "description": "A character owner as shown in the character list.",
         "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
           "character_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Character Id"
+            "title": "Character Id",
+            "type": "integer"
           },
           "character_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Character Name"
+            "title": "Character Name",
+            "type": "string"
           },
           "corporation_id": {
+            "title": "Corporation Id",
+            "type": "integer"
+          },
+          "corporation_name": {
+            "title": "Corporation Name",
+            "type": "string"
+          },
+          "portrait_url": {
+            "title": "Portrait Url",
+            "type": "string"
+          },
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "wallet_balance": {
             "anyOf": [
               {
-                "type": "integer"
+                "type": "number"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Corporation Id"
+            "title": "Wallet Balance"
           },
-          "corporation_name": {
+          "update_status": {
+            "title": "Update Status",
+            "type": "string"
+          },
+          "update_status_label": {
+            "title": "Update Status Label",
+            "type": "string"
+          },
+          "last_update": {
             "anyOf": [
               {
+                "format": "date-time",
                 "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Corporation Name"
+            "title": "Last Update"
           }
         },
-        "title": "ExampleSchema",
+        "required": [
+          "id",
+          "character_id",
+          "character_name",
+          "corporation_id",
+          "corporation_name",
+          "portrait_url",
+          "active",
+          "update_status",
+          "update_status_label"
+        ],
+        "title": "CharacterSchema",
+        "type": "object"
+      },
+      "ErrorSchema": {
+        "description": "Error response of an endpoint, e.g. for 403 and 404.",
+        "properties": {
+          "error": {
+            "title": "Error",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorSchema",
+        "type": "object"
+      },
+      "CharacterDetailSchema": {
+        "description": "A character owner with the status of every section.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "character_id": {
+            "title": "Character Id",
+            "type": "integer"
+          },
+          "character_name": {
+            "title": "Character Name",
+            "type": "string"
+          },
+          "corporation_id": {
+            "title": "Corporation Id",
+            "type": "integer"
+          },
+          "corporation_name": {
+            "title": "Corporation Name",
+            "type": "string"
+          },
+          "portrait_url": {
+            "title": "Portrait Url",
+            "type": "string"
+          },
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "wallet_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wallet Balance"
+          },
+          "update_status": {
+            "title": "Update Status",
+            "type": "string"
+          },
+          "update_status_label": {
+            "title": "Update Status Label",
+            "type": "string"
+          },
+          "last_update": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update"
+          },
+          "sections": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CharacterUpdateStatusSchema"
+            },
+            "title": "Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "character_id",
+          "character_name",
+          "corporation_id",
+          "corporation_name",
+          "portrait_url",
+          "active",
+          "update_status",
+          "update_status_label"
+        ],
+        "title": "CharacterDetailSchema",
+        "type": "object"
+      },
+      "CharacterUpdateStatusSchema": {
+        "description": "Update status of one section of a character.",
+        "properties": {
+          "section": {
+            "title": "Section",
+            "type": "string"
+          },
+          "section_label": {
+            "title": "Section Label",
+            "type": "string"
+          },
+          "is_success": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Success"
+          },
+          "has_token_error": {
+            "default": false,
+            "title": "Has Token Error",
+            "type": "boolean"
+          },
+          "error_message": {
+            "default": "",
+            "title": "Error Message",
+            "type": "string"
+          },
+          "last_run_finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Run Finished At"
+          },
+          "last_update_finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update Finished At"
+          }
+        },
+        "required": [
+          "section",
+          "section_label"
+        ],
+        "title": "CharacterUpdateStatusSchema",
+        "type": "object"
+      },
+      "ActionResponse": {
+        "description": "Response of an action endpoint, e.g. after queueing a task.",
+        "properties": {
+          "success": {
+            "title": "Success",
+            "type": "boolean"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "title": "ActionResponse",
+        "type": "object"
+      },
+      "ForceRefreshRequest": {
+        "description": "Request body of update endpoints.",
+        "properties": {
+          "force_refresh": {
+            "default": false,
+            "title": "Force Refresh",
+            "type": "boolean"
+          }
+        },
+        "title": "ForceRefreshRequest",
         "type": "object"
       },
       "MenuLink": {

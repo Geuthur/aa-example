@@ -7,11 +7,11 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as ApiCalls from "@/Api/ApiCalls";
+import * as ApiCalls from "@/Api/calls/general";
 import { ProjectName } from "@/constants";
 import { SettingsPage } from "@/Pages/SettingsPage";
 
-vi.mock("@/Api/ApiCalls", () => ({
+vi.mock("@/Api/calls/general", () => ({
   loadUserSettings: vi.fn(),
   updateUserSettings: vi.fn(),
 }));
