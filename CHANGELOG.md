@@ -78,6 +78,15 @@ Section Order:
 - Removed the agent rules under `.agents/rules/`. The agent rules for this project now live in the Brain repository.
 - [REMOVE] The unused `ExampleTestCase` alias of `AuthTestCase` in `example/tests/__init__.py`.
 
+### Changed
+
+- The shared React base comes from the npm package [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable stack, BaseModal, loaders, `BaseSectionHeader`, menu, `useMenu`, `useUserData`, `useCooldown`, `useFeedback`, `AuthBase`, `ErrorPage`, utils, `createApiClient`, `queryKeys`, styles, ESLint rule `import-headings`). `Routing.tsx` wraps the app in `AaReactProvider`, `Main.tsx` loads the namespace `aa-geuthur-react` next to `translation` and imports `aa-geuthur-react/styles.css`, `apiClient` is `createApiClient<paths>()`
+- `make react-copy-translations` also copies `i18n/<lng>/aa-geuthur-react.json` of the package into `static/example/i18n/<lng>/`
+
+### Removed
+
+- The copies of the shared modules and their tests: `Components/Base/`, `Menu/`, `Hooks/`, `Utils/`, `Pages/Base.tsx`, `Pages/404.tsx`, `Api/query.ts`, `Styles/table.css`, the CSS modules `bootsTrap` and `BaseModal`, `eslint-rules/` and the rules of `Styles/index.css` the package ships (`aa-react.container`, `aa-shake`, `aa-menu-badge-pulse`, `aa-nav-danger`); `loadMenu` and `loadUserData` of `Api/calls/general.ts` (now in the package); the dev dependency `openapi-typescript-helpers`
+
 <!-- Your changes go here -->
 
 ## [1.0.1] - 2026-10-18

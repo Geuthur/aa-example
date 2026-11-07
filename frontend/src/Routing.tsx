@@ -4,11 +4,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 
 // Third Party
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AaReactProvider, AuthBase, ErrorPage } from "aa-geuthur-react";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 
-import { ProjectName } from "@/constants";
-import { ErrorPage } from "@/Pages/404";
-import AuthBase from "@/Pages/Base";
+import { AppName, ProjectName } from "@/constants";
 import CharacterPage from "@/Pages/CharacterPage";
 import MainPage from "@/Pages/MainPage";
 import SettingsPage from "@/Pages/SettingsPage";
@@ -19,6 +18,7 @@ const queryClient = new QueryClient();
 function Routing() {
   return (
     <React.StrictMode>
+      <AaReactProvider projectName={ProjectName} appName={AppName}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <NuqsAdapter>
@@ -35,6 +35,7 @@ function Routing() {
           </NuqsAdapter>
         </BrowserRouter>
       </QueryClientProvider>
+      </AaReactProvider>
     </React.StrictMode>
   )
 }

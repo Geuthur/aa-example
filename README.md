@@ -186,7 +186,8 @@ The user interface of AA Example is built as a modern React Single-Page Applicat
 ### Tech Stack<a name="tech-stack"></a>
 
 - **Framework**: React 19, TypeScript
-- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), AllianceAuth styles from `frontend/src/index.css`
+- **Shared base**: [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable, BaseModal, loaders, menu, hooks, `AuthBase` page layout, API client, styles and its own translation namespace); the app extends it through props and wrappers and never copies its files
+- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), AllianceAuth styles from `frontend/src/Styles/index.css` on top of `aa-geuthur-react/styles.css`
 - **UI Components & Icons**: React-Bootstrap, Lucide Icons (`lucide-react`)
 - **Data & Tables**: TanStack React Query (`@tanstack/react-query`), TanStack Table (`@tanstack/react-table`)
 - **API Client**: `openapi-fetch` with types generated via `openapi-typescript`
@@ -197,20 +198,20 @@ The user interface of AA Example is built as a modern React Single-Page Applicat
 
 You can control the frontend build, test, and development workflows directly from the repository root:
 
-| Command                        | Description                                                             |
-| :----------------------------- | :---------------------------------------------------------------------- |
-| `make react-dev`               | Starts the Vite development server with proxy to backend                |
-| `make react-build`             | Runs TypeScript compilation (`tsc -b`) and Vite production build        |
-| `make react-test`              | Runs Vitest unit tests                                                  |
-| `make react-lint`              | Runs ESLint verification                                                |
-| `make react-eslint`            | Runs ESLint with automated fixes (`--fix`)                              |
-| `make react-test-build`        | Runs build, asset copy, translation sync, and `collectstatic`           |
-| `make react-release`           | Runs full release build (build, i18n scan, asset copy, `collectstatic`) |
-| `make react-copy-assets`       | Copies Vite production build artifacts to Django's static directory     |
-| `make react-copy-translations` | Copies frontend i18n translations to Django's static directory          |
-| `make react-translations`      | Scans source code and updates i18n translation files                    |
-| `make react-openapi`           | Exports Django Ninja OpenAPI schema and regenerates TypeScript types    |
-| `make react-clean`             | Cleans React build directory                                            |
+| Command                        | Description                                                                                    |
+| :----------------------------- | :--------------------------------------------------------------------------------------------- |
+| `make react-dev`               | Starts the Vite development server with proxy to backend                                       |
+| `make react-build`             | Runs TypeScript compilation (`tsc -b`) and Vite production build                               |
+| `make react-test`              | Runs Vitest unit tests                                                                         |
+| `make react-lint`              | Runs ESLint verification                                                                       |
+| `make react-eslint`            | Runs ESLint with automated fixes (`--fix`)                                                     |
+| `make react-test-build`        | Runs build, asset copy, translation sync, and `collectstatic`                                  |
+| `make react-release`           | Runs full release build (build, i18n scan, asset copy, `collectstatic`)                        |
+| `make react-copy-assets`       | Copies Vite production build artifacts to Django's static directory                            |
+| `make react-copy-translations` | Copies the i18n translations of the app and of `aa-geuthur-react` to Django's static directory |
+| `make react-translations`      | Scans source code and updates i18n translation files                                           |
+| `make react-openapi`           | Exports Django Ninja OpenAPI schema and regenerates TypeScript types                           |
+| `make react-clean`             | Cleans React build directory                                                                   |
 
 ### Local Frontend Development<a name="local-frontend-development"></a>
 
@@ -265,7 +266,7 @@ sections, its update status, a task, an API and a page. Copy its files, rename
 | :------------------------------------ | :----------------------------------------------------------------------------------------- |
 | `frontend/src/Api/calls/<module>.ts`  | The API calls of the module over `apiClient` and its query keys (`<module>QueryKeys`)      |
 | `frontend/src/Api/schema.ts`          | Type aliases of the module schemas from the generated `OpenApi.ts`                         |
-| `frontend/src/Components/<Module>/`   | The components of the module, e.g. a table on `BaseTable`                                  |
+| `frontend/src/Components/<Module>/`   | The components of the module, e.g. a table on `BaseTable` from `aa-geuthur-react`          |
 | `frontend/src/Pages/<Module>Page.tsx` | The page: `useQuery` for loading, `useMutation` for actions                                |
 | `frontend/src/Routing.tsx`            | The route of the page; the menu link comes from `api/general.py`                           |
 | `frontend/src/__tests__/...`          | Tests next to the source: calls with `vi.spyOn(apiClient, ...)`, pages with `vi.mock(...)` |
@@ -280,6 +281,8 @@ sections, its update status, a task, an API and a page. Copy its files, rename
 ## Translations<a name="translations"></a>
 
 [![Translations](https://weblate.geuthur.de/widget/allianceauth/aa-example/multi-auto.svg)](https://weblate.geuthur.de/engage/allianceauth/)
+
+The texts of the app live in the namespace `translation` (`frontend/i18n/<lng>/translation.json`), the texts of the shared components in the namespace `aa-geuthur-react`, which the package ships and `make react-copy-translations` copies next to the app's file. Both are translated on Weblate, the package in its own component.
 
 Help us translate this app into your language or improve existing translations. Join our team!"
 
