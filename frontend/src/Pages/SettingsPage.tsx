@@ -3,6 +3,7 @@ import React from "react";
 
 // Third Party
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { FetchingLoader, queryKeys } from "aa-geuthur-react";
 import { BellOff, Settings2 } from "lucide-react";
 import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -11,9 +12,7 @@ import { useTranslation } from "react-i18next";
 import styles from "@/Styles/modules/SettingsPage.module.css";
 
 import { loadUserSettings, updateUserSettings } from "@/Api/calls/general";
-import { queryKeys } from "@/Api/query";
 import type { UserSettingsSchema } from "@/Api/schema";
-import { FetchingLoader } from "@/Components/Base/Loader";
 
 export const SettingsPage: React.FC = () => {
   const { t } = useTranslation();

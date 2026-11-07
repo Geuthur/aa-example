@@ -1,11 +1,11 @@
 // Third Party
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { BaseSectionHeader } from "aa-geuthur-react";
 import { Alert, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 // AA Example
 import { characterQueryKeys, loadCharacters, updateCharacter } from "@/Api/calls/character";
-import BaseSectionHeader from "@/Components/Base/BaseHeader";
 import { CharacterTable } from "@/Components/Character/CharacterTable";
 
 /** The character module page: lists the characters and queues updates. */
