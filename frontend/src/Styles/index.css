@@ -241,7 +241,7 @@ html[data-bs-theme="dark"] {
 
 /* ═══ Scroll Bar ═══════════════════════════════════════════════════════════════ */
 
-/* Custom sci-fi scrollbars matching vowra-website */
+/* Custom scrollbars of the app */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -426,17 +426,6 @@ html[data-bs-theme="dark"] {
     }
 }
 
-@media (min-width: 640px) {
-    .aa-table-footer {
-        flex-direction: row;
-    }
-
-    .aa-table-controls {
-        width: auto;
-        justify-content: flex-start;
-    }
-}
-
 /* ═══ ANIMATED PENDING / ERROR PULSE ══════════════════════════════════════════ */
 .aa-pending-dot-container {
     position: relative;
@@ -514,6 +503,21 @@ html[data-bs-theme="dark"] {
     50% {
         box-shadow: 0 0 10px 2px rgba(244, 63, 94, 0.5);
     }
+}
+
+/* ═══ LOADER ══════════════════════════════════════════════════════════════════ */
+
+@keyframes aa-shake {
+    0%,
+    100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.aa-shake {
+    animation: aa-shake 320ms ease-in-out infinite;
 }
 
 /* ═══ MENU BADGE PULSE ════════════════════════════════════════════════════════ */

@@ -2,7 +2,7 @@
 import { Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-// Voices of War
+// AA Example
 import { ErrorLoader } from '@/Components/Base/Loader';
 export function ErrorPage() {
     const { t } = useTranslation();

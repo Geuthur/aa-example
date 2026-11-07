@@ -33,11 +33,18 @@ Section Order:
 - Frontend of the character module: `Api/calls/character.ts` with `characterQueryKeys`, `Pages/CharacterPage.tsx`, `Components/Character/` (`CharacterTable`, `CharacterStatusBadge`), route `characters/` and menu link
 - README section "Create a New Module" with the file list of both sides
 - Tests for all of the above, the ESI fetch with `pook` under the real ESI URL
+- `BaseTable`: `showFooter` renders the column `footer` definitions as a summary row (from aa-ledger); `className` props per area (`headerClassName`, `bodyClassName`, `rowClassName`, `footClassName`, `footerClassName`) and slots (`toolbar`, `footer`, `emptyState`) so apps override instead of copying
+- `ErrorLoader`, `FetchingLoader` and `ErrorBoundary` take `className` props (`iconClassName`, `spinnerClassName`, `traceClassName`)
+- Tests for the loaders (`__tests__/Components/Base/Loader/Loader.test.tsx`)
+- `useCooldown`, `useOwnerCooldowns`, `useFeedback` and `useUserData` hooks in `frontend/src/Hooks/` (shared with the other apps)
+- `useMenu` hook in `frontend/src/Menu/Hooks/`, `AuthLeftMenuAsync` and `AuthRightMenuAsync` load the menu through it
+- `AdministrationMenuItem` in `frontend/src/Menu/BaseMenu.tsx`: an `administration` link is shown in red with a shield icon
 - [ADD] `badge` and `has_errors` on the `MenuLink` schema and an issue count badge in `BaseMenu` (`bg-danger`, pulsing via `aa-menu-badge-pulse` while `has_errors` is set), as template for the `Settings` navigation item of all plugins.
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
 
 ### Fixed
 
+- Template leftovers: `// Voices of War` import heading in `Pages/404.tsx`, tooltip id `vowra` in `Utils/bootsTrap.tsx` (now `aa-example-tooltip`), scrollbar comment in `Styles/index.css`, "AA Skillfarm" in README step 4, and `__package_name__` is `aa-example` in lower case like in every other app
 - Fixed the `import-headings` ESLint rule duplicating comments above the first import on every `--fix` pass, which could grow a file exponentially; added a unit test (`eslint-rules/import-headings.test.mjs`).
 - Fixed `make coverage` exiting with 0 when tests failed. The reports are still created, and the target now exits with the status of the test run, or with the status of `coverage report` if the tests passed.
 - [FIX] The pulsing menu and tab badges scaled up and down with their number. Only the glow around the badge pulses now.
@@ -49,6 +56,7 @@ Section Order:
 - `Api/ApiCalls.ts` moved to `Api/calls/general.ts`; API calls and query keys of a module live in `Api/calls/<module>.ts`
 - The API error responses use `ErrorSchema` instead of `dict`; the menu links to the character page
 - `__operations__` contains `GetCharactersCharacterIdWallet`; `UserMainFactory` uses the ESI scopes of `CharacterOwner`
+- BaseTable stack, filters and loaders use Bootstrap utilities instead of CSS modules, like aa-ledger. The filter theme (input, clear button, dropdown, popover) moved to `Styles/table.css` as `aa-table-filter-*` classes, the shake animation to `Styles/index.css`; the loading state dims the rows with `opacity-50 pe-none` (`aria-busy`)
 - [CHANGE] Tests use the Alliance Auth factories (`UserFactory`, `EveAllianceInfoFactory`, `EveCorporationInfoFactory`, `EveCharacterFactory`) and test helpers (`add_character_to_user` etc.) from `aa-evesde-factory` (new test dependency) instead of own copies; `testdata/factory.py` and `testdata/utils.py` are removed. Its usernames are unique, so a random name can no longer match an existing user such as the superuser of a test class. `UserMainFactory` stays as the app's own subclass.
 - Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`.
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
@@ -61,6 +69,7 @@ Section Order:
 ### Removed
 
 - `api/character.py` stub with dummy data and `ExampleSchema`; `example_task` (replaced by `update_all_characters`)
+- CSS modules `BaseTable`, `BaseTableFilter`, `BaseTableForm`, `BaseTablePages`, `ErrorBoundary`, `ErrorLoader`, `FetchingLoader` under `Styles/modules/`
 - Removed the legacy server-rendered templates (`base.html`, `bundles/`, `navigation/`, `view-index.html`) and the unused `character_id` route of the React view.
 - Removed the unused `Badges`, `Forms` and `Tables` frontend components, the `tableHelper.module.css` style, the Bootstrap table variant and the `react` tox environment.
 - Removed the custom CSS panel, button, badge, section, and tab utility classes in favor of Bootstrap 5.3.

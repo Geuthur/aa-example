@@ -3,7 +3,7 @@
 __version__ = "1.0.1"
 __title__ = "Example"
 
-__package_name__ = "aa-Example"
+__package_name__ = "aa-example"
 __app_name__ = "example"
 __esi_compatibility_date__ = "2026-08-18"
 __app_name_useragent__ = "AA-Example"

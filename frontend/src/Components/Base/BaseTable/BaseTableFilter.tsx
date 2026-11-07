@@ -1,5 +1,5 @@
 // React
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 
 // Third Party
 import type { CellData, Column, RowData, Table as ReactTable, TableFeatures } from "@tanstack/react-table";
@@ -7,16 +7,13 @@ import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { Button, Dropdown, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import Styles from "@/Styles/modules/BaseTableFilter.module.css";
-
+// AA Example
 import type { BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 
 // Lets a column supply a nicer label for its own SelectFilter options than
-// the raw underlying value (e.g. the wallet table's ref_type column, whose
-// raw values are ESI machine keys like "bounty_prizes" - see RefTypeLabel).
-// Falls back to SelectFilter's own value.replaceAll("_", " ") when unset, so
-// every other column's filter is unaffected.
+// the raw underlying value (e.g. a column whose raw values are ESI machine
+// keys like "bounty_prizes"). Falls back to SelectFilter's own
+// value.replaceAll("_", " ") when unset, so every other column's filter is unaffected.
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- must match the original interface's arity, not just what this augmentation itself uses
   interface ColumnMeta<TFeatures extends TableFeatures, TData extends RowData, TValue extends CellData = CellData> {
@@ -24,6 +21,24 @@ declare module "@tanstack/react-table" {
     align?: "left" | "right" | "center";
   }
 }
+
+const searchWrapperClass = "position-relative w-100";
+const searchIconClass = "position-absolute top-50 end-0 translate-middle-y me-2 pe-none text-muted";
+
+/** Small "x" button inside a filter field that clears the current value. */
+const ClearButton = ({ onClick }: { onClick: MouseEventHandler<HTMLButtonElement> }) => {
+  const { t } = useTranslation();
+  return (
+    <button
+      type="button"
+      className={`aa-table-filter-clear position-absolute top-50 end-0 translate-middle-y me-1 d-flex align-items-center justify-content-center border-0 bg-transparent p-0`}
+      onClick={onClick}
+      title={t("Clear")}
+    >
+      <X size={12} />
+    </button>
+  );
+};
 
 const isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
 
@@ -36,7 +51,7 @@ export const NumberFilter = <TData extends RowData,>({ column }: { column: Colum
     (typeof fromToNumber?.[1] !== "undefined" && fromToNumber?.[1] !== "");
 
   const popoverNumber = (
-    <Popover id="popover-number-range" className={Styles.popover}>
+    <Popover id="popover-number-range" className="aa-table-filter-popover">
       <Popover.Body className="p-3">
         <div className="d-flex flex-column gap-2">
           <div>
@@ -49,7 +64,7 @@ export const NumberFilter = <TData extends RowData,>({ column }: { column: Colum
                 column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])
               }
               placeholder={t("Min")}
-              className={Styles.searchinput}
+              className="aa-table-filter-input"
             />
           </div>
           <div>
@@ -62,7 +77,7 @@ export const NumberFilter = <TData extends RowData,>({ column }: { column: Colum
                 column.setFilterValue((old: [number, number]) => [old?.[0], e.target.value])
               }
               placeholder={t("Max")}
-              className={Styles.searchinput}
+              className="aa-table-filter-input"
             />
           </div>
           <div className="d-flex gap-2 mt-2">
@@ -93,10 +108,10 @@ export const NumberFilter = <TData extends RowData,>({ column }: { column: Colum
 
   return (
     <OverlayTrigger trigger="click" placement="bottom" rootClose={true} overlay={popoverNumber}>
-      <div className={Styles.searchwrapper}>
+      <div className={searchWrapperClass}>
         <Form.Control
           size="sm"
-          className={Styles.searchinput}
+          className="aa-table-filter-input"
           readOnly={true}
           type="text"
           placeholder={t("Range…")}
@@ -107,19 +122,12 @@ export const NumberFilter = <TData extends RowData,>({ column }: { column: Colum
           }
         />
         {hasValue ? (
-          <button
-            type="button"
-            className={Styles.clearbutton}
-            onClick={(e) => {
+          <ClearButton onClick={(e) => {
               e.stopPropagation();
               column.setFilterValue(() => [undefined, undefined]);
-            }}
-            title={t("Clear")}
-          >
-            <X size={12} />
-          </button>
+            }} />
         ) : (
-          <SlidersHorizontal size={12} className={Styles.searchicon} />
+          <SlidersHorizontal size={12} className={searchIconClass} />
         )}
       </div>
     </OverlayTrigger>
@@ -138,7 +146,7 @@ export const BoolFilter = <TData extends RowData,>({ column }: { column: Column<
       rootClose={true}
       overlay={
         <Dropdown show drop="down-centered">
-          <Dropdown.Menu className={Styles.dropdown}>
+          <Dropdown.Menu className={"aa-table-filter-dropdown overflow-y-auto"}>
             <Dropdown.Item
               onClick={() => {
                 column.setFilterValue(true);
@@ -168,29 +176,22 @@ export const BoolFilter = <TData extends RowData,>({ column }: { column: Column<
         </Dropdown>
       }
     >
-      <div className={Styles.searchwrapper}>
+      <div className={searchWrapperClass}>
         <Form.Control
           size="sm"
-          className={Styles.searchinput}
+          className="aa-table-filter-input"
           readOnly={true}
           type="text"
           placeholder={t("All")}
           value={hasValue ? (passFail ? t("True") : t("False")) : ""}
         />
         {hasValue ? (
-          <button
-            type="button"
-            className={Styles.clearbutton}
-            onClick={(e) => {
+          <ClearButton onClick={(e) => {
               e.stopPropagation();
               column.setFilterValue(() => undefined);
-            }}
-            title={t("Clear")}
-          >
-            <X size={12} />
-          </button>
+            }} />
         ) : (
-          <ChevronDown size={12} className={Styles.searchicon} />
+          <ChevronDown size={12} className={searchIconClass} />
         )}
       </div>
     </OverlayTrigger>
@@ -201,10 +202,10 @@ export const TextFilter = <TData extends RowData,>({ column }: { column: Column<
   const { t } = useTranslation();
   const value = (column.getFilterValue() as string) ?? "";
   return (
-    <div className={Styles.searchwrapper}>
+    <div className={searchWrapperClass}>
       <Form.Control
         size="sm"
-        className={Styles.searchinput}
+        className="aa-table-filter-input"
         type="text"
         placeholder={t("Filter…")}
         value={value}
@@ -213,16 +214,9 @@ export const TextFilter = <TData extends RowData,>({ column }: { column: Column<
         }}
       />
       {value ? (
-        <button
-          type="button"
-          className={Styles.clearbutton}
-          onClick={() => column.setFilterValue("")}
-          title={t("Clear")}
-        >
-          <X size={12} />
-        </button>
+        <ClearButton onClick={() => column.setFilterValue("")} />
       ) : (
-        <Search size={12} className={Styles.searchicon} />
+        <Search size={12} className={searchIconClass} />
       )}
     </div>
   );
@@ -265,12 +259,12 @@ export const SelectFilter = <TData extends RowData,>({ column }: { column: Colum
       rootClose={true}
       overlay={
         <Dropdown show drop="down-centered">
-          <Dropdown.Menu className={Styles.dropdown}>
+          <Dropdown.Menu className={"aa-table-filter-dropdown overflow-y-auto"}>
             {selectOptions.length > 0 ? (
               selectOptions.map((item) => (
                 <Dropdown.Item
                   key={item.value}
-                  className={Styles.capitalisewords}
+                  className="text-capitalize"
                   onClick={() => {
                     column.setFilterValue(item.value ? item.value : "");
                     document.body.click();
@@ -286,10 +280,10 @@ export const SelectFilter = <TData extends RowData,>({ column }: { column: Colum
         </Dropdown>
       }
     >
-      <div className={Styles.searchwrapper}>
+      <div className={searchWrapperClass}>
         <Form.Control
           size="sm"
-          className={Styles.searchinput}
+          className="aa-table-filter-input"
           type="text"
           placeholder={t("Filter…")}
           value={
@@ -309,20 +303,13 @@ export const SelectFilter = <TData extends RowData,>({ column }: { column: Colum
           }}
         />
         {currentFilterValue ? (
-          <button
-            type="button"
-            className={Styles.clearbutton}
-            onClick={(event) => {
+          <ClearButton onClick={(event) => {
               event.stopPropagation();
               setIsEditing(false);
               column.setFilterValue(() => undefined);
-            }}
-            title={t("Clear")}
-          >
-            <X size={12} />
-          </button>
+            }} />
         ) : (
-          <ChevronDown size={12} className={Styles.searchicon} />
+          <ChevronDown size={12} className={searchIconClass} />
         )}
       </div>
     </OverlayTrigger>
