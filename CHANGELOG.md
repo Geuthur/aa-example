@@ -28,6 +28,11 @@ Section Order:
 
 ### Added
 
+- Python scaffold from the apps: `retry_task_on_esi_error`, `DOWNTIME_TIMER` and `DownTimeError` (`providers.py`, `errors.py`), `models/helpers/update_manager.py` with `UpdateSectionResult`, `_NeedsUpdate`, `UpdateStatus`, `UpdateSection`, `UpdateStatusBaseModel`, `UpdateManager` and `UpdateManagerMixin` (aa-ledger as base, `UpdateSection` base class and `get_status` as opt-ins), `api/helpers/core.py` with `get_object_with_access` and `can_view_overview`
+- Character module as pattern for new modules: `CharacterOwner` with the ESI section `wallet` and `CharacterUpdateStatus` (`models/character.py`, migration `0001_initial`), `managers/character.py`, `api/character.py` (`GET characters/`, `GET characters/{character_id}/`, `POST characters/{character_id}/update/`), `api/helpers/character.py`, tasks `update_all_characters` and `update_character`, setting `EXAMPLE_STALE_TYPES`
+- Frontend of the character module: `Api/calls/character.ts` with `characterQueryKeys`, `Pages/CharacterPage.tsx`, `Components/Character/` (`CharacterTable`, `CharacterStatusBadge`), route `characters/` and menu link
+- README section "Create a New Module" with the file list of both sides
+- Tests for all of the above, the ESI fetch with `pook` under the real ESI URL
 - `BaseTable`: `showFooter` renders the column `footer` definitions as a summary row (from aa-ledger); `className` props per area (`headerClassName`, `bodyClassName`, `rowClassName`, `footClassName`, `footerClassName`) and slots (`toolbar`, `footer`, `emptyState`) so apps override instead of copying
 - `ErrorLoader`, `FetchingLoader` and `ErrorBoundary` take `className` props (`iconClassName`, `spinnerClassName`, `traceClassName`)
 - Tests for the loaders (`__tests__/Components/Base/Loader/Loader.test.tsx`)
@@ -47,6 +52,10 @@ Section Order:
 
 ### Changed
 
+- `managers.py` moved to `managers/general.py`; `AccessQuerySet` resolves ownership through `character__character_ownership__user` and exposes `visible_q`/`manage_q` for subclasses
+- `Api/ApiCalls.ts` moved to `Api/calls/general.ts`; API calls and query keys of a module live in `Api/calls/<module>.ts`
+- The API error responses use `ErrorSchema` instead of `dict`; the menu links to the character page
+- `__operations__` contains `GetCharactersCharacterIdWallet`; `UserMainFactory` uses the ESI scopes of `CharacterOwner`
 - BaseTable stack, filters and loaders use Bootstrap utilities instead of CSS modules, like aa-ledger. The filter theme (input, clear button, dropdown, popover) moved to `Styles/table.css` as `aa-table-filter-*` classes, the shake animation to `Styles/index.css`; the loading state dims the rows with `opacity-50 pe-none` (`aria-busy`)
 - [CHANGE] Tests use the Alliance Auth factories (`UserFactory`, `EveAllianceInfoFactory`, `EveCorporationInfoFactory`, `EveCharacterFactory`) and test helpers (`add_character_to_user` etc.) from `aa-evesde-factory` (new test dependency) instead of own copies; `testdata/factory.py` and `testdata/utils.py` are removed. Its usernames are unique, so a random name can no longer match an existing user such as the superuser of a test class. `UserMainFactory` stays as the app's own subclass.
 - Aligned the template with `aa-ledger`: entry files are now `Main.tsx`, `Routing.tsx` and `constants.ts` (replacing `main.tsx`, `App.tsx` and `configuration.ts`), global styles live in `Styles/index.css` and `Styles/table.css`.
@@ -59,6 +68,7 @@ Section Order:
 
 ### Removed
 
+- `api/character.py` stub with dummy data and `ExampleSchema`; `example_task` (replaced by `update_all_characters`)
 - CSS modules `BaseTable`, `BaseTableFilter`, `BaseTableForm`, `BaseTablePages`, `ErrorBoundary`, `ErrorLoader`, `FetchingLoader` under `Styles/modules/`
 - Removed the legacy server-rendered templates (`base.html`, `bundles/`, `navigation/`, `view-index.html`) and the unused `character_id` route of the React view.
 - Removed the unused `Badges`, `Forms` and `Tables` frontend components, the `tableHelper.module.css` style, the Bootstrap table variant and the `react` tox environment.

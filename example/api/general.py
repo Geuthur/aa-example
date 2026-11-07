@@ -29,6 +29,7 @@ class ApiEndpoints:
         def get_menu(request):  # pylint: disable=unused-argument
             left_menu: list[schema.MenuLink] = []
             left_menu.append(schema.MenuLink(name=__title__, link="/"))
+            left_menu.append(schema.MenuLink(name=_("Characters"), link="/characters/"))
             left_menu.append(schema.MenuLink(name=_("Settings"), link="/settings/"))
 
             right_menu: list[schema.MenuLink] = []
@@ -41,7 +42,7 @@ class ApiEndpoints:
             "user/",
             response={
                 HTTPStatus.OK: schema.UserData,
-                HTTPStatus.FORBIDDEN: dict,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
         )
@@ -92,7 +93,7 @@ class ApiEndpoints:
             "settings/",
             response={
                 HTTPStatus.OK: schema.UserSettingsSchema,
-                HTTPStatus.FORBIDDEN: dict,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Get current user's settings",
@@ -110,7 +111,7 @@ class ApiEndpoints:
             "settings/",
             response={
                 HTTPStatus.OK: schema.UserSettingsSchema,
-                HTTPStatus.FORBIDDEN: dict,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Update current user's settings",

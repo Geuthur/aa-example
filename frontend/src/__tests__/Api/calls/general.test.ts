@@ -7,7 +7,7 @@ import {
     loadUserData,
     loadUserSettings,
     updateUserSettings,
-} from '@/Api/ApiCalls';
+} from '@/Api/calls/general';
 import { ProjectName } from '@/constants';
 
 describe('General API client functions', () => {

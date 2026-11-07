@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 // AA Example
-import { loadUserData } from "@/Api/ApiCalls";
+import { loadUserData } from "@/Api/calls/general";
 import { queryKeys } from "@/Api/query";
 
 /** Loads the current user (main character, corporation, superuser flag). */

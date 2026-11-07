@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 // Styles
 import styles from "@/Styles/modules/SettingsPage.module.css";
 
-import { loadUserSettings, updateUserSettings } from "@/Api/ApiCalls";
+import { loadUserSettings, updateUserSettings } from "@/Api/calls/general";
 import { queryKeys } from "@/Api/query";
 import type { UserSettingsSchema } from "@/Api/schema";
 import { FetchingLoader } from "@/Components/Base/Loader";

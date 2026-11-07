@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 // AA Example
-import { loadMenu } from "@/Api/ApiCalls";
+import { loadMenu } from "@/Api/calls/general";
 import { queryKeys } from "@/Api/query";
 
 /** Loads the left and right menu links. */

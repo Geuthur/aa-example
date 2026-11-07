@@ -21,3 +21,13 @@ EXAMPLE_TASKS_TIME_LIMIT = getattr(
 # Can be increased for better performance if your MySQL max_allowed_packet setting
 # is configured higher (default is usually 16-64MB).
 EXAMPLE_BULK_BATCH_SIZE = getattr(settings, "EXAMPLE_BULK_BATCH_SIZE", 500)
+
+# Minutes after which a section counts as stale and is fetched from ESI again.
+# One entry per update section (see `models/helpers/update_manager.py`).
+EXAMPLE_STALE_TYPES = getattr(
+    settings,
+    "EXAMPLE_STALE_TYPES",
+    {
+        "wallet": 60,
+    },
+)

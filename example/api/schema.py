@@ -1,4 +1,5 @@
 # Standard Library
+from datetime import datetime
 from typing import Any
 
 # Third Party
@@ -60,11 +61,60 @@ class DataTableSchema(Schema):
     dropdown_text: str | None = None
 
 
-class ExampleSchema(Schema):
-    character_id: int | None = None
-    character_name: str | None = None
-    corporation_id: int | None = None
-    corporation_name: str | None = None
+class ErrorSchema(Schema):
+    """Error response of an endpoint, e.g. for 403 and 404."""
+
+    error: str
+
+
+class ActionResponse(Schema):
+    """Response of an action endpoint, e.g. after queueing a task."""
+
+    success: bool
+    message: str
+
+
+class ForceRefreshRequest(Schema):
+    """Request body of update endpoints."""
+
+    force_refresh: bool = False
+
+
+# Character module
+
+
+class CharacterUpdateStatusSchema(Schema):
+    """Update status of one section of a character."""
+
+    section: str
+    section_label: str
+    is_success: bool | None = None
+    has_token_error: bool = False
+    error_message: str = ""
+    last_run_finished_at: datetime | None = None
+    last_update_finished_at: datetime | None = None
+
+
+class CharacterSchema(Schema):
+    """A character owner as shown in the character list."""
+
+    id: int
+    character_id: int
+    character_name: str
+    corporation_id: int
+    corporation_name: str
+    portrait_url: str
+    active: bool
+    wallet_balance: float | None = None
+    update_status: str
+    update_status_label: str
+    last_update: datetime | None = None
+
+
+class CharacterDetailSchema(CharacterSchema):
+    """A character owner with the status of every section."""
+
+    sections: list[CharacterUpdateStatusSchema] = []
 
 
 # React Stuff

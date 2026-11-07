@@ -7,7 +7,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 // AA Example
-import * as ApiCalls from "@/Api/ApiCalls";
+import * as ApiCalls from "@/Api/calls/general";
 import { useUserData } from "@/Hooks/useUserData";
 
 const wrapper = ({ children }: { children: ReactNode }) => {
