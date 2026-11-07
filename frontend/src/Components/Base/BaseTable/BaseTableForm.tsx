@@ -3,18 +3,20 @@ import type { RowData, Table as TanStackTable } from "@tanstack/react-table";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import styles from "@/Styles/modules/BaseTableForm.module.css";
-
+// AA Example
 import type { BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 
-export function BaseTableForm<TData extends RowData>({ table }: { table: TanStackTable<BaseTableFeatures, TData> }) {
+export interface BaseTableFormProps<TData extends RowData> {
+    table: TanStackTable<BaseTableFeatures, TData>;
+}
+
+export function BaseTableForm<TData extends RowData>({ table }: BaseTableFormProps<TData>) {
     const { t } = useTranslation();
     return (
         <div className="d-flex align-items-center ms-2">
           <Form.Label className="m-0 me-2 text-nowrap">{t("Page Size:")}</Form.Label>
           <Form.Select
-            className={styles["page-size-select"]}
+            className="w-auto"
             value={table.atoms.pagination.get().pageSize}
             onChange={(e) => table.setPageSize(Number(e.target.value))}
           >

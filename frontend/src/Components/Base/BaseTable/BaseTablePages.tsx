@@ -6,13 +6,11 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-// Styles
-import tableStyles from "@/Styles/modules/BaseTable.module.css";
-import pageStyles from "@/Styles/modules/BaseTablePages.module.css";
-
+// AA Example
 import type { BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 import { exportToCSV } from "@/Components/Base/BaseTable/tableHelper";
 import { renderTooltip } from "@/Utils/bootsTrap";
+import { formatDate } from "@/Utils/format";
 
 export interface TablePagesProps<TData extends RowData> {
   table: TanStackTable<BaseTableFeatures, TData>;
@@ -34,7 +32,7 @@ const BasePages = <TData extends RowData,>({
 
   return (
     <div>
-      <ButtonGroup size="sm" className={pageStyles["button-group"]}>
+      <ButtonGroup size="sm" className="z-0">
         {showPageNumber && (
           <Button size="sm" variant="primary">
             {t("Page {{page}} of {{total}}", {
@@ -47,12 +45,12 @@ const BasePages = <TData extends RowData,>({
           renderTooltip(
             t("Refreshing Data"),
             <Button size="sm" variant="primary">
-              <i className={`${tableStyles.refreshanimate} fas fa-sync`}></i>
+              <i className="fas fa-sync fa-spin"></i>
             </Button>
           )
         ) : (
           renderTooltip(
-            t("Data Loaded: {{date}}", { date: new Date().toLocaleString() }),
+            t("Data Loaded: {{date}}", { date: formatDate(new Date().toISOString()) }),
             <Button size="sm" variant="primary">
               <i className="far fa-check-circle"></i>
             </Button>

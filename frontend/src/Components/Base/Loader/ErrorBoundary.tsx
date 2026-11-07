@@ -3,16 +3,16 @@ import React, { Component } from "react";
 import type { ErrorInfo } from "react";
 
 // Third Party
-import {withTranslation } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import type { WithTranslation } from "react-i18next";
 
-// Styles
-import styles from "@/Styles/modules/ErrorBoundary.module.css";
-
+// AA Example
 import { ErrorLoader } from "@/Components/Base/Loader/ErrorLoader";
 
 interface Props extends WithTranslation {
   children: React.ReactNode;
+  /** Extra classes for the `<pre>` with the component stack. */
+  traceClassName?: string;
 }
 
 interface State {
@@ -44,13 +44,13 @@ class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      const { t } = this.props;
+      const { t, traceClassName = "" } = this.props;
       return (
         <>
           <ErrorLoader title={this.state.title} message={this.state.message} />
           <h1>{t("Something went wrong.")}</h1>
-          <div className={`d-flex ${styles["centered"]}`}>
-            <pre className={`border ${styles["trace"]}`}>
+          <div className="d-flex justify-content-center">
+            <pre className={`border mw-100 overflow-auto p-2 ${traceClassName}`} data-testid="error-boundary-trace">
               {this.state.trace}
             </pre>
           </div>

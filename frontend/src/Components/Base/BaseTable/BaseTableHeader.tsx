@@ -1,4 +1,3 @@
-
 // React
 import { Fragment } from "react/jsx-runtime";
 
@@ -7,6 +6,7 @@ import { flexRender } from "@tanstack/react-table";
 import type { Header, HeaderGroup, RowData, Table as TanStackTable } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
 
+// AA Example
 import { Filter } from "@/Components/Base/BaseTable/BaseTableFilter";
 import type { BaseTableFeatures } from "@/Components/Base/BaseTable/tableFeatures";
 
@@ -37,14 +37,14 @@ function BaseHeader<TData extends RowData>({ table, enableFilters = true }: Tabl
                     key={header.id}
                     colSpan={header.colSpan}
                     onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
-                    className={`aa-table-heading-cell ${canSort ? "aa-table-sortable" : ""} ${
-                      isRight ? "text-end aa-table-cell-right" : ""
+                    className={`aa-table-heading-cell ${canSort ? "aa-table-sortable user-select-none" : ""} ${
+                      isRight ? "text-end" : ""
                     }`}
                   >
                     {header.isPlaceholder ? null : (
                       <div
-                        className={`aa-table-heading ${
-                          isRight ? "aa-table-heading-right justify-content-end" : ""
+                        className={`d-flex align-items-center gap-2 ${
+                          isRight ? "justify-content-end text-end" : ""
                         }`}
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
@@ -71,7 +71,7 @@ function BaseHeader<TData extends RowData>({ table, enableFilters = true }: Tabl
                   <th
                     key={`${header.id}-filter`}
                     colSpan={header.colSpan}
-                    className="aa-table-filter-cell"
+                    className="aa-table-filter-cell px-3 py-1"
                   >
                     {header.column.getCanFilter() ? (
                       <Filter column={header.column} table={table} />
