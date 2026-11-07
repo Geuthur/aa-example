@@ -32,7 +32,8 @@ from pathlib import Path
 NEW_VERSION = "0.1.0"
 CONFIG_FILE = Path(".make") / "config.ini"
 
-# Directories that are never read or renamed (by their name, at any depth).
+# Names that are never read or renamed, at any depth (``.git`` is a file in a
+# git worktree, the others are directories).
 SKIP_DIRS = {
     ".git",
     ".tox",
@@ -223,7 +224,9 @@ def collect_paths(root: Path) -> tuple[list[Path], list[Path]]:
         )
         dirs.extend(base / name for name in dirnames)
         files.extend(
-            base / name for name in sorted(filenames) if base / name not in ignored
+            base / name
+            for name in sorted(filenames)
+            if name not in SKIP_DIRS and base / name not in ignored
         )
     return dirs, files
 

@@ -142,6 +142,7 @@ FILES = {
         'export const AppName = "aa-demo";\nexport const ProjectName = "demo";\n'
     ),
     "node_modules/demo/index.js": "module.exports = 'demo';\n",
+    ".git": "gitdir: /home/git/aa-demo/.git/worktrees/aa-demo-test\n",
     "frontend/build/demo.js": "demo\n",
 }
 
@@ -321,6 +322,7 @@ class TestRun(TestCase):
             self.read("node_modules/demo/index.js"), "module.exports = 'demo';\n"
         )
         self.assertEqual(self.read("frontend/build/demo.js"), "demo\n")
+        self.assertEqual(self.read(".git"), FILES[".git"])
 
     def test_resets_changelog(self):
         init_app.run(self.root, DST)
