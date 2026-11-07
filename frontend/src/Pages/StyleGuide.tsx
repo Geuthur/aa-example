@@ -2,12 +2,10 @@
 import { useState } from "react";
 
 // Third Party
-import { Badge, Button, Card } from "react-bootstrap";
-
-import { BaseModal, ModalSize } from "@/Components/Base/BaseModal";
-import { BaseTable } from "@/Components/Base/BaseTable";
-import type { BaseColumnDef } from "@/Components/Base/BaseTable/tableFeatures";
 import {
+  BaseModal,
+  BaseTable,
+  ModalSize,
   allianceImageUrl,
   characterImageUrl,
   corporationImageUrl,
@@ -19,7 +17,9 @@ import {
   renderTooltip,
   shipImageUrl,
   toolTipContainer,
-} from "@/Utils";
+} from "aa-geuthur-react";
+import type { BaseColumnDef } from "aa-geuthur-react";
+import { Badge, Button, Card } from "react-bootstrap";
 
 interface ShowcaseRow {
   pilot: string;

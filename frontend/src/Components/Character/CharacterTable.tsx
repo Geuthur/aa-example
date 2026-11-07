@@ -2,16 +2,14 @@
 import { useMemo } from "react";
 
 // Third Party
+import { BaseTable, createBaseColumnHelper, formatIsk, formatRelativeTime } from "aa-geuthur-react";
 import { RefreshCw } from "lucide-react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 // AA Example
 import type { CharacterSchema } from "@/Api/schema";
-import { BaseTable } from "@/Components/Base/BaseTable";
-import { createBaseColumnHelper } from "@/Components/Base/BaseTable/tableFeatures";
 import { CharacterStatusBadge } from "@/Components/Character/CharacterStatusBadge";
-import { formatIsk, formatRelativeTime } from "@/Utils/format";
 
 const columnHelper = createBaseColumnHelper<CharacterSchema>();
 

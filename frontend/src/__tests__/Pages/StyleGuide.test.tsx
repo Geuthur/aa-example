@@ -10,6 +10,7 @@ import StyleGuide from "@/Pages/StyleGuide";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
+  withTranslation: () => (Component: unknown) => Component,
 }));
 
 describe("StyleGuide", () => {
