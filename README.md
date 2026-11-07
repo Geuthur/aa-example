@@ -1,7 +1,7 @@
 # AA Example.<a name="aa-example"></a>
 
-> [!WARNING]
-> Before you create Models, etc remove the 0001_initial.py from migrations folder if you dont have created own one.
+> [!NOTE]
+> This repository is a template. Create a new app with `make init-app` instead of renaming by hand, see [Create a New App from this Template](#create-a-new-app-from-this-template).
 
 A Example App that templating example to example
 
@@ -10,6 +10,7 @@ ______________________________________________________________________
 <!-- mdformat-toc start --slug=github --maxlevel=6 --minlevel=1 -->
 
 - [AA Example.](#aa-example)
+  - [Create a New App from this Template](#create-a-new-app-from-this-template)
   - [Features](#features)
   - [Installation](#installation)
     - [Step 1 - Install the Package](#step-1---install-the-package)
@@ -32,6 +33,35 @@ ______________________________________________________________________
   - [Contributing](#contributing)
 
 <!-- mdformat-toc end -->
+
+## Create a New App from this Template<a name="create-a-new-app-from-this-template"></a>
+
+Create the repository from this template on GitHub, clone it and run the script once with the Python package name, the repository (PyPI) name and the verbose name of the new app:
+
+```shell
+make init-app NAME=ledger APPNAME=aa-ledger VERBOSE="AA Ledger"
+```
+
+The script `scripts/init_app.py` (Python standard library only) reads the current names from `.make/config.ini` and
+
+- replaces `example` → `ledger`, `Example` → `Ledger`, `EXAMPLE` → `LEDGER`, `aa-example` → `aa-ledger`, `AA Example` → `AA Ledger` and `AA-Example` → `AA-Ledger` in every text file, at word boundaries (`examples` or `example.com` stay as they are; in `LICENSE` only the app names change),
+- renames `example/`, `example/templates/example/`, `example/static/example/` and every other file or directory with the old names,
+- sets `__version__` to `0.1.0` and resets `CHANGELOG.md` to an empty "In Development" section,
+- reports every replacement and rename at the end.
+
+Source maps of the built frontend, the ESI specification `openapi_<date>.json` and files ignored by git are skipped. Options go into `INIT_ARGS`:
+
+| Option                     | Effect                                                                                                                                                                                                                                                            |
+| :------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--dry-run`                | Only report what would change.                                                                                                                                                                                                                                    |
+| `--drop-migrations`        | Remove the migrations of the template (`0001_initial.py` of the `character` module). Keep them if the module stays as your pattern, otherwise run `make migrations` afterwards.                                                                                   |
+| `--drop-template-override` | Remove the `TEMPLATE ONLY` override of `permissions` in `tests/testdata/app.py`. Do this together with making the `General` model concrete (remove `abstract = True` and `managed = False` in `models/general.py`), the override only exists for abstract models. |
+
+```shell
+make init-app NAME=ledger APPNAME=aa-ledger VERBOSE="AA Ledger" INIT_ARGS="--drop-migrations --drop-template-override"
+```
+
+The script stays in `scripts/` after the run, so it can be repeated on a fresh copy. Afterwards replace `ledger/docs/images/preview-1.png` with a screenshot of the new app and run `make tox-tests`, `make react-test`, `make react-lint` and `make react-build`.
 
 ## Features<a name="features"></a>
 
