@@ -241,7 +241,7 @@ html[data-bs-theme="dark"] {
 
 /* ═══ Scroll Bar ═══════════════════════════════════════════════════════════════ */
 
-/* Custom sci-fi scrollbars matching vowra-website */
+/* Custom scrollbars of the app */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
