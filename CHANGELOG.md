@@ -28,6 +28,8 @@ Section Order:
 
 ### Added
 
+- `scripts/init_app.py` and `make init-app NAME=<package> APPNAME=aa-<name> VERBOSE="AA <Name>"` create a new app from the template: rename `example`, `Example`, `EXAMPLE`, `aa-example`, `AA Example` and `AA-Example` in every text file and path at word boundaries, set `__version__` to `0.1.0`, reset `CHANGELOG.md`, optionally drop the template migrations (`--drop-migrations`) and the `TEMPLATE ONLY` override (`--drop-template-override`); unit tests in `tests/test_init_app.py`
+- README section "Create a New App from this Template" replaces the warning about `0001_initial.py`
 - Python scaffold from the apps: `retry_task_on_esi_error`, `DOWNTIME_TIMER` and `DownTimeError` (`providers.py`, `errors.py`), `models/helpers/update_manager.py` with `UpdateSectionResult`, `_NeedsUpdate`, `UpdateStatus`, `UpdateSection`, `UpdateStatusBaseModel`, `UpdateManager` and `UpdateManagerMixin` (aa-ledger as base, `UpdateSection` base class and `get_status` as opt-ins), `api/helpers/core.py` with `get_object_with_access` and `can_view_overview`
 - Character module as pattern for new modules: `CharacterOwner` with the ESI section `wallet` and `CharacterUpdateStatus` (`models/character.py`, migration `0001_initial`), `managers/character.py`, `api/character.py` (`GET characters/`, `GET characters/{character_id}/`, `POST characters/{character_id}/update/`), `api/helpers/character.py`, tasks `update_all_characters` and `update_character`, setting `EXAMPLE_STALE_TYPES`
 - Frontend of the character module: `Api/calls/character.ts` with `characterQueryKeys`, `Pages/CharacterPage.tsx`, `Components/Character/` (`CharacterTable`, `CharacterStatusBadge`), route `characters/` and menu link
