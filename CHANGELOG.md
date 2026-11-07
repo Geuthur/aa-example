@@ -31,6 +31,9 @@ Section Order:
 - `BaseTable`: `showFooter` renders the column `footer` definitions as a summary row (from aa-ledger); `className` props per area (`headerClassName`, `bodyClassName`, `rowClassName`, `footClassName`, `footerClassName`) and slots (`toolbar`, `footer`, `emptyState`) so apps override instead of copying
 - `ErrorLoader`, `FetchingLoader` and `ErrorBoundary` take `className` props (`iconClassName`, `spinnerClassName`, `traceClassName`)
 - Tests for the loaders (`__tests__/Components/Base/Loader/Loader.test.tsx`)
+- `useCooldown`, `useOwnerCooldowns`, `useFeedback` and `useUserData` hooks in `frontend/src/Hooks/` (shared with the other apps)
+- `useMenu` hook in `frontend/src/Menu/Hooks/`, `AuthLeftMenuAsync` and `AuthRightMenuAsync` load the menu through it
+- `AdministrationMenuItem` in `frontend/src/Menu/BaseMenu.tsx`: an `administration` link is shown in red with a shield icon
 - [ADD] `badge` and `has_errors` on the `MenuLink` schema and an issue count badge in `BaseMenu` (`bg-danger`, pulsing via `aa-menu-badge-pulse` while `has_errors` is set), as template for the `Settings` navigation item of all plugins.
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
 
