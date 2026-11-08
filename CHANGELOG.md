@@ -62,6 +62,7 @@ Section Order:
 
 ### Changed
 
+- [CHANGE] `aa-geuthur-react` raised to `^1.3.0`. The package bundles its own translations and registers them with i18next through `AaReactProvider`, so `Main.tsx` lists only the namespace `translation`, the copies under `example/static/example/i18n/<lng>/aa-geuthur-react.json` are removed and `make react-copy-translations` no longer copies them. Untranslated strings in `frontend/i18n/<lng>/translation.json` are empty instead of English (`i18next-scanner` writes the key as value only for `en`); `returnEmptyString: false` shows the English fallback at runtime. Translate on Weblate as before.
 - `managers.py` moved to `managers/general.py`; `AccessQuerySet` resolves ownership through `character__character_ownership__user` and exposes `visible_q`/`manage_q` for subclasses
 - `Api/ApiCalls.ts` moved to `Api/calls/general.ts`; API calls and query keys of a module live in `Api/calls/<module>.ts`
 - The API error responses use `ErrorSchema` instead of `dict`; the menu links to the character page
