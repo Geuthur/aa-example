@@ -46,6 +46,7 @@ Section Order:
 
 ### Fixed
 
+- The CSS of `aa-geuthur-react` is imported with `@import` at the top of `Styles/index.css` instead of in `Main.tsx`. Vite put the package CSS from `Main.tsx` into the vendor chunk, which `react_base.html` does not load, so tables had no background, filters were white and containers had no minimum width. `aa-geuthur-react` is raised to `^1.0.2` (fixes the active menu links)
 - Template leftovers: `// Voices of War` import heading in `Pages/404.tsx`, tooltip id `vowra` in `Utils/bootsTrap.tsx` (now `aa-example-tooltip`), scrollbar comment in `Styles/index.css`, "AA Skillfarm" in README step 4, and `__package_name__` is `aa-example` in lower case like in every other app
 - Fixed the `import-headings` ESLint rule duplicating comments above the first import on every `--fix` pass, which could grow a file exponentially; added a unit test (`eslint-rules/import-headings.test.mjs`).
 - Fixed `make coverage` exiting with 0 when tests failed. The reports are still created, and the target now exits with the status of the test run, or with the status of `coverage report` if the tests passed.
