@@ -282,7 +282,7 @@ sections, its update status, a task, an API and a page. Copy its files, rename
 
 [![Translations](https://weblate.geuthur.de/widget/allianceauth/aa-example/multi-auto.svg)](https://weblate.geuthur.de/engage/allianceauth/)
 
-The texts of the app live in the namespace `translation` (`frontend/i18n/<lng>/translation.json`). The texts of the shared components live in the namespace `aa-geuthur-react`; the package bundles them and registers them with i18next itself, so the app neither copies nor loads them. Both are translated on Weblate, the package in its own component. Only `en` holds the English text as value; in the other languages untranslated strings are empty and fall back to English at runtime (`returnEmptyString: false`).
+The texts of the app live in the namespace `translation` (`frontend/i18n/<lng>/translation.json`). The texts of the shared components live in the namespace `aa-geuthur-react`; the package bundles them and registers them with i18next itself, so the app neither copies nor loads them. Both are translated on Weblate, the package in its own component. The scanner (`make react-translations`) maintains only `en`, which holds the English text as value. The other language files hold only real translations, as Weblate writes them; a missing key falls back to English at runtime (`fallbackLng: "en"`).
 
 Help us translate this app into your language or improve existing translations. Join our team!"
 
