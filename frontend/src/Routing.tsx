@@ -23,7 +23,7 @@ function Routing() {
         <BrowserRouter>
           <NuqsAdapter>
             <Routes>
-              <Route path={`/${ProjectName}/`} element={<AuthBase />}>
+              <Route path={`/${ProjectName}/`} element={<AuthBase fluidOnSmallScreens />}>
                 <Route index element={<MainPage />} />
                 <Route path="characters/" element={<CharacterPage />} />
                 <Route path="styleguide/" element={<StyleGuide />} />
