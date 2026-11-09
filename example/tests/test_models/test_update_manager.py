@@ -18,7 +18,6 @@ from example.models.character import CharacterUpdateStatus
 from example.models.helpers.update_manager import (
     CharacterUpdateSection,
     UpdateSectionResult,
-    UpdateStatus,
 )
 from example.tests import AuthTestCase
 from example.tests.testdata.character import (
@@ -393,20 +392,7 @@ class TestUpdateManager(AuthTestCase):
         self.assertEqual(sections, CharacterUpdateSection.get_sections())
 
 
-class TestUpdateStatus(AuthTestCase):
-    def test_bootstrap_icon_should_use_the_text_style_class(self):
-        # Test Action
-        icon = UpdateStatus.OK.bootstrap_icon()
-
-        # Expected Result
-        self.assertIn("text-success", icon)
-        self.assertIn("Updates completed successfully", icon)
-
-    def test_description_should_return_text_for_every_status(self):
-        # Test Action & Expected Result
-        for status in UpdateStatus:
-            self.assertTrue(status.description())
-
+class TestUpdateSection(AuthTestCase):
     def test_section_should_name_the_update_method(self):
         # Test Action & Expected Result
         self.assertEqual(CharacterUpdateSection.WALLET.method_name, "update_wallet")

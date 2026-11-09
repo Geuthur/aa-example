@@ -88,6 +88,7 @@ Section Order:
 - Removed the custom CSS panel, button, badge, section, and tab utility classes in favor of Bootstrap 5.3.
 - Removed the agent rules under `.agents/rules/`. The agent rules for this project now live in the Brain repository.
 - [REMOVE] The unused `ExampleTestCase` alias of `AuthTestCase` in `example/tests/__init__.py`.
+- Removed the HTML helpers `bootstrap_icon()`, `bootstrap_text_style_class()` and `description()` from `UpdateStatus`. The frontend renders the update status from the API itself.
 
 ### Changed
 
