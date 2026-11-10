@@ -1,25 +1,41 @@
 # Standard Library
+from http import HTTPStatus
 from unittest.mock import MagicMock, patch
 
 # Third Party
+import pook
+from aiopenapi3 import RequestError
+from celery.exceptions import Retry
 from evesde_factory.allianceauth import EveCharacterFactory
 
 # Django
+from django.core.cache import cache
 from django.test import override_settings
 from django.utils import timezone
+
+# Alliance Auth
+from esi.exceptions import (
+    ESIBucketLimitException,
+    ESIErrorLimitException,
+    HTTPServerError,
+)
 
 # AA Example
 from example import tasks
 from example.errors import DownTimeError
+from example.models.character import CharacterUpdateStatus
 from example.models.helpers.update_manager import (
     CharacterUpdateSection,
     UpdateSectionResult,
+    UpdateStatus,
 )
+from example.providers import DOWNTIME_TIMER
 from example.tests import AuthTestCase
 from example.tests.testdata.character import (
     CharacterOwnerFactory,
     CharacterUpdateStatusFactory,
 )
+from example.tests.testdata.esi import clear_esi_limits, wallet_url
 
 TASK_PATH = "example.tasks"
 
@@ -153,3 +169,134 @@ class TestUpdateCharacter(AuthTestCase):
             with self.assertRaises(DownTimeError):
                 tasks.update_character(self.owner.pk)
         mock_execute_section.assert_not_called()
+
+
+@override_settings(CELERY_ALWAYS_EAGER=True, CELERY_EAGER_PROPAGATES_EXCEPTIONS=True)
+@patch.object(tasks.update_character, "retry", side_effect=Retry)
+class TestUpdateCharacterEsiErrors(AuthTestCase):
+    """ESI errors of a section reach `retry_task_on_esi_error` through the UpdateManager."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.owner = CharacterOwnerFactory(user=cls.user)
+
+    def setUp(self):
+        super().setUp()
+        self.addCleanup(clear_esi_limits, self.owner)
+
+    def _assert_retried(self, mock_retry, exc_type, countdown_min: float):
+        mock_retry.assert_called_once()
+        kwargs = mock_retry.call_args.kwargs
+        self.assertIsInstance(kwargs["exc"], exc_type)
+        self.assertGreaterEqual(kwargs["countdown"], countdown_min)
+        status = CharacterUpdateStatus.objects.get(
+            owner=self.owner, section=CharacterUpdateSection.WALLET
+        )
+        self.assertFalse(status.is_success)
+        self.assertTrue(status.error_message.startswith(exc_type.__name__))
+
+    def test_should_retry_on_esi_server_errors(self, mock_retry):
+        for status_code in [
+            HTTPStatus.BAD_GATEWAY,
+            HTTPStatus.SERVICE_UNAVAILABLE,
+            HTTPStatus.GATEWAY_TIMEOUT,
+        ]:
+            with self.subTest(status_code=status_code), pook.use():
+                # Test Data
+                mock_retry.reset_mock()
+                pook.get(
+                    wallet_url(self.owner),
+                    reply=status_code,
+                    response_json={"error": status_code.phrase},
+                )
+
+                # Test Action
+                with self.assertRaises(Retry):
+                    tasks.update_character(self.owner.pk)
+
+                # Expected Result
+                self._assert_retried(mock_retry, HTTPServerError, DOWNTIME_TIMER)
+
+    @pook.on
+    def test_should_retry_on_the_esi_error_limit(self, mock_retry):
+        # Test Data
+        pook.get(
+            wallet_url(self.owner),
+            reply=420,
+            response_json={"error": "Error limited"},
+            response_headers={"X-RateLimit-Reset": "30"},
+        )
+
+        # Test Action
+        with self.assertRaises(Retry):
+            tasks.update_character(self.owner.pk)
+
+        # Expected Result
+        self._assert_retried(mock_retry, ESIErrorLimitException, 30)
+
+    @pook.on
+    def test_should_retry_on_the_esi_bucket_limit(self, mock_retry):
+        # Test Data: the wallet bucket of the character is used up
+        cache.set(
+            f"esi:bucket:char-wallet:{self.owner.character.character_id}",
+            0,
+            timeout=900,
+        )
+
+        # Test Action
+        with self.assertRaises(Retry):
+            tasks.update_character(self.owner.pk)
+
+        # Expected Result
+        self._assert_retried(mock_retry, ESIBucketLimitException, 1)
+
+    @pook.on
+    @patch("esi.app_settings.ESI_SERVER_ERROR_MAX_RETRIES", 1)
+    def test_should_retry_on_request_errors(self, mock_retry):
+        # Test Data
+        pook.get(wallet_url(self.owner)).error(ConnectionError("Connection reset"))
+
+        # Test Action
+        with self.assertRaises(Retry):
+            tasks.update_character(self.owner.pk)
+
+        # Expected Result
+        self._assert_retried(mock_retry, RequestError, DOWNTIME_TIMER)
+
+    @patch(TASK_PATH + ".CharacterOwner.update_wallet", autospec=True)
+    def test_should_retry_on_downtime_errors_of_a_section(
+        self, mock_update_wallet, mock_retry
+    ):
+        # Test Data
+        mock_update_wallet.side_effect = DownTimeError("ESI is in daily downtime")
+
+        # Test Action
+        with self.assertRaises(Retry):
+            tasks.update_character(self.owner.pk)
+
+        # Expected Result
+        self._assert_retried(mock_retry, DownTimeError, DOWNTIME_TIMER)
+
+    def test_should_record_other_esi_errors_without_retry(self, mock_retry):
+        for status_code in [HTTPStatus.INTERNAL_SERVER_ERROR, HTTPStatus.NOT_FOUND]:
+            with self.subTest(status_code=status_code), pook.use():
+                # Test Data
+                pook.get(
+                    wallet_url(self.owner),
+                    reply=status_code,
+                    response_json={"error": status_code.phrase},
+                )
+
+                # Test Action
+                result = tasks.update_character(self.owner.pk)
+
+                # Expected Result
+                self.assertTrue(result)
+                mock_retry.assert_not_called()
+                status = CharacterUpdateStatus.objects.get(
+                    owner=self.owner, section=CharacterUpdateSection.WALLET
+                )
+                self.assertFalse(status.is_success)
+                self.assertIn(str(status_code.value), status.error_message)
+                self.assertEqual(self.owner.get_status, UpdateStatus.ERROR)

@@ -47,6 +47,8 @@ Section Order:
 
 ### Fixed
 
+- [FIX] ESI outages and limits inside a section did not retry `update_character`: the `UpdateManager` turned every ESI error except `TokenError` into an update status, so `retry_task_on_esi_error` only saw the downtime check on entry. `_handle_update_exception` now raises the errors the task retries on (`ESIErrorLimitException`, `ESIBucketLimitException`, `HTTPServerError` 502/503/504, `RequestError`, `DownTimeError`), checked by the new `is_retryable_esi_error()` in `providers.py`. `execute_section` records them as a failed run of the section before raising, so the section shows the error and stays stale until the retry succeeds. Other errors (e.g. HTTP 500 or 404) still end in the update status only.
+
 - [FIX] On phones narrower than 640 px the pages were wider than the screen because of the minimum width of the `aa-react container` of `aa-geuthur-react`. `Routing.tsx` sets `fluidOnSmallScreens` on `AuthBase` (`aa-geuthur-react` 1.2.0), so the container shrinks with the screen. New apps made from the template have it from the start.
 
 - The CSS of `aa-geuthur-react` is imported with `@import` at the top of `Styles/index.css` instead of in `Main.tsx`. Vite put the package CSS from `Main.tsx` into the vendor chunk, which `react_base.html` does not load, so tables had no background, filters were white and containers had no minimum width. `aa-geuthur-react` is raised to `^1.0.2` (fixes the active menu links)
