@@ -33,6 +33,11 @@ class TestCharacterOwnerEsi(AuthTestCase):
         super().setUpClass()
         cls.owner = CharacterOwnerFactory(user=cls.user)
 
+    def setUp(self):
+        super().setUp()
+        clear_esi_limits(self.owner)
+        self.addCleanup(clear_esi_limits, self.owner)
+
     @pook.on
     def test_update_wallet_should_store_the_balance_from_esi(self):
         # Test Data
@@ -124,7 +129,6 @@ class TestCharacterOwnerEsi(AuthTestCase):
     @pook.on
     def test_execute_section_should_raise_the_esi_error_limit_to_retry(self):
         # Test Data
-        self.addCleanup(clear_esi_limits, self.owner)
         pook.get(
             wallet_url(self.owner),
             reply=420,
@@ -143,7 +147,6 @@ class TestCharacterOwnerEsi(AuthTestCase):
     @pook.on
     def test_execute_section_should_raise_the_esi_bucket_limit_to_retry(self):
         # Test Data: ESI reports the wallet bucket as used up
-        self.addCleanup(clear_esi_limits, self.owner)
         pook.get(
             wallet_url(self.owner),
             reply=HTTPStatus.OK,

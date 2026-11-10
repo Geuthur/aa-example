@@ -183,6 +183,7 @@ class TestUpdateCharacterEsiErrors(AuthTestCase):
 
     def setUp(self):
         super().setUp()
+        clear_esi_limits(self.owner)
         self.addCleanup(clear_esi_limits, self.owner)
 
     def _assert_retried(self, mock_retry, exc_type, countdown_min: float):
