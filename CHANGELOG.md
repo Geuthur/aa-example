@@ -63,6 +63,7 @@ Section Order:
 
 ### Changed
 
+- [CHANGE] The `AppLogger` is created only once in `example/providers.py`. `api/character.py`, `managers/character.py`, `managers/general.py`, `models/helpers/update_manager.py` and `tasks.py` import it with `from example.providers import logger` instead of building their own. Log records now carry the logger name `example.providers` instead of the module name; the `[Example]` prefix is unchanged.
 - [CHANGE] Language files other than `en` hold only real translations as Weblate writes them, missing keys fall back to English. `i18next-scanner` maintains only `en`; the empty placeholders were removed from the other languages.
 - [CHANGE] `aa-geuthur-react` raised to `^1.3.0`. The package bundles its own translations and registers them with i18next through `AaReactProvider`, so `Main.tsx` lists only the namespace `translation`, the copies under `example/static/example/i18n/<lng>/aa-geuthur-react.json` are removed and `make react-copy-translations` no longer copies them. Untranslated strings in `frontend/i18n/<lng>/translation.json` are empty instead of English (`i18next-scanner` writes the key as value only for `en`); `returnEmptyString: false` shows the English fallback at runtime. Translate on Weblate as before.
 - `managers.py` moved to `managers/general.py`; `AccessQuerySet` resolves ownership through `character__character_ownership__user` and exposes `visible_q`/`manage_q` for subclasses

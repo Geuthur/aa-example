@@ -25,15 +25,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 # Alliance Auth
-from allianceauth.services.hooks import get_extension_logger
 from esi.errors import TokenError
 from esi.exceptions import HTTPClientError, HTTPNotModified, HTTPServerError
 
 # AA Example
-from example import __title__, app_settings
-from example.providers import AppLogger
-
-logger = AppLogger(get_extension_logger(__name__), __title__)
+from example import app_settings
+from example.providers import logger
 
 
 class UpdateSectionResult(NamedTuple):

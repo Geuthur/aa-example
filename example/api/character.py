@@ -10,19 +10,14 @@ from ninja import NinjaAPI
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils.translation import gettext as _
 
-# Alliance Auth
-from allianceauth.services.hooks import get_extension_logger
-
 # AA Example
-from example import __title__, tasks
+from example import tasks
 from example.api import schema
 from example.api.helpers.character import get_character_owner
 from example.api.helpers.core import can_view_overview
 from example.helpers.eveonline import get_character_portrait_url
 from example.models.character import CharacterOwner
-from example.providers import AppLogger
-
-logger = AppLogger(get_extension_logger(__name__), __title__)
+from example.providers import logger
 
 
 def _serialize_character(owner: CharacterOwner) -> schema.CharacterSchema:

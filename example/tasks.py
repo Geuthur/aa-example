@@ -4,15 +4,12 @@
 from celery import Task, shared_task
 
 # Alliance Auth
-from allianceauth.services.hooks import get_extension_logger
 from allianceauth.services.tasks import QueueOnce
 
 # AA Example
-from example import __title__, app_settings
+from example import app_settings
 from example.models.character import CharacterOwner
-from example.providers import AppLogger, retry_task_on_esi_error
-
-logger = AppLogger(get_extension_logger(__name__), __title__)
+from example.providers import logger, retry_task_on_esi_error
 
 MAX_RETRIES_DEFAULT = 3
 
