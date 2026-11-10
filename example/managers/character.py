@@ -8,24 +8,18 @@ from typing import TYPE_CHECKING
 from django.db import models
 from django.db.models import Case, Count, Q, Value, When
 
-# Alliance Auth
-from allianceauth.services.hooks import get_extension_logger
-
 # AA Example
-from example import __title__
 from example.managers.general import AccessManager, AccessQuerySet
 from example.models.helpers.update_manager import (
     CharacterUpdateSection,
     UpdateSectionResult,
     UpdateStatus,
 )
-from example.providers import AppLogger, esi
+from example.providers import esi, logger
 
 if TYPE_CHECKING:
     # AA Example
     from example.models.character import CharacterOwner, CharacterUpdateStatus
-
-logger = AppLogger(my_logger=get_extension_logger(__name__), prefix=__title__)
 
 
 class CharacterOwnerQuerySet(AccessQuerySet["CharacterOwner"]):
