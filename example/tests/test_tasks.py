@@ -71,7 +71,11 @@ class TestUpdateAllCharacters(AuthTestCase):
         mock_update_character.apply_async.assert_not_called()
 
 
-@override_settings(CELERY_ALWAYS_EAGER=True, CELERY_EAGER_PROPAGATES_EXCEPTIONS=True)
+@override_settings(
+    CELERY_ALWAYS_EAGER=True,
+    CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
+    DISABLE_DAILY_DOWNTIME_CHECK=True,
+)
 class TestUpdateCharacter(AuthTestCase):
     @classmethod
     def setUpClass(cls):
@@ -171,7 +175,11 @@ class TestUpdateCharacter(AuthTestCase):
         mock_execute_section.assert_not_called()
 
 
-@override_settings(CELERY_ALWAYS_EAGER=True, CELERY_EAGER_PROPAGATES_EXCEPTIONS=True)
+@override_settings(
+    CELERY_ALWAYS_EAGER=True,
+    CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
+    DISABLE_DAILY_DOWNTIME_CHECK=True,
+)
 @patch.object(tasks.update_character, "retry", side_effect=Retry)
 class TestUpdateCharacterEsiErrors(AuthTestCase):
     """ESI errors of a section reach `retry_task_on_esi_error` through the UpdateManager."""
