@@ -32,6 +32,14 @@ class TestViews(AuthTestCase):
 
 
 class TestGeneralManager(AuthTestCase):
+    def test_has_basic_access_should_follow_basic_access_permission(self):
+        # Test Data
+        no_access = UserMainFactory(permissions__=[])
+
+        # Test Action & Expected Result
+        self.assertTrue(GeneralManager.has_basic_access(self.user))
+        self.assertFalse(GeneralManager.has_basic_access(no_access))
+
     def test_has_management_access_should_return_false_without_permission(self):
         # Test Data
         user = self.user
