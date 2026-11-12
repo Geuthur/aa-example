@@ -19,10 +19,15 @@ class GeneralManager(models.Manager):
     """
     Manager of `General` for the app's own permission rules.
 
-    Django checks single permissions (`user.has_perm("example.basic_access")`).
-    This manager only holds the rules that combine them. `General` is not
-    managed, so these methods never query `General`.
+    The API and its helpers check permissions only through this manager. The
+    Django views keep `@permission_required("example.basic_access")`.
+    `General` is not managed, so these methods never query `General`.
     """
+
+    @staticmethod
+    def has_basic_access(user) -> bool:
+        """Users with `basic_access` may use the app."""
+        return bool(user.has_perm("example.basic_access"))
 
     @staticmethod
     def has_full_access(user) -> bool:

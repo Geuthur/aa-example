@@ -11,14 +11,14 @@ from django.db import models
 from allianceauth.authentication.models import User
 
 # AA Example
-from example.managers.general import AccessManager
+from example.managers.general import AccessManager, GeneralManager
 
 T = TypeVar("T", bound=models.Model)
 
 
 def can_view_overview(user: User) -> bool:
     """Check if the user may view the overview pages of the app."""
-    return user.has_perm("example.basic_access")
+    return GeneralManager.has_basic_access(user)
 
 
 def get_object_with_access(
