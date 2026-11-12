@@ -10,17 +10,31 @@ from django.db import models
 from allianceauth.eveonline.models import EveCharacter
 
 # AA Example
-from example.models.general import General
 from example.providers import logger
 
 T = TypeVar("T", bound=models.Model)
 
 
-def has_full_access(user) -> bool:
-    """Superusers and users with `full_access` see and manage everything."""
-    return bool(user.is_superuser) or General.has_perm(
-        user, General.Permission.FULL_ACCESS
-    )
+class GeneralManager(models.Manager):
+    """
+    Manager of `General` for the app's own permission rules.
+
+    Django checks single permissions (`user.has_perm("example.basic_access")`).
+    This manager only holds the rules that combine them. `General` is not
+    managed, so these methods never query `General`.
+    """
+
+    @staticmethod
+    def has_full_access(user) -> bool:
+        """Superusers and users with `full_access` see and manage everything."""
+        return bool(user.is_superuser) or user.has_perm("example.full_access")
+
+    @staticmethod
+    def has_management_access(user) -> bool:
+        """Users with `manage_access` or `full_access` may administrate the app."""
+        return user.has_perm("example.manage_access") or user.has_perm(
+            "example.full_access"
+        )
 
 
 class AccessQuerySet(models.QuerySet[T], Generic[T]):
@@ -49,7 +63,7 @@ class AccessQuerySet(models.QuerySet[T], Generic[T]):
         return self.owned_by_q(user)
 
     def _restricted_to(self, user, query: models.Q, what: str):
-        if has_full_access(user):
+        if GeneralManager.has_full_access(user):
             logger.debug("Returning all %s objects for %s.", what, user)
             return self
 
@@ -90,7 +104,7 @@ class AccessManager(models.Manager[T], Generic[T]):
     def visible_eve_characters(user):
         """EveCharacters a user may pick, e.g. when adding an owner."""
         qs = EveCharacter.objects.get_queryset()
-        if has_full_access(user):
+        if GeneralManager.has_full_access(user):
             logger.debug("Returning all characters for %s.", user)
             return qs.all()
 

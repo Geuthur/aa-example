@@ -69,6 +69,7 @@ Section Order:
 
 ### Changed
 
+- [CHANGE] Permissions: `General.Meta.permissions` lists the permissions as plain tuples (`basic_access`, `manage_access`, `full_access`). The `General.Permission` enum and the `get_perm`, `has_perm`, `has_any_perm` and `has_management_access` wrappers are removed. Views, menu hook, API and managers check with Django and the full string, e.g. `@permission_required("example.basic_access")` and `user.has_perm("example.basic_access")`. Rules Django cannot express (`has_full_access`: superuser or `full_access`, `has_management_access`: `manage_access` or `full_access`) live in `GeneralManager` (`managers/general.py`), attached to `General` as `objects`; it never queries the unmanaged `General`. New test `tests/test_permissions.py` compares every permission string in code and templates with `General.Meta.permissions`.
 - [CHANGE] The `AppLogger` is created only once in `example/providers.py`. `api/character.py`, `managers/character.py`, `managers/general.py`, `models/helpers/update_manager.py` and `tasks.py` import it with `from example.providers import logger` instead of building their own. Log records now carry the logger name `example.providers` instead of the module name; the `[Example]` prefix is unchanged.
 - [CHANGE] Language files other than `en` hold only real translations as Weblate writes them, missing keys fall back to English. `i18next-scanner` maintains only `en`; the empty placeholders were removed from the other languages.
 - [CHANGE] `aa-geuthur-react` raised to `^1.3.0`. The package bundles its own translations and registers them with i18next through `AaReactProvider`, so `Main.tsx` lists only the namespace `translation`, the copies under `example/static/example/i18n/<lng>/aa-geuthur-react.json` are removed and `make react-copy-translations` no longer copies them. Untranslated strings in `frontend/i18n/<lng>/translation.json` are empty instead of English (`i18next-scanner` writes the key as value only for `en`); `returnEmptyString: false` shows the English fallback at runtime. Translate on Weblate as before.
@@ -82,7 +83,6 @@ Section Order:
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
 - Formatting helpers are consolidated in `Utils/format.ts` (`formatNumber`, `formatCompactNumber`, `formatIsk`, `formatDate`, `formatRelativeTime`, `formatEta`) with an `en` locale fallback; `renderTooltip` lives in `Utils/bootsTrap.tsx`.
 - The Style Guide, settings and main page use Bootstrap components instead of the custom `aa-panel`, `aa-btn`, `aa-badge` and `aa-section` classes.
-- `General` defines a `Permission` enum with `get_perm`, `has_perm`, `has_any_perm` and `has_management_access`; views, menu hook and API use it instead of hard-coded permission strings.
 - Aligned `.pre-commit-config.yaml`, `.gitignore`, `tox.ini`, `CONTRIBUTING.md` and the issue template configuration with `aa-ledger`.
 - Replaced `pook` with `pookx` in the test dependencies.
 
