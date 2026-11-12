@@ -11,7 +11,7 @@ from django.utils.translation import gettext as _
 from example import __title__
 from example.api import schema
 from example.helpers.eveonline import get_character_portrait_url
-from example.models.general import General, UserSettings
+from example.models.general import UserSettings
 
 
 class ApiEndpoints:
@@ -47,7 +47,7 @@ class ApiEndpoints:
             tags=self.tags,
         )
         def get_user(request):
-            if not General.has_perm(request.user, General.Permission.BASIC_ACCESS):
+            if not request.user.has_perm("example.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             try:
@@ -75,7 +75,7 @@ class ApiEndpoints:
                 else None
             )
 
-            is_admin = General.has_perm(request.user, General.Permission.FULL_ACCESS)
+            is_admin = request.user.has_perm("example.full_access")
 
             return HTTPStatus.OK, schema.UserData(
                 user_id=request.user.id,
@@ -99,7 +99,7 @@ class ApiEndpoints:
             summary="Get current user's settings",
         )
         def get_user_settings(request):
-            if not General.has_perm(request.user, General.Permission.BASIC_ACCESS):
+            if not request.user.has_perm("example.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             settings = UserSettings.objects.get_or_create(user=request.user)[0]
@@ -117,7 +117,7 @@ class ApiEndpoints:
             summary="Update current user's settings",
         )
         def update_user_settings(request, payload: schema.UserSettingsUpdateRequest):
-            if not General.has_perm(request.user, General.Permission.BASIC_ACCESS):
+            if not request.user.has_perm("example.basic_access"):
                 return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
 
             settings = UserSettings.objects.get_or_create(user=request.user)[0]
