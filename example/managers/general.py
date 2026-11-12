@@ -32,8 +32,9 @@ class GeneralManager(models.Manager):
     @staticmethod
     def has_management_access(user) -> bool:
         """Users with `manage_access` or `full_access` may administrate the app."""
-        return user.has_perm("example.manage_access") or user.has_perm(
-            "example.full_access"
+        return bool(
+            user.has_perm("example.manage_access")
+            or user.has_perm("example.full_access")
         )
 
 
