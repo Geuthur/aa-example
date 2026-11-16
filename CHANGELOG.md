@@ -69,6 +69,8 @@ Section Order:
 
 - [FIX] Development dependencies: `minimatch` 10.2.x → 11.0.8 (Dependabot alert, DoS via globparts) through `eslint` 10.15.0 in both lockfiles and an `overrides` entry for `@typescript-eslint/typescript-estree` in `frontend/package.json`; the app itself is not affected
 
+- [FIX] Development dependencies: `zod` 4.6.5 → 4.6.7 in the frontend lockfile (npm audit high, GHSA-mrhx-c7xc-m3w5, via `eslint-plugin-react-hooks`); `typescript-eslint` raised to `^8.73.0`, which requires `minimatch` ^11 itself, so the `overrides` entry is removed
+
 ### Changed
 
 - [CHANGE] The API, its helpers and the menu hook check permissions only through `GeneralManager` (`has_basic_access`, `has_full_access`) instead of `user.has_perm("example.…")`. New `GeneralManager.has_basic_access(user)`. The Django views keep `@permission_required("example.basic_access")`.
