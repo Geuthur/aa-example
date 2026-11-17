@@ -78,6 +78,7 @@ The script stays in `scripts/` after the run, so it can be repeated on a fresh c
 - **Example Boilerplate**:
   - Clean Alliance Auth app architecture (models, managers, tasks, forms, and views)
   - Pre-configured unit tests for backend (`AuthTestCase`) and frontend (`Vitest` + Testing Library)
+  - User notifications (`example/thirdparty/discord.py`): the Celery tasks `send_user_notification` (Alliance Auth notification plus a Discord direct message over `allianceauth-discordbot` or `discordproxy`, skipped for users with `UserSettings.disable_notifications`) and `send_webhook_notification` (Discord webhook over `dhooks-lite`); the Discord packages are optional and the file is the same in every app except for the package name
 
 ## Installation<a name="installation"></a>
 
