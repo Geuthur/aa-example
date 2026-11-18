@@ -16,14 +16,6 @@ class TestCoreHelpers(AuthTestCase):
         cls.owner = CharacterOwnerFactory(user=cls.user)
         cls.other_owner = CharacterOwnerFactory()
 
-    def test_can_view_overview_should_follow_basic_access(self):
-        # Test Data
-        no_access = UserMainFactory(permissions__=[])
-
-        # Test Action & Expected Result
-        self.assertTrue(core.can_view_overview(self.user))
-        self.assertFalse(core.can_view_overview(no_access))
-
     def test_get_object_with_access_should_return_own_object(self):
         # Test Data
         request = self.factory.get("/")

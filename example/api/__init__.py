@@ -1,6 +1,5 @@
 # Third Party
 from ninja import NinjaAPI
-from ninja.security import django_auth
 
 # Django
 from django.conf import settings
@@ -8,12 +7,13 @@ from django.conf import settings
 # AA Example
 from example import __title__
 from example.api import character, general
+from example.api.auth import BasicAccessAuth
 
 api = NinjaAPI(
     title="Example API",
     version="0.5.0",
     urls_namespace="example:api",
-    auth=django_auth,
+    auth=BasicAccessAuth(),
     openapi_url=settings.DEBUG and "/openapi.json" or "",
 )
 
