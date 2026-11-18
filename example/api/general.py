@@ -23,6 +23,7 @@ class ApiEndpoints:
             "menu/",
             response={
                 HTTPStatus.OK: schema.MenuSchema,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Get Example navigation menu",
@@ -48,9 +49,6 @@ class ApiEndpoints:
             tags=self.tags,
         )
         def get_user(request):
-            if not GeneralManager.has_basic_access(request.user):
-                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
-
             try:
                 character_id = request.user.profile.main_character.character_id
                 character_name = request.user.profile.main_character.character_name
@@ -100,9 +98,6 @@ class ApiEndpoints:
             summary="Get current user's settings",
         )
         def get_user_settings(request):
-            if not GeneralManager.has_basic_access(request.user):
-                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
-
             settings = UserSettings.objects.get_or_create(user=request.user)[0]
             return schema.UserSettingsSchema(
                 disable_notifications=settings.disable_notifications
@@ -118,9 +113,6 @@ class ApiEndpoints:
             summary="Update current user's settings",
         )
         def update_user_settings(request, payload: schema.UserSettingsUpdateRequest):
-            if not GeneralManager.has_basic_access(request.user):
-                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied.")}
-
             settings = UserSettings.objects.get_or_create(user=request.user)[0]
             settings.disable_notifications = payload.disable_notifications
             settings.save(update_fields=["disable_notifications"])

@@ -1,4 +1,4 @@
-"""Shared helpers of the API: permission checks and object access."""
+"""Shared helpers of the API: object access."""
 
 # Standard Library
 from typing import TypeVar
@@ -7,18 +7,10 @@ from typing import TypeVar
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
-# Alliance Auth
-from allianceauth.authentication.models import User
-
 # AA Example
-from example.managers.general import AccessManager, GeneralManager
+from example.managers.general import AccessManager
 
 T = TypeVar("T", bound=models.Model)
-
-
-def can_view_overview(user: User) -> bool:
-    """Check if the user may view the overview pages of the app."""
-    return GeneralManager.has_basic_access(user)
 
 
 def get_object_with_access(
