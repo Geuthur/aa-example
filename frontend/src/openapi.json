@@ -25,16 +25,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorSchema"
-                }
-              }
-            }
           }
         },
         "tags": [
@@ -42,7 +32,7 @@
         ],
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -99,7 +89,7 @@
         ],
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -173,7 +163,7 @@
         },
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -200,7 +190,7 @@
         ],
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -220,16 +210,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorSchema"
-                }
-              }
-            }
           }
         },
         "tags": [
@@ -237,7 +217,7 @@
         ],
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -257,16 +237,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorSchema"
-                }
-              }
-            }
           }
         },
         "tags": [
@@ -274,7 +244,7 @@
         ],
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       },
@@ -289,16 +259,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserSettingsSchema"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorSchema"
                 }
               }
             }
@@ -319,7 +279,7 @@
         },
         "security": [
           {
-            "SessionAuth": []
+            "BasicAccessAuth": []
           }
         ]
       }
@@ -402,20 +362,6 @@
           "update_status_label"
         ],
         "title": "CharacterSchema",
-        "type": "object"
-      },
-      "ErrorSchema": {
-        "description": "Error response of an endpoint, e.g. for 403 and 404.",
-        "properties": {
-          "error": {
-            "title": "Error",
-            "type": "string"
-          }
-        },
-        "required": [
-          "error"
-        ],
-        "title": "ErrorSchema",
         "type": "object"
       },
       "CharacterDetailSchema": {
@@ -565,6 +511,20 @@
           "section_label"
         ],
         "title": "CharacterUpdateStatusSchema",
+        "type": "object"
+      },
+      "ErrorSchema": {
+        "description": "Error response of an endpoint, e.g. for 403 and 404.",
+        "properties": {
+          "error": {
+            "title": "Error",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorSchema",
         "type": "object"
       },
       "ActionResponse": {
@@ -843,7 +803,7 @@
       }
     },
     "securitySchemes": {
-      "SessionAuth": {
+      "BasicAccessAuth": {
         "type": "apiKey",
         "in": "cookie",
         "name": "sessionid"

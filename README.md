@@ -74,6 +74,7 @@ The script stays in `scripts/` after the run, so it can be repeated on a fresh c
   - Type-safe API communication using `openapi-fetch` and auto-generated TypeScript schemas
 - **Django Ninja REST API**:
   - Modular API endpoints (`/example/api/`) with interactive OpenAPI documentation
+  - Central access check: `example/api/auth.py` (`BasicAccessAuth`) lets only logged in users with `basic_access` reach an endpoint; endpoints never set their own `auth` and only check higher permissions and object access
   - Automated schema and TypeScript type generation via Makefile
 - **Example Boilerplate**:
   - Clean Alliance Auth app architecture (models, managers, tasks, forms, and views)
@@ -248,18 +249,18 @@ sections, its update status, a task, an API and a page. Copy its files, rename
 
 ### Backend<a name="backend"></a>
 
-| File                                                                         | Purpose                                                                                                                                                                         |
-| :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `example/models/<module>.py`                                                 | The owner model with `UpdateManagerMixin`, `get_esi_scopes()`, `get_token()` and one `update_<section>()` method per section; its `<Module>UpdateStatus(UpdateStatusBaseModel)` |
-| `example/models/helpers/update_manager.py`                                   | Shared: add the `<Module>UpdateSection` choices (one value per ESI section) and the stale minutes in `app_settings.EXAMPLE_STALE_TYPES`                                         |
-| `example/managers/<module>.py`                                               | `AccessQuerySet`/`AccessManager` subclasses (`visible_to`, `manage_to`), the ESI fetch (`update_<section>_esi` → `update_section_if_changed`) and the update status manager     |
-| `example/api/schema.py`                                                      | The Ninja schemas of the module (response and request separately)                                                                                                               |
-| `example/api/helpers/<module>.py`                                            | `get_<entity>(request, id, manage=False)` on top of `api/helpers/core.get_object_with_access`                                                                                   |
-| `example/api/<module>.py`                                                    | `ApiEndpoints` with `tags`, `summary` and every status code in `response`; register it in `example/api/__init__.py`                                                             |
-| `example/tasks.py`                                                           | `update_all_<module>s` (periodic) and `update_<module>` (per owner, inside `retry_task_on_esi_error`)                                                                           |
-| `example/__init__.py`                                                        | Add the ESI operation ids to `__operations__`                                                                                                                                   |
-| `example/tests/testdata/<module>.py`                                         | Factories of the module (`aa-evesde-factory` for Alliance Auth objects)                                                                                                         |
-| `example/tests/test_models/`, `test_managers/`, `test_api/`, `test_tasks.py` | Tests; ESI calls with `pook` under the real ESI URL                                                                                                                             |
+| File                                                                         | Purpose                                                                                                                                                                                                       |
+| :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `example/models/<module>.py`                                                 | The owner model with `UpdateManagerMixin`, `get_esi_scopes()`, `get_token()` and one `update_<section>()` method per section; its `<Module>UpdateStatus(UpdateStatusBaseModel)`                               |
+| `example/models/helpers/update_manager.py`                                   | Shared: add the `<Module>UpdateSection` choices (one value per ESI section) and the stale minutes in `app_settings.EXAMPLE_STALE_TYPES`                                                                       |
+| `example/managers/<module>.py`                                               | `AccessQuerySet`/`AccessManager` subclasses (`visible_to`, `manage_to`), the ESI fetch (`update_<section>_esi` → `update_section_if_changed`) and the update status manager                                   |
+| `example/api/schema.py`                                                      | The Ninja schemas of the module (response and request separately)                                                                                                                                             |
+| `example/api/helpers/<module>.py`                                            | `get_<entity>(request, id, manage=False)` on top of `api/helpers/core.get_object_with_access`                                                                                                                 |
+| `example/api/<module>.py`                                                    | `ApiEndpoints` with `tags`, `summary` and every status code in `response`; register it in `example/api/__init__.py`. No `auth` and no check of `basic_access` here: `api/auth.py` does that for the whole API |
+| `example/tasks.py`                                                           | `update_all_<module>s` (periodic) and `update_<module>` (per owner, inside `retry_task_on_esi_error`)                                                                                                         |
+| `example/__init__.py`                                                        | Add the ESI operation ids to `__operations__`                                                                                                                                                                 |
+| `example/tests/testdata/<module>.py`                                         | Factories of the module (`aa-evesde-factory` for Alliance Auth objects)                                                                                                                                       |
+| `example/tests/test_models/`, `test_managers/`, `test_api/`, `test_tasks.py` | Tests; ESI calls with `pook` under the real ESI URL                                                                                                                                                           |
 
 ### Frontend<a name="frontend"></a>
 
