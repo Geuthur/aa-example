@@ -1,27 +1,32 @@
-"""Authentication of the API: a logged in user with `basic_access`."""
+"""Access to the API: every URL of the API requires `basic_access`."""
 
-# Third Party
-from ninja.errors import AuthorizationError
-from ninja.security import SessionAuth
+# Standard Library
+from functools import wraps
+from http import HTTPStatus
+
+# Django
+from django.http import JsonResponse
+from django.utils.translation import gettext as _
 
 # AA Example
 from example.managers.general import GeneralManager
 
 
-class BasicAccessAuth(SessionAuth):
+def basic_access_required(view_func):
     """
-    Session authentication that also requires `basic_access`.
+    Answer 403 unless the user has `basic_access`.
 
     Basic access is only granted by `basic_access`; higher permissions do not
-    include it. The API is created with this class, so every endpoint answers
-    401 without a login and 403 without `basic_access` before its own code
-    runs. No endpoint or router sets its own `auth`.
+    include it. `urls.py` puts this decorator around all URLs of the API, so
+    no endpoint checks `basic_access` itself and none can opt out.
     """
 
-    def authenticate(self, request, key):
-        user = super().authenticate(request, key)
-        if user is None:
-            return None
-        if not GeneralManager.has_basic_access(user):
-            raise AuthorizationError()
-        return user
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not GeneralManager.has_basic_access(request.user):
+            return JsonResponse(
+                {"error": _("Permission Denied")}, status=HTTPStatus.FORBIDDEN
+            )
+        return view_func(request, *args, **kwargs)
+
+    return _wrapped_view

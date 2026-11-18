@@ -67,7 +67,7 @@ class TestCharacterApi(AuthTestCase):
 
         # Expected Result
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
-        self.assertEqual(response.json(), {"detail": "Forbidden"})
+        self.assertEqual(response.json(), {"error": "Permission Denied"})
 
     def test_get_character_should_return_the_sections(self):
         # Test Data

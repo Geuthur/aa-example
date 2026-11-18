@@ -32,7 +32,7 @@
         ],
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -89,7 +89,7 @@
         ],
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -163,7 +163,7 @@
         },
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -190,7 +190,7 @@
         ],
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -217,7 +217,7 @@
         ],
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -244,7 +244,7 @@
         ],
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       },
@@ -279,7 +279,7 @@
         },
         "security": [
           {
-            "BasicAccessAuth": []
+            "SessionAuth": []
           }
         ]
       }
@@ -803,7 +803,7 @@
       }
     },
     "securitySchemes": {
-      "BasicAccessAuth": {
+      "SessionAuth": {
         "type": "apiKey",
         "in": "cookie",
         "name": "sessionid"
