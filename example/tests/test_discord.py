@@ -559,3 +559,17 @@ class TestSendWebhookNotification(NoSocketsTestCase):
             countdown=2,
             max_retries=3,
         )
+
+    @patch(MODULE_PATH + ".send_webhook_notification.retry")
+    @patch(MODULE_PATH + "._discordwebhook_send_message", return_value=False)
+    def test_should_not_log_webhook_url_if_sending_failed(self, _, __):
+        # The webhook URL contains the token and must not end up in the log.
+        with self.assertLogs(discord_module.logger.logger, level="DEBUG") as logs:
+            send_webhook_notification(
+                webhook_url=WEBHOOK_URL, title="Test Title", message="Test Message"
+            )
+
+        self.assertEqual(len(logs.records), 1)
+        for record in logs.records:
+            self.assertNotIn(WEBHOOK_URL, record.getMessage())
+            self.assertNotIn(WEBHOOK_URL, str(record.args))

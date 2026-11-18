@@ -72,6 +72,8 @@ Section Order:
 
 - [FIX] Development dependencies: `zod` 4.6.5 → 4.6.7 in the frontend lockfile (npm audit high, GHSA-mrhx-c7xc-m3w5, via `eslint-plugin-react-hooks`); `typescript-eslint` raised to `^8.73.0`, which requires `minimatch` ^11 itself, so the `overrides` entry is removed
 
+- [FIX] `send_webhook_notification` wrote the webhook URL, which contains the token, to the log when sending failed; the warning no longer names the URL
+
 ### Changed
 
 - [CHANGE] The API, its helpers and the menu hook check permissions only through `GeneralManager` (`has_basic_access`, `has_full_access`) instead of `user.has_perm("example.…")`. New `GeneralManager.has_basic_access(user)`. The Django views keep `@permission_required("example.basic_access")`.
