@@ -151,16 +151,23 @@ class TestApiAuth(AuthTestCase):
                 self.assertEqual(len(operation.auth_callbacks), 1)
                 self.assertIs(operation.auth_callbacks[0], api_auth[0])
 
-    def test_post_should_return_403_without_csrf_token(self):
+    def test_writing_endpoints_should_return_403_without_csrf_token(self):
         # Test Data
         client = self.client_class(enforce_csrf_checks=True)
         client.force_login(self.user)
-        posts = [path for method, path, _ in _operations() if method == "POST"]
+        writing = [
+            (method, path)
+            for method, path, _ in _operations()
+            if method not in ("GET", "HEAD", "OPTIONS")
+        ]
+        self.assertTrue(writing)
 
-        for path in posts:
-            with self.subTest(path=path):
+        for method, path in writing:
+            with self.subTest(method=method, path=path):
                 # Test Action
-                response = client.post(_url(path), content_type="application/json")
+                response = client.generic(
+                    method, _url(path), content_type="application/json"
+                )
 
                 # Expected Result
                 self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
