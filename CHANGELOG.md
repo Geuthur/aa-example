@@ -72,7 +72,7 @@ Section Order:
 
 - [FIX] Development dependencies: `zod` 4.6.5 → 4.6.7 in the frontend lockfile (npm audit high, GHSA-mrhx-c7xc-m3w5, via `eslint-plugin-react-hooks`); `typescript-eslint` raised to `^8.73.0`, which requires `minimatch` ^11 itself, so the `overrides` entry is removed
 
-- [FIX] `send_webhook_notification` wrote the webhook URL, which contains the token, to the log when sending failed; the warning no longer names the URL
+- [FIX] `thirdparty/discord.py` wrote the webhook URL, which contains the token, to the log when sending failed: in the warning of `send_webhook_notification`, in the traceback of network errors and in the error after the last retry. The warnings no longer name the URL, network errors and exhausted retries end in a warning instead of an exception
 
 - [FIX] CI: `tox` is limited to `<4.67.14` in `autotester.yml`, newer versions break `tox-gh-actions` 3.5.0 (`ImportError` `_PLACE_HOLDER`)
 
