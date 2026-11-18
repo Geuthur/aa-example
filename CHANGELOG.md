@@ -74,6 +74,8 @@ Section Order:
 
 - [FIX] `send_webhook_notification` wrote the webhook URL, which contains the token, to the log when sending failed; the warning no longer names the URL
 
+- [FIX] CI: `tox` is limited to `<4.67.14` in `autotester.yml`, newer versions break `tox-gh-actions` 3.5.0 (`ImportError` `_PLACE_HOLDER`)
+
 ### Changed
 
 - [CHANGE] The API, its helpers and the menu hook check permissions only through `GeneralManager` (`has_basic_access`, `has_full_access`) instead of `user.has_perm("example.…")`. New `GeneralManager.has_basic_access(user)`. The Django views keep `@permission_required("example.basic_access")`.
