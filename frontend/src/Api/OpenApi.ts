@@ -140,6 +140,14 @@ export interface components {
             last_update?: string | null;
         };
         /**
+         * ErrorSchema
+         * @description Error response of an endpoint, e.g. for 403 and 404.
+         */
+        ErrorSchema: {
+            /** Error */
+            error: string;
+        };
+        /**
          * CharacterDetailSchema
          * @description A character owner with the status of every section.
          */
@@ -197,14 +205,6 @@ export interface components {
             last_run_finished_at?: string | null;
             /** Last Update Finished At */
             last_update_finished_at?: string | null;
-        };
-        /**
-         * ErrorSchema
-         * @description Error response of an endpoint, e.g. for 403 and 404.
-         */
-        ErrorSchema: {
-            /** Error */
-            error: string;
         };
         /**
          * ActionResponse
@@ -379,6 +379,15 @@ export interface operations {
                     "application/json": components["schemas"]["CharacterSchema"][];
                 };
             };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
         };
     };
     example_api_character_get_character: {
@@ -483,6 +492,15 @@ export interface operations {
                     "application/json": components["schemas"]["MenuSchema"];
                 };
             };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
         };
     };
     example_api_general_get_user: {
@@ -503,6 +521,15 @@ export interface operations {
                     "application/json": components["schemas"]["UserData"];
                 };
             };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
         };
     };
     example_api_general_get_user_settings: {
@@ -521,6 +548,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserSettingsSchema"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };
@@ -545,6 +581,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserSettingsSchema"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
                 };
             };
         };

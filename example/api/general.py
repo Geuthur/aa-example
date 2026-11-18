@@ -23,6 +23,7 @@ class ApiEndpoints:
             "menu/",
             response={
                 HTTPStatus.OK: schema.MenuSchema,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Get Example navigation menu",
@@ -43,6 +44,7 @@ class ApiEndpoints:
             "user/",
             response={
                 HTTPStatus.OK: schema.UserData,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
         )
@@ -90,6 +92,7 @@ class ApiEndpoints:
             "settings/",
             response={
                 HTTPStatus.OK: schema.UserSettingsSchema,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Get current user's settings",
@@ -104,6 +107,7 @@ class ApiEndpoints:
             "settings/",
             response={
                 HTTPStatus.OK: schema.UserSettingsSchema,
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="Update current user's settings",

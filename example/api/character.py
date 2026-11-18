@@ -73,6 +73,7 @@ class ApiEndpoints:
             "characters/",
             response={
                 HTTPStatus.OK: list[schema.CharacterSchema],
+                HTTPStatus.FORBIDDEN: schema.ErrorSchema,
             },
             tags=self.tags,
             summary="List the characters visible to the user",
