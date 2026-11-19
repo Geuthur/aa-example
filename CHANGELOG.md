@@ -74,8 +74,6 @@ Section Order:
 
 - [FIX] `thirdparty/discord.py` wrote the webhook URL, which contains the token, to the log when sending failed: in the warning of `send_webhook_notification`, in the traceback of network errors and in the error after the last retry. The warnings no longer name the URL, network errors and exhausted retries end in a warning instead of an exception
 
-- [FIX] CI: `tox` is limited to `<4.67.14` in `autotester.yml`, newer versions break `tox-gh-actions` 3.5.0 (`ImportError` `_PLACE_HOLDER`)
-
 ### Changed
 
 - [CHANGE] Frontend on `aa-geuthur-react` 1.5.0: `Main.tsx` uses `initI18n`, the settings page uses `useUserSettings` (`Api/calls/general.ts` removed), design tokens, `aa-status-*` classes and keyframes come from the package stylesheet; no visible change.
