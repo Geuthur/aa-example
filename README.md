@@ -188,8 +188,11 @@ The user interface of AA Example is built as a modern React Single-Page Applicat
 ### Tech Stack<a name="tech-stack"></a>
 
 - **Framework**: React 19, TypeScript
-- **Shared base**: [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable, BaseModal, loaders, menu, hooks, `AuthBase` page layout, API client, styles and its own translation namespace); the app extends it through props and wrappers and never copies its files
-- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), AllianceAuth styles from `frontend/src/Styles/index.css` on top of `aa-geuthur-react/styles.css`
+- **Shared base**: [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable, BaseModal, loaders, menu, hooks, `AuthBase` page layout, API client, i18next setup, user settings, design tokens and styles and its own translation namespace); the app extends it through props and wrappers and never copies its files
+- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`)
+- **Styles**: `frontend/src/Styles/index.css` imports `aa-geuthur-react/styles.css`, which ships the design tokens (`--aa-*`, `--font-*`), the status indicator (`aa-status-*`) and the shared keyframes; the app only adds tokens the package does not have, overrides of package values (after the `@import`) and its own classes
+- **Entry point**: `frontend/src/Main.tsx` calls `initI18n(ProjectName, "<AppName>-root")` from the package (language from the `lang` attribute of the root element, English fallback) and renders the app; it holds no i18next configuration of its own
+- **User settings**: the settings page uses the hook `useUserSettings` of the package (`GET`/`PUT settings/`, optimistic update with rollback); the app only defines the fields and the page
 - **UI Components & Icons**: React-Bootstrap, Lucide Icons (`lucide-react`)
 - **Data & Tables**: TanStack React Query (`@tanstack/react-query`), TanStack Table (`@tanstack/react-table`)
 - **API Client**: `openapi-fetch` with types generated via `openapi-typescript`

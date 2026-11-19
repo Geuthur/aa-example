@@ -2,8 +2,7 @@
 import React from "react";
 
 // Third Party
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FetchingLoader, queryKeys } from "aa-geuthur-react";
+import { FetchingLoader, useUserSettings } from "aa-geuthur-react";
 import { BellOff, Settings2 } from "lucide-react";
 import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -11,35 +10,12 @@ import { useTranslation } from "react-i18next";
 // Styles
 import styles from "@/Styles/modules/SettingsPage.module.css";
 
-import { loadUserSettings, updateUserSettings } from "@/Api/calls/general";
-import type { UserSettingsSchema } from "@/Api/schema";
+import type { UserSettingsSchema, UserSettingsUpdateRequest } from "@/Api/schema";
 
 export const SettingsPage: React.FC = () => {
   const { t } = useTranslation();
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useQuery({
-    queryKey: queryKeys.UserSettings,
-    queryFn: loadUserSettings,
-  });
-
-
-  const updateMutation = useMutation({
-    mutationFn: updateUserSettings,
-    onMutate: async (settings) => {
-      await queryClient.cancelQueries({ queryKey: queryKeys.UserSettings });
-      const previous = queryClient.getQueryData<UserSettingsSchema>(queryKeys.UserSettings);
-      queryClient.setQueryData<UserSettingsSchema>(queryKeys.UserSettings, settings);
-      return { previous };
-    },
-    onError: (_error, _settings, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(queryKeys.UserSettings, context.previous);
-      }
-    },
-    onSuccess: (settings) => {
-      queryClient.setQueryData(queryKeys.UserSettings, settings);
-    },
-  });
+  // Loads the settings and saves them optimistically (rollback on error)
+  const { data, isLoading, isError, updateMutation } = useUserSettings<UserSettingsSchema, UserSettingsUpdateRequest>();
 
   if (isLoading) {
     return (
