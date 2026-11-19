@@ -43,6 +43,7 @@ Section Order:
 - `AdministrationMenuItem` in `frontend/src/Menu/BaseMenu.tsx`: an `administration` link is shown in red with a shield icon
 - [ADD] `badge` and `has_errors` on the `MenuLink` schema and an issue count badge in `BaseMenu` (`bg-danger`, pulsing via `aa-menu-badge-pulse` while `has_errors` is set), as template for the `Settings` navigation item of all plugins.
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
+- [ADD] `example/thirdparty/discord.py` as shared building block for notifications: `send_user_notification` (respects `UserSettings.disable_notifications`) and `send_webhook_notification`, embed colors in the file, tests in `tests/test_discord.py`
 - Optional extra `tests-allianceauth-development` (test packages plus the Alliance Auth 6 pre-release) for the tox environment `allianceauth-development` and `make tox-tests-development`; a non-blocking CI job "AA Development" runs it on Python 3.13 and 3.14
 
 ### Fixed
@@ -67,10 +68,23 @@ Section Order:
 
 - [FIX] `__operations__` was an empty list, which makes `esi.client` raise an `AttributeError` with `DEBUG=False`. It now contains the public operation `GetStatus`; added a regression test (`example/tests/test_providers.py`).
 
+- [FIX] Development dependencies: `minimatch` 10.2.x → 11.0.8 (Dependabot alert, DoS via globparts) through `eslint` 10.15.0 in both lockfiles and an `overrides` entry for `@typescript-eslint/typescript-estree` in `frontend/package.json`; the app itself is not affected
+
+- [FIX] Development dependencies: `zod` 4.6.5 → 4.6.7 in the frontend lockfile (npm audit high, GHSA-mrhx-c7xc-m3w5, via `eslint-plugin-react-hooks`); `typescript-eslint` raised to `^8.73.0`, which requires `minimatch` ^11 itself, so the `overrides` entry is removed
+
+- [FIX] `thirdparty/discord.py` wrote the webhook URL, which contains the token, to the log when sending failed: in the warning of `send_webhook_notification`, in the traceback of network errors and in the error after the last retry. The warnings no longer name the URL, network errors and exhausted retries end in a warning instead of an exception
+
 ### Changed
 
+- [CHANGE] Frontend on `aa-geuthur-react` 1.5.0: `Main.tsx` uses `initI18n`, the settings page uses `useUserSettings` (`Api/calls/general.ts` removed), design tokens, `aa-status-*` classes and keyframes come from the package stylesheet; no visible change.
+- [CHANGE] The API calls in `frontend/src/Api/calls/character.ts` throw the message of the API (`{"error": …}`) through `apiErrorMessage` and the fixed text only without one.
+- [CHANGE] The API requires `basic_access` centrally: `urls.py` puts the decorator `basic_access_required` (`example/api/auth.py`, checks `GeneralManager.has_basic_access`) around all API URLs with `decorate_url_patterns`, so every endpoint answers 403 `{"error": "Permission Denied"}` without `basic_access`, also for users with only `manage_access` or `full_access`. `menu/`, `characters/{character_id}/` and `characters/{character_id}/update/` had no such check before. The duplicate checks in the endpoints and `can_view_overview` are removed, every endpoint lists `403: ErrorSchema`; `tests/test_api/test_auth.py` walks all routes.
+- [CHANGE] The API, its helpers and the menu hook check permissions only through `GeneralManager` (`has_basic_access`, `has_full_access`) instead of `user.has_perm("example.…")`. New `GeneralManager.has_basic_access(user)`. The Django views keep `@permission_required("example.basic_access")`.
+- [CHANGE] Permissions: `General.Meta.permissions` lists the permissions as plain tuples (`basic_access`, `manage_access`, `full_access`). The `General.Permission` enum and the `get_perm`, `has_perm`, `has_any_perm` and `has_management_access` wrappers are removed. Views, menu hook, API and managers check with Django and the full string, e.g. `@permission_required("example.basic_access")` and `user.has_perm("example.basic_access")`. Rules Django cannot express (`has_full_access`: superuser or `full_access`, `has_management_access`: `manage_access` or `full_access`) live in `GeneralManager` (`managers/general.py`), attached to `General` as `objects`; it never queries the unmanaged `General`. New test `tests/test_permissions.py` compares every permission string in code and templates with `General.Meta.permissions`.
 - [CHANGE] The `AppLogger` is created only once in `example/providers.py`. `api/character.py`, `managers/character.py`, `managers/general.py`, `models/helpers/update_manager.py` and `tasks.py` import it with `from example.providers import logger` instead of building their own. Log records now carry the logger name `example.providers` instead of the module name; the `[Example]` prefix is unchanged.
 - [CHANGE] Language files other than `en` hold only real translations as Weblate writes them, missing keys fall back to English. `i18next-scanner` maintains only `en`; the empty placeholders were removed from the other languages.
+- [CHANGE] `aa-geuthur-react` raised to `^1.4.0` (adds `FilterButtonGroup`, no changes needed in the app)
+- [CHANGE] The stylelint pre-commit hook now checks the source CSS in `frontend/src/` (built bundles stay excluded); its findings are fixed without visual change (hex colors as equivalent `rgb()`)
 - [CHANGE] `aa-geuthur-react` raised to `^1.3.0`. The package bundles its own translations and registers them with i18next through `AaReactProvider`, so `Main.tsx` lists only the namespace `translation`, the copies under `example/static/example/i18n/<lng>/aa-geuthur-react.json` are removed and `make react-copy-translations` no longer copies them. Untranslated strings in `frontend/i18n/<lng>/translation.json` are empty instead of English (`i18next-scanner` writes the key as value only for `en`); `returnEmptyString: false` shows the English fallback at runtime. Translate on Weblate as before.
 - `managers.py` moved to `managers/general.py`; `AccessQuerySet` resolves ownership through `character__character_ownership__user` and exposes `visible_q`/`manage_q` for subclasses
 - `Api/ApiCalls.ts` moved to `Api/calls/general.ts`; API calls and query keys of a module live in `Api/calls/<module>.ts`
@@ -82,7 +96,6 @@ Section Order:
 - Replaced `BaseTable`, `BaseModal`, the loaders and the `Utils` helpers with the shared `aa-ledger` implementation. `BaseTable` `variant` is now `default` or `light`, and row selection and `onRowClick` are supported.
 - Formatting helpers are consolidated in `Utils/format.ts` (`formatNumber`, `formatCompactNumber`, `formatIsk`, `formatDate`, `formatRelativeTime`, `formatEta`) with an `en` locale fallback; `renderTooltip` lives in `Utils/bootsTrap.tsx`.
 - The Style Guide, settings and main page use Bootstrap components instead of the custom `aa-panel`, `aa-btn`, `aa-badge` and `aa-section` classes.
-- `General` defines a `Permission` enum with `get_perm`, `has_perm`, `has_any_perm` and `has_management_access`; views, menu hook and API use it instead of hard-coded permission strings.
 - Aligned `.pre-commit-config.yaml`, `.gitignore`, `tox.ini`, `CONTRIBUTING.md` and the issue template configuration with `aa-ledger`.
 - Replaced `pook` with `pookx` in the test dependencies.
 

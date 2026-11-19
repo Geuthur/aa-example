@@ -14,7 +14,6 @@ from django.utils.translation import gettext as _
 from example import tasks
 from example.api import schema
 from example.api.helpers.character import get_character_owner
-from example.api.helpers.core import can_view_overview
 from example.helpers.eveonline import get_character_portrait_url
 from example.models.character import CharacterOwner
 from example.providers import logger
@@ -80,9 +79,6 @@ class ApiEndpoints:
             summary="List the characters visible to the user",
         )
         def list_characters(request: WSGIRequest):
-            if not can_view_overview(request.user):
-                return HTTPStatus.FORBIDDEN, {"error": _("Permission Denied")}
-
             owners = (
                 CharacterOwner.objects.visible_to(request.user)
                 .select_related("character")

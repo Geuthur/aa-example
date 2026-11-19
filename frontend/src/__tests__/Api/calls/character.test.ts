@@ -48,11 +48,23 @@ describe("Character API calls", () => {
       expect(apiClient.GET).toHaveBeenCalledWith(`/${ProjectName}/api/characters/`);
     });
 
-    it("should throw when the request fails", async () => {
+    it("should throw the message of the API when the request fails", async () => {
       // Test Data
       vi.spyOn(apiClient, "GET").mockResolvedValueOnce({
         data: undefined,
         error: { error: "Permission Denied" },
+        response: new Response(),
+      } as never);
+
+      // Test Action & Expected Result
+      await expect(loadCharacters()).rejects.toThrow("Permission Denied");
+    });
+
+    it("should throw the fixed text when the API sent no message", async () => {
+      // Test Data
+      vi.spyOn(apiClient, "GET").mockResolvedValueOnce({
+        data: undefined,
+        error: {},
         response: new Response(),
       } as never);
 
@@ -80,6 +92,18 @@ describe("Character API calls", () => {
         params: { path: { character_id: 1001 } },
       });
     });
+
+    it("should throw the message of the API when the character is not found", async () => {
+      // Test Data
+      vi.spyOn(apiClient, "GET").mockResolvedValueOnce({
+        data: undefined,
+        error: { error: "Character not found" },
+        response: new Response(),
+      } as never);
+
+      // Test Action & Expected Result
+      await expect(loadCharacter(1001)).rejects.toThrow("Character not found");
+    });
   });
 
   describe("updateCharacter", () => {
@@ -103,11 +127,23 @@ describe("Character API calls", () => {
       });
     });
 
-    it("should throw when the update cannot be queued", async () => {
+    it("should throw the message of the API when the update cannot be queued", async () => {
       // Test Data
       vi.spyOn(apiClient, "POST").mockResolvedValueOnce({
         data: undefined,
         error: { error: "Character not found" },
+        response: new Response(),
+      } as never);
+
+      // Test Action & Expected Result
+      await expect(updateCharacter(1001)).rejects.toThrow("Character not found");
+    });
+
+    it("should throw the fixed text when the API sent no message", async () => {
+      // Test Data
+      vi.spyOn(apiClient, "POST").mockResolvedValueOnce({
+        data: undefined,
+        error: {},
         response: new Response(),
       } as never);
 

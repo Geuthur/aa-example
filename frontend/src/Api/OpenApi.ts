@@ -492,6 +492,15 @@ export interface operations {
                     "application/json": components["schemas"]["MenuSchema"];
                 };
             };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorSchema"];
+                };
+            };
         };
     };
     example_api_general_get_user: {

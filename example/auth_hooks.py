@@ -9,7 +9,7 @@ from allianceauth.services.hooks import MenuItemHook, UrlHook
 
 # AA Example
 from example import app_settings, urls
-from example.models.general import General
+from example.managers.general import GeneralManager
 
 
 class ExampleMenuItem(MenuItemHook):
@@ -24,7 +24,7 @@ class ExampleMenuItem(MenuItemHook):
         )
 
     def render(self, request):
-        if General.has_perm(request.user, General.Permission.BASIC_ACCESS):
+        if GeneralManager.has_basic_access(request.user):
             return MenuItemHook.render(self, request)
         return ""
 

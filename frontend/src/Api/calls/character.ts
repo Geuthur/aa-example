@@ -1,7 +1,15 @@
+// Third Party
+import { apiErrorMessage } from "aa-geuthur-react";
+
 // AA Example
 import { apiClient } from "@/Api/Api";
 import type { ActionResponse, CharacterDetailSchema, CharacterSchema } from "@/Api/schema";
 import { ProjectName } from "@/constants";
+
+/*
+ * A failed request throws the message of the API (`{"error": …}`) so the user reads the reason,
+ * and the fixed text only when the API sent none.
+ */
 
 /** Query keys of the character module. */
 export const characterQueryKeys = {
@@ -12,7 +20,7 @@ export const characterQueryKeys = {
 export async function loadCharacters(): Promise<CharacterSchema[]> {
   const { data, error } = await apiClient.GET(`/${ProjectName}/api/characters/`);
   if (error || !data) {
-    throw new Error("Failed to load characters");
+    throw new Error(apiErrorMessage(error, "Failed to load characters"));
   }
   return data;
 }
@@ -22,7 +30,7 @@ export async function loadCharacter(characterId: number): Promise<CharacterDetai
     params: { path: { character_id: characterId } },
   });
   if (error || !data) {
-    throw new Error("Failed to load character");
+    throw new Error(apiErrorMessage(error, "Failed to load character"));
   }
   return data;
 }
@@ -33,7 +41,7 @@ export async function updateCharacter(characterId: number, forceRefresh = false)
     body: { force_refresh: forceRefresh },
   });
   if (error || !data) {
-    throw new Error("Failed to queue the character update");
+    throw new Error(apiErrorMessage(error, "Failed to queue the character update"));
   }
   return data;
 }

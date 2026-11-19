@@ -74,10 +74,12 @@ The script stays in `scripts/` after the run, so it can be repeated on a fresh c
   - Type-safe API communication using `openapi-fetch` and auto-generated TypeScript schemas
 - **Django Ninja REST API**:
   - Modular API endpoints (`/example/api/`) with interactive OpenAPI documentation
+  - Central access check: `urls.py` wraps all API URLs in `basic_access_required` (`example/api/auth.py`), so only users with `basic_access` reach an endpoint, the schema or the docs; endpoints only check higher permissions and object access
   - Automated schema and TypeScript type generation via Makefile
 - **Example Boilerplate**:
   - Clean Alliance Auth app architecture (models, managers, tasks, forms, and views)
   - Pre-configured unit tests for backend (`AuthTestCase`) and frontend (`Vitest` + Testing Library)
+  - User notifications (`example/thirdparty/discord.py`): the Celery tasks `send_user_notification` (Alliance Auth notification plus a Discord direct message over `allianceauth-discordbot` or `discordproxy`, skipped for users with `UserSettings.disable_notifications`) and `send_webhook_notification` (Discord webhook over `dhooks-lite`); the Discord packages are optional and the file is the same in every app except for the package name
 
 ## Installation<a name="installation"></a>
 
@@ -186,8 +188,11 @@ The user interface of AA Example is built as a modern React Single-Page Applicat
 ### Tech Stack<a name="tech-stack"></a>
 
 - **Framework**: React 19, TypeScript
-- **Shared base**: [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable, BaseModal, loaders, menu, hooks, `AuthBase` page layout, API client, styles and its own translation namespace); the app extends it through props and wrappers and never copies its files
-- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`), AllianceAuth styles from `frontend/src/Styles/index.css` on top of `aa-geuthur-react/styles.css`
+- **Shared base**: [`aa-geuthur-react`](https://github.com/Geuthur/aa-geuthur-react) (BaseTable, BaseModal, loaders, menu, hooks, `AuthBase` page layout, API client, i18next setup, user settings, design tokens and styles and its own translation namespace); the app extends it through props and wrappers and never copies its files
+- **Bundler & Tooling**: Vite 8 (`@vitejs/plugin-react-swc`)
+- **Styles**: `frontend/src/Styles/index.css` imports `aa-geuthur-react/styles.css`, which ships the design tokens (`--aa-*`, `--font-*`), the status indicator (`aa-status-*`) and the shared keyframes; the app only adds tokens the package does not have, overrides of package values (after the `@import`) and its own classes
+- **Entry point**: `frontend/src/Main.tsx` calls `initI18n(ProjectName, "<AppName>-root")` from the package (language from the `lang` attribute of the root element, English fallback) and renders the app; it holds no i18next configuration of its own
+- **User settings**: the settings page uses the hook `useUserSettings` of the package (`GET`/`PUT settings/`, optimistic update with rollback); the app only defines the fields and the page
 - **UI Components & Icons**: React-Bootstrap, Lucide Icons (`lucide-react`)
 - **Data & Tables**: TanStack React Query (`@tanstack/react-query`), TanStack Table (`@tanstack/react-table`)
 - **API Client**: `openapi-fetch` with types generated via `openapi-typescript`
@@ -247,18 +252,18 @@ sections, its update status, a task, an API and a page. Copy its files, rename
 
 ### Backend<a name="backend"></a>
 
-| File                                                                         | Purpose                                                                                                                                                                         |
-| :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `example/models/<module>.py`                                                 | The owner model with `UpdateManagerMixin`, `get_esi_scopes()`, `get_token()` and one `update_<section>()` method per section; its `<Module>UpdateStatus(UpdateStatusBaseModel)` |
-| `example/models/helpers/update_manager.py`                                   | Shared: add the `<Module>UpdateSection` choices (one value per ESI section) and the stale minutes in `app_settings.EXAMPLE_STALE_TYPES`                                         |
-| `example/managers/<module>.py`                                               | `AccessQuerySet`/`AccessManager` subclasses (`visible_to`, `manage_to`), the ESI fetch (`update_<section>_esi` → `update_section_if_changed`) and the update status manager     |
-| `example/api/schema.py`                                                      | The Ninja schemas of the module (response and request separately)                                                                                                               |
-| `example/api/helpers/<module>.py`                                            | `get_<entity>(request, id, manage=False)` on top of `api/helpers/core.get_object_with_access`                                                                                   |
-| `example/api/<module>.py`                                                    | `ApiEndpoints` with `tags`, `summary` and every status code in `response`; register it in `example/api/__init__.py`                                                             |
-| `example/tasks.py`                                                           | `update_all_<module>s` (periodic) and `update_<module>` (per owner, inside `retry_task_on_esi_error`)                                                                           |
-| `example/__init__.py`                                                        | Add the ESI operation ids to `__operations__`                                                                                                                                   |
-| `example/tests/testdata/<module>.py`                                         | Factories of the module (`aa-evesde-factory` for Alliance Auth objects)                                                                                                         |
-| `example/tests/test_models/`, `test_managers/`, `test_api/`, `test_tasks.py` | Tests; ESI calls with `pook` under the real ESI URL                                                                                                                             |
+| File                                                                         | Purpose                                                                                                                                                                                                                  |
+| :--------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `example/models/<module>.py`                                                 | The owner model with `UpdateManagerMixin`, `get_esi_scopes()`, `get_token()` and one `update_<section>()` method per section; its `<Module>UpdateStatus(UpdateStatusBaseModel)`                                          |
+| `example/models/helpers/update_manager.py`                                   | Shared: add the `<Module>UpdateSection` choices (one value per ESI section) and the stale minutes in `app_settings.EXAMPLE_STALE_TYPES`                                                                                  |
+| `example/managers/<module>.py`                                               | `AccessQuerySet`/`AccessManager` subclasses (`visible_to`, `manage_to`), the ESI fetch (`update_<section>_esi` → `update_section_if_changed`) and the update status manager                                              |
+| `example/api/schema.py`                                                      | The Ninja schemas of the module (response and request separately)                                                                                                                                                        |
+| `example/api/helpers/<module>.py`                                            | `get_<entity>(request, id, manage=False)` on top of `api/helpers/core.get_object_with_access`                                                                                                                            |
+| `example/api/<module>.py`                                                    | `ApiEndpoints` with `tags`, `summary` and every status code in `response`; register it in `example/api/__init__.py`. No check of `basic_access` here: `urls.py` does that for the whole API with `basic_access_required` |
+| `example/tasks.py`                                                           | `update_all_<module>s` (periodic) and `update_<module>` (per owner, inside `retry_task_on_esi_error`)                                                                                                                    |
+| `example/__init__.py`                                                        | Add the ESI operation ids to `__operations__`                                                                                                                                                                            |
+| `example/tests/testdata/<module>.py`                                         | Factories of the module (`aa-evesde-factory` for Alliance Auth objects)                                                                                                                                                  |
+| `example/tests/test_models/`, `test_managers/`, `test_api/`, `test_tasks.py` | Tests; ESI calls with `pook` under the real ESI URL                                                                                                                                                                      |
 
 ### Frontend<a name="frontend"></a>
 
