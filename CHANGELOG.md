@@ -48,6 +48,8 @@ Section Order:
 
 ### Fixed
 
+- [FIX] React Query no longer retries 403, 404 and other 4xx answers three times, so the error shows at once instead of after about seven seconds: `Routing.tsx` uses `createQueryClient` of `aa-geuthur-react` (`^1.7.0`), which retries only network errors and 502/503/504
+
 - [FIX] The retry tests failed between 11:00 and 11:15 UTC because the ESI daily downtime check was active in the tests. `TestRetryTaskOnESIError` (`test_providers.py`), `TestUpdateCharacter` and `TestUpdateCharacterEsiErrors` (`test_tasks.py`) set `override_settings(DISABLE_DAILY_DOWNTIME_CHECK=True)` on the class; only the downtime tests set it to `False`. The setting is in the tests, not in `testauth/settings/`, so apps made from the template get it with the tests and it applies to both tox environments.
 
 - [FIX] Tests no longer share the Redis cache with other processes. `testauth/settings/local.py` and `testauth/settings/development/local.py` give each test run its own random cache `KEY_PREFIX`. Before, ESI responses cached by a running testauth instance on the same Redis were returned instead of the pook responses. Redis stays the cache backend because Alliance Auth needs `django_redis`.
