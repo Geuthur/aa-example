@@ -49,6 +49,8 @@ Section Order:
 
 ### Fixed
 
+- [FIX] Discord webhook: a `ValueError` or `TypeError` of `dhooks_lite` (e.g. content over 2000 characters) is caught like a `RequestException`, so it no longer fails the Celery task with the webhook URL in the task arguments
+
 - [FIX] React Query no longer retries 403, 404 and other 4xx answers three times, so the error shows at once instead of after about seven seconds: `Routing.tsx` uses `createQueryClient` of `aa-geuthur-react` (`^1.7.0`), which retries only network errors and 502/503/504
 
 - [FIX] The retry tests failed between 11:00 and 11:15 UTC because the ESI daily downtime check was active in the tests. `TestRetryTaskOnESIError` (`test_providers.py`), `TestUpdateCharacter` and `TestUpdateCharacterEsiErrors` (`test_tasks.py`) set `override_settings(DISABLE_DAILY_DOWNTIME_CHECK=True)` on the class; only the downtime tests set it to `False`. The setting is in the tests, not in `testauth/settings/`, so apps made from the template get it with the tests and it applies to both tox environments.
