@@ -141,8 +141,8 @@ repos:
           - --formatter=compact
         additional_dependencies:
           # stylelint itself needs to be here when using additional_dependencies.
-          - stylelint@17.15.0  # https://github.com/stylelint/stylelint/releases/latest
-          - stylelint-config-standard@40.0.0  # https://github.com/stylelint/stylelint-config-standard/releases/latest
+          - stylelint@18.1.0  # https://github.com/stylelint/stylelint/releases/latest
+          - stylelint-config-standard@41.1.0  # https://github.com/stylelint/stylelint-config-standard/releases/latest
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
