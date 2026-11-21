@@ -45,6 +45,7 @@ Section Order:
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
 - [ADD] `example/thirdparty/discord.py` as shared building block for notifications: `send_user_notification` (respects `UserSettings.disable_notifications`) and `send_webhook_notification`, embed colors in the file, tests in `tests/test_discord.py`
 - Optional extra `tests-allianceauth-development` (test packages plus the Alliance Auth 6 pre-release) for the tox environment `allianceauth-development` and `make tox-tests-development`; a non-blocking CI job "AA Development" runs it on Python 3.13 and 3.14
+- Tests for `is_retryable_esi_error` and `ESI_RETRY_STATUS_CODES` (`tests/test_providers.py`) and the `display_name` branches of the image helpers (`tests/test_helpers/test_eveonline.py`)
 
 ### Fixed
 
