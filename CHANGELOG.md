@@ -81,7 +81,7 @@ Section Order:
 
 ### Changed
 
-- [CHANGE] Node 26 in CI and pre-commit, npm packages updated (stylelint 18, jsdom 31, jest-dom 8); i18next 26, react-i18next 17 and TypeScript 5.9 stay.
+- [CHANGE] Node 26 in CI and pre-commit, npm packages updated (jsdom 31, jest-dom 8); stylelint 17, i18next 26, react-i18next 17 and TypeScript 5.9 stay.
 - [CHANGE] ESLint enforces the import order React, third party, `@/`, styles (`// AA Example` group in `frontend/eslint.config.js`); `Main.tsx` keeps the global `index.css` first.
 - [CHANGE] Frontend on `aa-geuthur-react` 1.5.0: `Main.tsx` uses `initI18n`, the settings page uses `useUserSettings` (`Api/calls/general.ts` removed), design tokens, `aa-status-*` classes and keyframes come from the package stylesheet; no visible change.
 - [CHANGE] The API calls in `frontend/src/Api/calls/character.ts` throw the message of the API (`{"error": …}`) through `apiErrorMessage` and the fixed text only without one.
