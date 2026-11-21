@@ -79,6 +79,7 @@ Section Order:
 
 ### Changed
 
+- [CHANGE] ESLint enforces the import order React, third party, `@/`, styles (`// AA Example` group in `frontend/eslint.config.js`); `Main.tsx` keeps the global `index.css` first.
 - [CHANGE] Frontend on `aa-geuthur-react` 1.5.0: `Main.tsx` uses `initI18n`, the settings page uses `useUserSettings` (`Api/calls/general.ts` removed), design tokens, `aa-status-*` classes and keyframes come from the package stylesheet; no visible change.
 - [CHANGE] The API calls in `frontend/src/Api/calls/character.ts` throw the message of the API (`{"error": …}`) through `apiErrorMessage` and the fixed text only without one.
 - [CHANGE] The API requires `basic_access` centrally: `urls.py` puts the decorator `basic_access_required` (`example/api/auth.py`, checks `GeneralManager.has_basic_access`) around all API URLs with `decorate_url_patterns`, so every endpoint answers 403 `{"error": "Permission Denied"}` without `basic_access`, also for users with only `manage_access` or `full_access`. `menu/`, `characters/{character_id}/` and `characters/{character_id}/update/` had no such check before. The duplicate checks in the endpoints and `can_view_overview` are removed, every endpoint lists `403: ErrorSchema`; `tests/test_api/test_auth.py` walks all routes.
