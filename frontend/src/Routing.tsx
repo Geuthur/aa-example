@@ -3,17 +3,18 @@ import React from "react"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 
 // Third Party
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AaReactProvider, AuthBase, ErrorPage } from "aa-geuthur-react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { AaReactProvider, AuthBase, createQueryClient, ErrorPage } from "aa-geuthur-react";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 
+// AA Example
 import { AppName, ProjectName } from "@/constants";
 import CharacterPage from "@/Pages/CharacterPage";
 import MainPage from "@/Pages/MainPage";
 import SettingsPage from "@/Pages/SettingsPage";
 import StyleGuide from "@/Pages/StyleGuide";
 
-const queryClient = new QueryClient();
+const queryClient = createQueryClient();
 
 function Routing() {
   return (

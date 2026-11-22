@@ -45,8 +45,15 @@ Section Order:
 - `BaseTable`: optional server-side pagination (`serverPagination`) with total count and an optional loading state (`isLoading`, `loadingText`). Existing tables are unchanged.
 - [ADD] `example/thirdparty/discord.py` as shared building block for notifications: `send_user_notification` (respects `UserSettings.disable_notifications`) and `send_webhook_notification`, embed colors in the file, tests in `tests/test_discord.py`
 - Optional extra `tests-allianceauth-development` (test packages plus the Alliance Auth 6 pre-release) for the tox environment `allianceauth-development` and `make tox-tests-development`; a non-blocking CI job "AA Development" runs it on Python 3.13 and 3.14
+- Tests for `is_retryable_esi_error` and `ESI_RETRY_STATUS_CODES` (`tests/test_providers.py`) and the `display_name` branches of the image helpers (`tests/test_helpers/test_eveonline.py`)
 
 ### Fixed
+
+- [FIX] Discord webhook: a `ValueError` or `TypeError` of `dhooks_lite` (e.g. content over 2000 characters) is no longer retried, because it is raised before any request is sent; `RequestException` and a rejected response are still retried
+
+- [FIX] Discord webhook: a `ValueError` or `TypeError` of `dhooks_lite` (e.g. content over 2000 characters) is caught like a `RequestException`, so it no longer fails the Celery task with the webhook URL in the task arguments
+
+- [FIX] React Query no longer retries 403, 404 and other 4xx answers three times, so the error shows at once instead of after about seven seconds: `Routing.tsx` uses `createQueryClient` of `aa-geuthur-react` (`^1.7.0`), which retries only network errors and 502/503/504
 
 - [FIX] The retry tests failed between 11:00 and 11:15 UTC because the ESI daily downtime check was active in the tests. `TestRetryTaskOnESIError` (`test_providers.py`), `TestUpdateCharacter` and `TestUpdateCharacterEsiErrors` (`test_tasks.py`) set `override_settings(DISABLE_DAILY_DOWNTIME_CHECK=True)` on the class; only the downtime tests set it to `False`. The setting is in the tests, not in `testauth/settings/`, so apps made from the template get it with the tests and it applies to both tox environments.
 
@@ -76,6 +83,9 @@ Section Order:
 
 ### Changed
 
+- [CHANGE] Node 26 in CI and pre-commit, npm packages updated (jsdom 31, jest-dom 8); stylelint 17, i18next 26, react-i18next 17 and TypeScript 5.9 stay.
+- [CHANGE] i18next 27, react-i18next 18 (aa-geuthur-react `^1.8.0`) and stylelint 18 (pre-commit hook with `--config-basedir`). A plural form left empty in a language (e.g. `_few` in pl, ru, uk) now shows that language's `_other` form instead of English.
+- [CHANGE] ESLint enforces the import order React, third party, `@/`, styles (`// AA Example` group in `frontend/eslint.config.js`); `Main.tsx` keeps the global `index.css` first.
 - [CHANGE] Frontend on `aa-geuthur-react` 1.5.0: `Main.tsx` uses `initI18n`, the settings page uses `useUserSettings` (`Api/calls/general.ts` removed), design tokens, `aa-status-*` classes and keyframes come from the package stylesheet; no visible change.
 - [CHANGE] The API calls in `frontend/src/Api/calls/character.ts` throw the message of the API (`{"error": …}`) through `apiErrorMessage` and the fixed text only without one.
 - [CHANGE] The API requires `basic_access` centrally: `urls.py` puts the decorator `basic_access_required` (`example/api/auth.py`, checks `GeneralManager.has_basic_access`) around all API URLs with `decorate_url_patterns`, so every endpoint answers 403 `{"error": "Permission Denied"}` without `basic_access`, also for users with only `manage_access` or `full_access`. `menu/`, `characters/{character_id}/` and `characters/{character_id}/update/` had no such check before. The duplicate checks in the endpoints and `can_view_overview` are removed, every endpoint lists `403: ErrorSchema`; `tests/test_api/test_auth.py` walks all routes.
